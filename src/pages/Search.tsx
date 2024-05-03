@@ -11,7 +11,7 @@ const Search = () => {
             <div className="flex flex-col xl:flex-row container">
                 {/* Left Section */}
 
-                <div className="flex flex-wrap mb-4 pb-8 justify-center items-center xl:flex-col xl:w-[25%] border border-white text-white  bg-black shadow-2xl ml-5 rounded-xl dark:border-white dark:bg-white dark:text-black  xl:h-[500px] ">
+                <div className="flex  flex-wrap mb-4 pb-8 justify-center items-center xl:flex-col xl:w-[25%] border border-white text-white  bg-black shadow-2xl ml-5 rounded-xl dark:border-white dark:bg-white dark:text-black  xl:h-[500px] ">
                     <p className="text-3xl text-center my-7 hidden xl:block">Filters</p>
                     <div className="ml-8 mt-7 text-black">
                         <p className="font-bold text-white dark:text-black">Sort by :-</p>
@@ -23,14 +23,14 @@ const Search = () => {
                     </div>
                     <div className="ml-8 mt-7 ">
                         <p className="font-bold">   Max Price :-</p>
-                        <input type="range" min={0} max={100000} value={1000} className="" />
+                        <input type="range" min={0} max={100000} value={10000} className="" />
                     </div>
                     <div className="ml-8 mt-7  ">
                         <p className="font-bold">Categories :-</p>
                         <select className="mt-2 rounded-full focus:outline-none py-1 px-2 text-black dark:border-2 dark:border-black">
                             <option value="">None</option>
                             {categories.map(category => {
-                                return <option value={category}>{category}</option>
+                                return <option key={category} value={category}>{category}</option>
                             })}
                         </select>
                     </div>
@@ -39,7 +39,7 @@ const Search = () => {
                         <select className="mt-2 rounded-full focus:outline-none py-1 px-2 w-[170px] text-black dark:border-2 dark:border-black">
                             <option value="">None</option>
                             {brands.map((brand) => {
-                                return <option value={brand}>{brand}</option>
+                                return <option key={brand} value={brand}>{brand}</option>
                             })}
                         </select>
                     </div>

@@ -1,4 +1,5 @@
 import { FaMinus, FaPlus, FaStar } from "react-icons/fa";
+import CategoriesSection from "../components/CategoriesSection";
 
 const product = {
     id: 1,
@@ -22,8 +23,8 @@ const product = {
 const ProductDetail = () => {
     let temp = Math.round(product.rating);
     return (
-        <div>
-            <div className="pt-16 container dark:bg-slate-700">
+        <div >
+            <div className="pt-16 container dark:bg-slate-700 ">
                 <h1 className="text-3xl font-bold underline font-serif text-center">Product Details</h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2">
                     <div className="m-12">
@@ -65,6 +66,7 @@ const ProductDetail = () => {
                         <button className='bg-black my-2 hover:scale-110  px-3 py-1  group-hover:bg-white group-hover:text-black dark:group-hover:text-white dark:group-hover:bg-black text-white  dark:bg-white dark:text-black  rounded-full '><span className=' dark:hover:bg-white dark:hover:text-black hover:bg-black hover:text-white  rounded-full'>Add to Cart</span></button>
                     </div>
                 </div>
+                {<CategoriesSection />}
             </div>
         </div>
     )
