@@ -76,8 +76,8 @@ const Cart = () => {
         <>
             <div>
                 <div className="container">
-                    <div className="grid grid-cols-1 lg:grid-cols-3 bg-white text-black dark:bg-black mt-3 rounded-xl  dark:text-white">
-                        <div className="lg:col-span-2 m-4 xl:m-8 border-b-2 border-black">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 bg-white text-black dark:bg-slate-900 mt-3 rounded-xl  dark:text-white">
+                        <div className="lg:col-span-2 m-4 xl:m-8 border-b-2 border-black dark:border-white">
                             <div className="font-bold flex justify-between items-center text-lg lg:text-2xl font-mono">
                                 <p>Shopping Cart</p>
                                 <p>4 Items</p>
