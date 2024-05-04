@@ -55,15 +55,15 @@ const ProductDetail = () => {
                         <p className="bg-green-300 text-green-600 px-3 py-1 w-fit rounded-xl">InStock - {product.stock}</p>
                         <p className="py-2  font-bold">$ {product.price} Only/-</p>
                         <div className="flex gap-2 text-xs my-5">
-                            <div className="border-2 border-black px-1 py-1">
+                            <div className="border-2 border-slate-900 px-1 py-1">
                                 <FaPlus />
                             </div>
                             <div>2</div>
-                            <div className="border-2 border-black px-1 py-1">
+                            <div className="border-2 border-slate-900 px-1 py-1">
                                 <FaMinus />
                             </div>
                         </div>
-                        <button className='bg-black my-2 hover:scale-110  px-3 py-1  group-hover:bg-white group-hover:text-black dark:group-hover:text-white dark:group-hover:bg-black text-white  dark:bg-white dark:text-black  rounded-full '><span className=' dark:hover:bg-white dark:hover:text-black hover:bg-black hover:text-white  rounded-full'>Add to Cart</span></button>
+                        <button className='bg-slate-900 my-2 hover:scale-110  px-3 py-1  group-hover:bg-slate-100 group-hover:text-slate-900 dark:group-hover:text-slate-100 dark:group-hover:bg-slate-900 text-slate-100  dark:bg-slate-100 dark:text-slate-900  rounded-full '><span className=' dark:hover:bg-slate-100 dark:hover:text-slate-900 hover:bg-slate-900 hover:text-slate-100  rounded-full'>Add to Cart</span></button>
                     </div>
                 </div>
                 {<CategoriesSection />}

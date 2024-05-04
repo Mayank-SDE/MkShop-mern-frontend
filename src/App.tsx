@@ -13,7 +13,7 @@ function App() {
 
   // bg-slate-100 karna hai last me 
   return (
-    <div className='text-slate-900 bg-slate-100 dark:bg-slate-900 dark:text-slate-100 h-screen'>
+    <div className='text-slate-900 bg-slate-100 dark:bg-slate-900 dark:text-slate-100'>
       <Router>
         <Navbar />
         <Routes>

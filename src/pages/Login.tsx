@@ -5,8 +5,8 @@ import { FcGoogle } from "react-icons/fc"
 
 const Login = () => {
     return (
-        <div >
-            <div className="container">
+        <div className="container h-screen ">
+            <div>
                 <div className="flex flex-col mx-auto bg-slate-900 dark:bg-slate-100  mt-[40px] sm:mt-[70px] text-slate-100 dark:text-slate-900 w-[300px] lg:w-[400px] rounded-xl ">
                     {/* Heading */}
                     <div className="font-bold mx-auto font-serif mt-6 text-xl lg:text-3xl underline">

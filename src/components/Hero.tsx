@@ -145,9 +145,9 @@ const Hero = () => {
         pauseOnFocus: true,
     };
     return (
-        <div className="min-h-[550px] sm:min-h-[650px]  flex justify-center items-center duration-200 relative overflow-hidden dark:border-slate-100 border-b-2 border-slate-900  dark:text-slate-100 dark:bg-slate-900 bg-slate-100 text-slate-900">
+        <div className="container min-h-[550px] sm:min-h-[650px]  flex justify-center items-center duration-200 relative overflow-hidden dark:border-slate-100 border-b-2 border-slate-900  dark:text-slate-100 dark:bg-slate-900 bg-slate-100 text-slate-900">
             {/* background pattern */}
-            <div className="h-[700px] w-[700px] bg-slate-900  dark:bg-slate-300 absolute -top-[70%] right-0 rounded-xl rotate-45 z-9"></div>
+            <div className="h-[700px] w-[700px] bg-slate-900  dark:bg-slate-300 absolute -top-[70%] right-0 rounded-xl rotate-45 "></div>
             {/* Hero Section */}
             <div className="container pb-8 sm:pb-0">
                 <Slider {...settings}>
