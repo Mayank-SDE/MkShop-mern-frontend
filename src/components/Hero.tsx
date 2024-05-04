@@ -145,34 +145,28 @@ const Hero = () => {
         pauseOnFocus: true,
     };
     return (
-        <div className="min-h-[550px] sm:min-h-[650px] bg-gray-300 flex justify-center items-center dark:bg-black dark:text-white duration-200 relative overflow-hidden dark:border-white border-b-2 border-black ">
+        <div className="min-h-[550px] sm:min-h-[650px]  flex justify-center items-center duration-200 relative overflow-hidden dark:border-slate-100 border-b-2 border-slate-900  dark:text-slate-100 dark:bg-slate-900 bg-slate-100 text-slate-900">
             {/* background pattern */}
-            <div className="h-[700px] w-[700px] bg-black  dark:bg-gray-300 absolute -top-[70%] right-0 rounded-xl rotate-45 z-9"></div>
+            <div className="h-[700px] w-[700px] bg-slate-900  dark:bg-slate-300 absolute -top-[70%] right-0 rounded-xl rotate-45 z-9"></div>
             {/* Hero Section */}
             <div className="container pb-8 sm:pb-0">
                 <Slider {...settings}>
                     {HeroSectionBanner.map((data) => {
                         return (
                             <div key={data.id} className="px-5">
-                                <div className="grid grid-cols-1 md:grid-cols-2 mt-50 ">
+                                <div className="grid grid-cols-1 md:grid-cols-2  sm:mt-50 ">
                                     {/* Text content section */}
-                                    <div className="flex !text-white flex-col gap-4 justify-center pt-12 sm:pt-0 text-center sm:text-left order-2 sm:order-1 relative z-10">
-                                        <h1
-                                            className="text-5xl sm:text-6xl lg:text-7xl font-bold "
-
-                                        >
+                                    <div className="flex flex-col gap-4 justify-center pt-12 mt-20 sm:mt-[1rem] sm:pt-0 text-center sm:text-left order-2 sm:order-1 relative z-10 bg-slate-100 dark:bg-slate-900 rounded-xl">
+                                        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold ">
                                             {data.title}
                                         </h1>
-                                        <p
-
-                                            className="text-sm"
-                                        >
+                                        <p className="text-sm sm:text-lg">
                                             {data.description}
                                         </p>
                                         <div>
                                             <button
                                                 // onClick={() => handleOrderPopup()}
-                                                className=" text-white bg-black dark:text-black dark:bg-white hover:scale-105 duration-200 py-2 px-4 rounded-full"
+                                                className=" bg-slate-900 text-slate-100 dark:text-slate-900 dark:bg-slate-100 hover:scale-110 duration-200 py-2 px-4 rounded-full"
                                             >
                                                 Order Now
                                             </button>
@@ -184,7 +178,7 @@ const Hero = () => {
                                             <img
                                                 src={data.img}
                                                 alt={data.title}
-                                                className="w-[300px] h-[400px]  sm:w-[450px] sm:scale-105 lg:scale-120 object-contain mx-auto "
+                                                className="rounded-full mx-auto "
                                             />
                                         </div>
                                     </div>

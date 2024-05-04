@@ -11,9 +11,9 @@ import Register from './pages/Register';
 
 function App() {
 
-
+  // bg-slate-100 karna hai last me 
   return (
-    <div className="dark:bg-black dark:text-white bg-gray-300 h-screen text-black">
+    <div className='text-slate-900 bg-slate-100 dark:bg-slate-900 dark:text-slate-100'>
       <Router>
         <Navbar />
         <Routes>
