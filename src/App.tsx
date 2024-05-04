@@ -6,12 +6,14 @@ import Search from "./pages/Search"
 import Cart from './pages/Cart';
 import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
 
 
   return (
-    <div className="dark:bg-black dark:text-white bg-gray-300 text-black">
+    <div className="dark:bg-black dark:text-white bg-gray-300 h-screen text-black">
       <Router>
         <Navbar />
         <Routes>
@@ -20,6 +22,8 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </Router>
     </div>

@@ -90,7 +90,7 @@ const Navbar = () => {
                 <div className="flex flex-col">
 
                     <div className="lg:hidden p-3">
-                        <input type="text" placeholder='Search' className="w-full rounded-xl border border-white px-2 py-1 focus:outline-none focus:border-1 focus:border-black  dark:border-white dark:bg-white bg-black text-white" />
+                        <input type="text" placeholder='Search' className="w-full rounded-xl border border-white px-2 py-1 focus:outline-none focus:border-1 focus:border-black dark:text-black  dark:border-white dark:bg-white bg-black text-white" />
                         <Link to="/search"><IoMdSearch className="text-white text-xl cursor-pointer dark:text-black group-hover:scale-125 absolute right-5  sm:top-[73px] top-[69px]" /></Link>
                     </div>
 
