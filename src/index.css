@@ -5,3 +5,11 @@
 .btn {
   @apply text-slate-900 bg-slate-100 dark:bg-slate-900 dark:text-slate-100 hover:dark:text-slate-900 hover:dark:bg-slate-100 hover:bg-slate-900 hover:text-slate-100 border-slate-900 dark:border-slate-100;
 }
+
+.product-btn {
+  @apply bg-slate-900 my-2 hover:scale-110  px-3 py-1  group-hover:bg-slate-100 group-hover:text-slate-900 dark:group-hover:text-slate-100 dark:group-hover:bg-slate-900 text-slate-100  dark:bg-slate-100 dark:text-slate-900  rounded-full;
+}
+
+.product-span-btn {
+  @apply dark:hover:bg-slate-100 dark:hover:text-slate-900 hover:bg-slate-900 hover:text-slate-100  rounded-full;
+}

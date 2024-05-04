@@ -1,13 +1,17 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { lazy, Suspense } from 'react'
+import Loader from './components/Loader';
 
 
-import Navbar from "./components/Navbar"
-import Search from "./pages/Search"
-import Cart from './pages/Cart';
-import Home from './pages/Home';
-import ProductDetail from './pages/ProductDetail';
-import Login from './pages/Login';
-import Register from './pages/Register';
+const Navbar = lazy(() => import('./components/Navbar'));
+const Search = lazy(() => import("./pages/Search"));
+const Cart = lazy(() => import("./pages/Cart"));
+const Home = lazy(() => import('./pages/Home'));
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+const Login = lazy(() => import('./pages/Login'));
+const Register = lazy(() => import('./pages/Register'));
+const Shipping = lazy(() => import('./pages/Shipping'));
+
 
 function App() {
 
@@ -15,16 +19,21 @@ function App() {
   return (
     <div className='text-slate-900 bg-slate-100 dark:bg-slate-900 dark:text-slate-100'>
       <Router>
+        {/* This will be common to all the routings */}
         <Navbar />
-        <Routes>
-          {/* Not Logged in user */}
-          <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
+        {/* Suspense Router will help in displaying the Loading component untill the rest components are loaded. */}
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            {/* Not Logged in user */}
+            <Route path="/" element={<Home />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/shipping" element={<Shipping />} />
+          </Routes>
+        </Suspense>
       </Router>
     </div>
   )
