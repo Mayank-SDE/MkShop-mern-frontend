@@ -4,6 +4,7 @@ import Loader from './components/Loader';
 
 
 
+
 const Navbar = lazy(() => import('./components/Navbar'));
 const Search = lazy(() => import("./pages/Search"));
 const Cart = lazy(() => import("./pages/Cart"));
@@ -12,6 +13,7 @@ const ProductDetail = lazy(() => import('./pages/ProductDetail'));
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
 const Orders = lazy(() => import('./pages/Orders'));
+const OrderDetail = lazy(() => import('./pages/OrderDetail'));
 
 
 
@@ -19,7 +21,7 @@ function App() {
 
   // bg-slate-100 karna hai last me 
   return (
-    <div className='text-slate-900 bg-slate-100 dark:bg-slate-900 dark:text-slate-100'>
+    <div className='text-slate-900 bg-slate-100 dark:bg-slate-900 dark:text-slate-100 '>
       <Router>
         {/* This will be common to all the routings */}
         <Navbar />
@@ -37,9 +39,9 @@ function App() {
             <Route path="/register" element={<Register />} />
 
             {/* Logged In User Route */}
-
             <Route>
               <Route path='/orders' element={<Orders />} />
+              <Route path='/orders/:id' element={<OrderDetail />} />
             </Route>
 
 
