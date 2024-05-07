@@ -1,9 +1,30 @@
+import { ChangeEvent, FormEvent, useState } from "react";
 import { FaFacebook } from "react-icons/fa"
 import { FcGoogle } from "react-icons/fc"
+import { Link } from "react-router-dom";
 
 
 
 const Login = () => {
+
+
+    const [loginInformation, setLoginInformation] = useState<{
+        email: string;
+        password: string;
+    }>({
+        email: "",
+        password: ""
+    });
+
+    const loginInformationHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        setLoginInformation(prevLoginInformation => ({ ...prevLoginInformation, [event.target.name]: event.target.value }));
+    }
+
+    const loginInformationSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        console.log(loginInformation);
+    }
+
     return (
         <div className="container h-screen ">
             <div>
@@ -14,16 +35,16 @@ const Login = () => {
                     </div>
                     <div className=" mx-4 ">
                         {/* Form */}
-                        <form action="" className="mt-6 flex flex-col gap-4 ">
+                        <form action="" className="mt-6 flex flex-col gap-4 " onSubmit={loginInformationSubmitHandler}>
                             <div className="flex flex-col gap-2">
-                                <input type="email" placeholder="Enter your email." className="border-gray-400 text-sm  lg:text-xl border-2 py-2 px-1 rounded-md" />
+                                <input name="email" required onChange={loginInformationHandler} type="email" placeholder="Enter your email." className="border-gray-400 text-sm  lg:text-xl border-2 py-2 px-1 text-slate-900  rounded-md" />
                             </div>
                             <div className="flex flex-col gap-2 ">
-                                <input type="password" placeholder="Enter your password." className="border-gray-400 text-sm  lg:text-xl border-2 py-2 px-1 rounded-md" />
+                                <input name="password" required onChange={loginInformationHandler} type="password" placeholder="Enter your password." className="border-gray-400 text-sm  lg:text-xl border-2 text-slate-900 py-2 px-1 rounded-md" />
                             </div>
                             <a href="" className="text-blue-500 text-center">Forgot password?</a>
-                            <button className="bg-blue-500 text-slate-100  font-semibold text-sm  py-3 w-[90%] mx-auto rounded-xl">Login</button>
-                            <p className="font-thin mx-auto">Don't have an account? <span className="text-blue-500 font-serif">Register</span></p>
+                            <button className="bg-blue-500 text-slate-100  font-semibold text-sm  py-3 w-[90%] mx-auto rounded-xl" type="submit">Login</button>
+                            <Link to="/register" className="font-thin mx-auto">Don't have an account? <span className="text-blue-500 font-serif">Register</span></Link>
                         </form>
                         <div className="flex mt-8 justify-around items-center">
                             <p className=" border-b border-gray-400 w-[33%]"></p>

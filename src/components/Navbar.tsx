@@ -9,10 +9,11 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { MdAdminPanelSettings } from "react-icons/md";
+import { AiOutlineShopping } from "react-icons/ai";
 
 const user = {
     _id: "454",
-    role: "admin",
+    role: "user",
     name: "Mayank"
 };
 
@@ -39,11 +40,11 @@ const Menu = [
         icon: <MdAdminPanelSettings className="text-xl drop-shadow-sm cursor-pointer " />,
         link: "/admin"
     },
-    // }, {
-    //     title: `Hey, ${user.name}`,
-    //     icon: <FaUserCheck className="text-xl drop-shadow-sm cursor-pointer " />,
-    //     link: "/"
-    // }, {
+    {
+        title: "Orders",
+        icon: <AiOutlineShopping className="text-xl drop-shadow-sm cursor-pointer " />,
+        link: "/orders"
+    },
     {
         title: 'Logout',
         icon: <CiLogout className="text-xl drop-shadow-sm cursor-pointer " />,
@@ -81,13 +82,18 @@ const Navbar = () => {
                             </div>
                             {/* dark:text-slate-900 dark:bg-slate-300 bg-slate-900 text-slate-300  */}
                             {Menu.filter((menu) => {
-                                if (user === null) {
-                                    if (menu.title.startsWith("H")) {
+                                // if (user === null) {
+                                //     if (menu.title.startsWith("H")) {
+                                //         return false;
+                                //     }
+                                // }
+                                if (user.role === 'user' || user.role === 'admin') {
+                                    if (menu.title === 'Login' || menu.title === 'Register') {
                                         return false;
                                     }
                                 }
-                                if (user.role === 'user' || user.role === 'admin') {
-                                    if (menu.title === 'Login' || menu.title === 'Register') {
+                                if (user.role === 'admin') {
+                                    if (menu.title === 'Orders') {
                                         return false;
                                     }
                                 }
