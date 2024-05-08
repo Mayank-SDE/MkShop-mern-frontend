@@ -13,7 +13,7 @@ import { AiOutlineShopping } from "react-icons/ai";
 
 const user = {
     _id: "454",
-    role: "user",
+    role: "",
     name: "Mayank"
 };
 
@@ -139,7 +139,7 @@ const Navbar = () => {
                     </div>
                     {hamburgerIsOpen && Menu.filter((menu) => {
                         if (user === null) {
-                            if (menu.title.startsWith("H") || menu.title === "Logout") {
+                            if (menu.title === "Logout" || menu.title === "Orders") {
                                 return false;
                             }
                         }
@@ -151,6 +151,11 @@ const Navbar = () => {
                         if (user.role !== 'admin') {
                             if (menu.title === 'Admin')
                                 return false;
+                        }
+                        if (user.role === "admin") {
+                            if (menu.title === "Orders") {
+                                return false;
+                            }
                         }
                         return true;
                     }).map(menu => {
