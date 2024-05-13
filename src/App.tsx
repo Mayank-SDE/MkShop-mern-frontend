@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react'
 import Loader from './components/Loader';
+import Profile from './pages/Profile';
 
 
 
@@ -42,6 +43,7 @@ function App() {
             <Route>
               <Route path='/orders' element={<Orders />} />
               <Route path='/orders/:id' element={<OrderDetail />} />
+              <Route path='/profile/:id' element={<Profile />} />
             </Route>
 
 
