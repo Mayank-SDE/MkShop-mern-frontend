@@ -7,7 +7,7 @@ import { IoHomeOutline } from "react-icons/io5";
 import { CiLogin, CiLogout } from "react-icons/ci";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { AiOutlineShopping } from "react-icons/ai";
 
@@ -48,15 +48,24 @@ const Menu = [
     {
         title: 'Logout',
         icon: <CiLogout className="text-xl drop-shadow-sm cursor-pointer " />,
-        link: "/logout"
+        link: "/logout",
+
     }];
 
 const Navbar = () => {
 
     const [hamburgerIsOpen, setHamburgerIsOpen] = useState<boolean>(false);
-
+    const navigate = useNavigate();
     const toggleHamburger = () => {
         setHamburgerIsOpen(hamburgerIsOpen => !hamburgerIsOpen);
+    }
+    const logoutHandler = () => {
+        fetch("http://localhost:3000/auth/logout").then(response => response.json()).then(data => {
+            console.log(data);
+            navigate("/");
+        }).catch(error => {
+            console.log(error);
+        });
     }
 
     return (
@@ -103,7 +112,7 @@ const Navbar = () => {
                                 }
                                 return true;
                             }).map(menu => {
-                                return <Link to={menu.link} key={menu.title}
+                                return <Link to={menu.link} key={menu.title} onClick={menu.title === "Logout" ? logoutHandler : undefined}
                                     className=" hidden  transition-all duration-200  py-1 px-4 rounded-full btn lg:flex items-center group"
                                 >
                                     <span className="group-hover:block hidden transition-all duration-200 pr-1" >

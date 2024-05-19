@@ -1,7 +1,8 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { lazy, Suspense } from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { lazy, Suspense, useEffect, useState } from 'react'
 import Loader from './components/Loader';
 import Profile from './pages/Profile';
+import { Toaster } from 'react-hot-toast';
 
 
 
@@ -20,9 +21,38 @@ const OrderDetail = lazy(() => import('./pages/OrderDetail'));
 
 function App() {
 
-  // bg-slate-100 karna hai last me 
+  const [user, setUser] = useState(null);
+
+  // useEffect(() => {
+
+  //   const getUser = () => {
+  //     fetch("http://localhost:3000/auth/login/success", {
+  //       method: "GET",
+  //       credentials: "include",
+  //       headers: {
+  //         Accept: "application/json",
+  //         "Content-Type": "application/json",
+  //         "Access-Control-Allow-Credentials": "true"
+  //       }
+  //     }).then(response => {
+  //       if (response.status === 202) {
+  //         return response.json();
+  //       }
+  //       throw new Error("Authentication failed.")
+  //     }).then(responseObject => {
+  //       setUser(responseObject.user);
+  //     }).catch(error => {
+  //       console.log(error);
+  //     });
+
+  //   }
+
+  //   getUser();
+  // }, []);
+  console.log(user);
+
   return (
-    <div className='text-slate-900 bg-slate-100 dark:bg-slate-900 dark:text-slate-100 '>
+    <div className='text-slate-900 bg-slate-100 dark:bg-slate-900 dark:text-slate-100 h-fit pb-[100px] '>
       <Router>
         {/* This will be common to all the routings */}
         <Navbar />
@@ -36,20 +66,21 @@ function App() {
             <Route path="/product/:id" element={<ProductDetail />} />
 
             {/* Not Logged in user */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
+            <Route path="/register" element={!user ? <Register /> : <Navigate to="/" />} />
 
             {/* Logged In User Route */}
             <Route>
-              <Route path='/orders' element={<Orders />} />
-              <Route path='/orders/:id' element={<OrderDetail />} />
-              <Route path='/profile/:id' element={<Profile />} />
+              <Route path='/orders' element={!user ? <Navigate to="/" /> : <Orders />} />
+              <Route path='/orders/:id' element={!user ? <Navigate to="/" /> : <OrderDetail />} />
+              <Route path='/profile/:id' element={!user ? <Navigate to="/" /> : <Profile />} />
             </Route>
 
 
           </Routes>
         </Suspense>
       </Router>
+      <Toaster position='top-center' />
     </div>
   )
 }
