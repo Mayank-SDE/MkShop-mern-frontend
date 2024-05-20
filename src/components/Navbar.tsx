@@ -10,6 +10,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { AiOutlineShopping } from "react-icons/ai";
+import axios from "axios";
 
 const user = {
     _id: "454",
@@ -55,17 +56,17 @@ const Menu = [
 const Navbar = () => {
 
     const [hamburgerIsOpen, setHamburgerIsOpen] = useState<boolean>(false);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const toggleHamburger = () => {
         setHamburgerIsOpen(hamburgerIsOpen => !hamburgerIsOpen);
     }
     const logoutHandler = () => {
-        fetch("http://localhost:3000/auth/logout").then(response => response.json()).then(data => {
-            console.log(data);
-            navigate("/");
-        }).catch(error => {
+        axios.get("http://localhost:3000/auth/logout", { withCredentials: true }).then((response) => {
+            console.log(response);
+            // navigate("/");
+        }).catch((error) => {
             console.log(error);
-        });
+        })
     }
 
     return (
