@@ -1,17 +1,21 @@
-import axios from "axios";
 import { ChangeEvent, FormEvent, useState } from "react";
+import toast from "react-hot-toast";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { userExists } from "../redux/reducer/userReducer";
+import { useLoginMutation } from "../redux/api/userAPI";
+import { UserLoginBodyInterface } from "../types/types";
 
 const Login = () => {
-    const [loginInformation, setLoginInformation] = useState<{
-        username: string;
-        password: string;
-    }>({
+    const [loginInformation, setLoginInformation] = useState<UserLoginBodyInterface>({
         username: "",
         password: "",
     });
+    const [login] = useLoginMutation();
+
+    const dispatch = useDispatch();
 
     const loginInformationHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setLoginInformation((prevLoginInformation) => ({
@@ -23,25 +27,34 @@ const Login = () => {
     const loginInformationSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            const response = await axios.post("http://localhost:3000/auth/login", loginInformation, {
-                headers: {
-                    'Content-Type': 'application/json',
 
-                },
-                withCredentials: true
-            });
-            console.log(response);
-        } catch (error) {
-            console.error(error);
+            const response = await login(loginInformation).unwrap();
+            dispatch(userExists(response.user));
+            toast.success(response.message);
+        } catch (error: any) {
+            toast.error(error.data.message);
         }
     };
 
+
     const googleLoginHandler = () => {
-        window.open("http://localhost:3000/auth/google", "_self");
+        try {
+            window.open("http://localhost:3000/auth/google", "_self");
+
+        } catch (error) {
+            toast.error("Sign in failed with google. Try again later.")
+        }
     };
 
     const gitHubLoginHandler = () => {
-        window.open("http://localhost:3000/auth/github", "_self");
+        try {
+
+            window.open("http://localhost:3000/auth/github", "_self");
+
+        } catch (error) {
+            toast.error("Sign in failed with github. Try again later.")
+
+        }
     };
 
     return (

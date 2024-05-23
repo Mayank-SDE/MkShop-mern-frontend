@@ -1,22 +1,28 @@
 
-import { FaCartArrowDown, FaRegRegistered, FaUserCheck } from "react-icons/fa";
+import { FaCartArrowDown, FaRegRegistered } from "react-icons/fa";
 import { FaShoppingBag } from "react-icons/fa";
 import DarkMode from "./DarkMode";
 import { IoMdSearch } from "react-icons/io";
 import { IoHomeOutline } from "react-icons/io5";
 import { CiLogin, CiLogout } from "react-icons/ci";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useState } from "react";
+
 import { Link, useNavigate } from "react-router-dom";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { AiOutlineShopping } from "react-icons/ai";
-import axios from "axios";
+import { UserReducerInitialState } from "../types/reducer-types";
+import { useState } from "react";
+import { useLogoutMutation } from "../redux/api/userAPI";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { userDoesNotExists } from "../redux/reducer/userReducer";
+import { useSelector } from "react-redux";
+import { persistor } from "../redux/store";
+import { ImProfile } from "react-icons/im";
 
-const user = {
-    _id: "454",
-    role: "",
-    name: "Mayank"
-};
+
+
+
 
 const Menu = [
     {
@@ -45,29 +51,54 @@ const Menu = [
         title: "Orders",
         icon: <AiOutlineShopping className="text-xl drop-shadow-sm cursor-pointer " />,
         link: "/orders"
+    }, {
+        title: "Profile",
+        icon: <ImProfile className="text-xl drop-shadow-sm cursor-pointer " />,
+        link: "/profile"
     },
     {
         title: 'Logout',
         icon: <CiLogout className="text-xl drop-shadow-sm cursor-pointer " />,
-        link: "/logout",
+        link: "#",
 
     }];
 
 const Navbar = () => {
 
     const [hamburgerIsOpen, setHamburgerIsOpen] = useState<boolean>(false);
-    // const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const toggleHamburger = () => {
         setHamburgerIsOpen(hamburgerIsOpen => !hamburgerIsOpen);
     }
-    const logoutHandler = () => {
-        axios.get("http://localhost:3000/auth/logout", { withCredentials: true }).then((response) => {
-            console.log(response);
-            // navigate("/");
-        }).catch((error) => {
-            console.log(error);
-        })
+    const [logout] = useLogoutMutation();
+
+    const logoutHandler = async () => {
+
+        try {
+
+            const response = await logout().unwrap();
+            if (response.success) {
+                toast.success(response.message);
+            }
+            dispatch(userDoesNotExists());
+            await persistor.purge(); // Clear persisted state on logout
+            navigate("/");
+        } catch (error: any) {
+            toast.error(error.data.message);
+        }
     }
+
+    const { user } = useSelector((state: { userReducer: UserReducerInitialState }) => {
+        return state.userReducer;
+    });
+    let imageURL = '';
+    if (user) {
+
+        imageURL = user.image as string;
+    }
+
 
     return (
         <>
@@ -90,27 +121,21 @@ const Navbar = () => {
                                 <Link to="/search">
                                     <IoMdSearch className=" cursor-pointer  dark:text-slate-900 dark:bg-slate-100 bg-slate-900 text-slate-100 hover:scale-125 absolute top-1/2 right-3 -translate-y-1/2" /></Link>
                             </div>
-                            {/* dark:text-slate-900 dark:bg-slate-300 bg-slate-900 text-slate-300  */}
                             {Menu.filter((menu) => {
-                                // if (user === null) {
-                                //     if (menu.title.startsWith("H")) {
-                                //         return false;
-                                //     }
-                                // }
-                                if (user.role === 'user' || user.role === 'admin') {
+
+                                if (user) {
                                     if (menu.title === 'Login' || menu.title === 'Register') {
                                         return false;
                                     }
-                                }
-                                if (user.role === 'admin') {
-                                    if (menu.title === 'Orders') {
-                                        return false;
+                                    if (user.role === 'user') {
+                                        if (menu.title === 'Admin') {
+                                            return false;
+                                        }
                                     }
+                                } else {
+                                    if (menu.title === 'Logout' || menu.title === 'Admin' || menu.title === 'Orders' || menu.title === "Profile") { return false; }
                                 }
-                                if (user.role !== 'admin') {
-                                    if (menu.title === 'Admin')
-                                        return false;
-                                }
+
                                 return true;
                             }).map(menu => {
                                 return <Link to={menu.link} key={menu.title} onClick={menu.title === "Logout" ? logoutHandler : undefined}
@@ -145,28 +170,23 @@ const Navbar = () => {
                         <Link to="/search"><IoMdSearch className=" text-xl cursor-pointer  group-hover:scale-125 absolute   sm:top-[73px] top-[69px] right-8 hover:scale-110 sm:right-[65px] dark:text-slate-900 text-slate-100" /></Link>
                     </div>
                     <div >
-                        {user && <p className="flex justify-center items-center py-4 gap-2  tracking-wider font-bold font-serif text-lg"><FaUserCheck />{`Welcome,  ${user.name}`}</p>}
+                        {user && <p className="flex justify-center items-center py-4 gap-2  tracking-wider font-bold font-serif text-lg"><img src={imageURL.startsWith("a") ? `http://localhost:3000/${imageURL}` : imageURL} alt={`${user.username}`} className="w-[50px] rounded-full" />{`Welcome,  ${user.username}`}</p>}
                     </div>
                     {hamburgerIsOpen && Menu.filter((menu) => {
-                        if (user === null) {
-                            if (menu.title === "Logout" || menu.title === "Orders") {
-                                return false;
-                            }
-                        }
-                        if (user.role === 'user' || user.role === 'admin') {
+
+                        if (user) {
                             if (menu.title === 'Login' || menu.title === 'Register') {
                                 return false;
                             }
-                        }
-                        if (user.role !== 'admin') {
-                            if (menu.title === 'Admin')
-                                return false;
-                        }
-                        if (user.role === "admin") {
-                            if (menu.title === "Orders") {
-                                return false;
+                            if (user.role === 'user') {
+                                if (menu.title === 'Admin') {
+                                    return false;
+                                }
                             }
+                        } else {
+                            if (menu.title === 'Logout' || menu.title === 'Admin' || menu.title === 'Orders') { return false; }
                         }
+
                         return true;
                     }).map(menu => {
 

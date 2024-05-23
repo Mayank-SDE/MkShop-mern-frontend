@@ -1,7 +1,9 @@
-import axios from "axios";
 import { ChangeEvent, FormEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useRegisterMutation } from "../redux/api/userAPI";
+
+
 
 const Register = () => {
 
@@ -23,6 +25,9 @@ const Register = () => {
     });
 
     const [preview, setPreview] = useState<string>();
+
+    const [register] = useRegisterMutation();
+
 
     const registerUserInformationHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value, files } = event.target;
@@ -56,17 +61,17 @@ const Register = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:3000/auth/register', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            console.log(response);
-            toast.success(response.data.message);
-            navigate("/");
-        } catch (error) {
-            console.error('Error uploading file:', error);
-            toast.error('Error uploading file');
+
+            const response = await register(formData).unwrap();
+
+            if (response.success) {
+                toast.success(response.message);
+                navigate("/login");
+            } else {
+                toast.error(response.message);
+            }
+        } catch (error: any) {
+            console.log(error);
         }
     };
 
@@ -157,7 +162,7 @@ const Register = () => {
                                     id="image"
                                     className="w-[80%] text-xs sm:text-lg lg:text-xl"
                                 />
-                                {preview && <img src={preview} alt="user-image" className="mt-[20px] rounded-full w-[150px]" />}
+                                {preview && <img src={preview} alt="user-image" className="mt-[20px] rounded-full w-[100px]" />}
                             </div>
                             <div className="flex flex-col m-4 items-start gap-2">
                                 <label htmlFor="dob" className="text-xs sm:text-lg lg:text-xl">
