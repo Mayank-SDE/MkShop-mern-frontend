@@ -28,7 +28,7 @@ function App() {
   const { user } = useSelector((state: { userReducer: UserReducerInitialState }) => state.userReducer);
 
   return (
-    <div className='text-slate-900 bg-slate-100 dark:bg-slate-900 dark:text-slate-100 h-fit pb-[100px] '>
+    <div className='text-slate-900 bg-slate-100 dark:bg-slate-900 dark:text-slate-100 h-fit pb-[20px] '>
       <Router>
         <Suspense fallback={<Loader />}>
           <Navbar />
