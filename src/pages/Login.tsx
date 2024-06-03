@@ -29,8 +29,12 @@ const Login = () => {
         try {
 
             const response = await login(loginInformation).unwrap();
-            dispatch(userExists(response.user));
-            toast.success(response.message);
+            if (response.success) {
+                dispatch(userExists(response.user));
+                toast.success(response.message);
+            } else {
+                toast.error("Not able to login. Please try again after some time.");
+            }
         } catch (error: any) {
             toast.error(error.data.message);
         }

@@ -1,26 +1,29 @@
 import { ReactElement } from "react"
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 interface Props {
     children?: ReactElement;
     isAuthenticated: boolean;
-    adminRoute?: boolean;
-    isAdmin?: boolean;
+    adminOnly?: boolean;
+    admin?: boolean;
     redirect?: string;
 }
 
 const ProtectedRoute = ({
     isAuthenticated,
-    adminRoute,
-    isAdmin,
-    redirect,
+    adminOnly,
+    admin,
+    redirect = "/",
     children
 }: Props) => {
 
     if (!isAuthenticated) {
-        return <Navigate to={redirect as string} />
+        return <Navigate to={redirect} />
     }
-    return ({ children });
+    if (!admin && adminOnly) {
+        return <Navigate to={redirect} />
+    }
+    return children ?? <Outlet />;
 
 }
 

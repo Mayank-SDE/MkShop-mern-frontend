@@ -11,6 +11,7 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
+import { productAPI } from './api/productAPI';
 
 const persistConfig = {
   key: 'root',
@@ -22,6 +23,7 @@ const persistedUserReducer = persistReducer(persistConfig, userReducer.reducer);
 export const store = configureStore({
   reducer: {
     [userAPI.reducerPath]: userAPI.reducer,
+    [productAPI.reducerPath]: productAPI.reducer,
     [userReducer.name]: persistedUserReducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -29,7 +31,9 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(userAPI.middleware),
+    })
+      .concat(userAPI.middleware)
+      .concat(productAPI.middleware),
 });
 
 export const persistor = persistStore(store);
