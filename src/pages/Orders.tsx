@@ -38,12 +38,12 @@ const Orders = () => {
         });
     });
 
-    const { getTableBodyProps, getTableProps, page, prepareRow, headerGroups, footerGroups, state, setGlobalFilter, nextPage, previousPage, canNextPage, canPreviousPage, pageOptions, gotoPage, pageCount, setPageSize, selectedFlatRows, allColumns, getToggleHideAllColumnsProps } = tableInstance;
+    const { getTableBodyProps, getTableProps, page, prepareRow, headerGroups, footerGroups, state, setGlobalFilter, nextPage, previousPage, canNextPage, canPreviousPage, pageOptions, gotoPage, pageCount, setPageSize, allColumns, getToggleHideAllColumnsProps } = tableInstance;
 
 
     const { globalFilter, pageIndex, pageSize } = state;
 
-    // console.log(selectedFlatRows);
+
     return (
         <>
 
@@ -89,7 +89,7 @@ const Orders = () => {
                             allColumns.map((column) => {
                                 return <div key={column.id} className="flex justify-center gap-2 items-center">
                                     <label htmlFor="viewCol">
-                                        {column.Header}
+                                        {column.Header as string}
                                     </label>
                                     <input type="checkbox" id="viewCol" {...column.getToggleHiddenProps()} />
                                 </div>

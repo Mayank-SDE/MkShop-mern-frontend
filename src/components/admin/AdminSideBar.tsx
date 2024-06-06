@@ -107,7 +107,7 @@ const AdminSideBar = () => {
     }
 
     return (
-        <aside className="w-[100%]  bg-slate-900 text-slate-100 dark:text-slate-900 mt-8 pt-6 pl-4 rounded-xl dark:bg-slate-100  overflow-y-auto">
+        <aside className="w-[100%]  bg-slate-900 text-slate-100 dark:text-slate-900 mt-8 p-6 rounded-xl dark:bg-slate-100  overflow-y-auto">
             <AdminSideBarContent title="DASHBOARD" subTitles={DASHBOARD} activeUrl={activeUrl} handleItemClick={handleItemClick} />
             <AdminSideBarContent title="CHARTS" subTitles={CHARTS} activeUrl={activeUrl} handleItemClick={handleItemClick} />
             <AdminSideBarContent title="COUPON" subTitles={COUPON} activeUrl={activeUrl} handleItemClick={handleItemClick} />

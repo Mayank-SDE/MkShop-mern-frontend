@@ -1,4 +1,3 @@
-
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -9,8 +8,9 @@ import {
     Legend,
     ChartData,
     ChartOptions,
+    ArcElement,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Doughnut } from 'react-chartjs-2';
 
 ChartJS.register(
     CategoryScale,
@@ -18,8 +18,10 @@ ChartJS.register(
     BarElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    ArcElement
 );
+
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
 interface BarChartProps {
@@ -53,9 +55,7 @@ export const BarChart = ({
             },
             title: {
                 display: false,
-
             },
-
         },
         scales: {
             y: {
@@ -63,16 +63,14 @@ export const BarChart = ({
                 grid: {
                     display: false
                 }
-            }, x: {
-
+            },
+            x: {
                 grid: {
                     display: false
                 }
             }
         }
     };
-
-
 
     const data: ChartData<"bar", number[], string> = {
         labels,
@@ -97,4 +95,59 @@ export const BarChart = ({
     };
 
     return <Bar options={options} data={data} />;
+}
+
+interface DoughnutChartProps {
+    labels: string[];
+    data: number[];
+    backgroundColor: string[];
+    cutout?: number | string;
+    legends?: boolean;
+    offset?: number[];
+    width?: string;
+    height?: string;
+}
+
+export const DoughnutChart = ({
+    labels,
+    data,
+    backgroundColor,
+    cutout,
+    legends = true,
+    offset,
+    width = "300px",
+    height = "300px"
+}: DoughnutChartProps) => {
+
+    const doughnutData: ChartData<"doughnut", number[], string> = {
+        labels,
+        datasets: [{
+            data,
+            backgroundColor,
+            borderWidth: 0,
+            offset,
+        }]
+    }
+
+    const doughnutOptions: ChartOptions<"doughnut"> = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: legends,
+                position: "bottom",
+                labels: {
+                    padding: 40
+                }
+            }
+        },
+        cutout,
+
+    }
+
+    return (
+        <div style={{ width, height }}>
+            <Doughnut data={doughnutData} options={doughnutOptions} />
+        </div>
+    );
 }
