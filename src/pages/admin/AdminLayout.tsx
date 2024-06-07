@@ -9,7 +9,7 @@ const AdminLayout = () => {
     // const [dashboard, toggleDashboard] = useState(false);
 
     return (
-        <div className="container  flex md:flex-row flex-col gap-2 relative bg-slate-100 dark:bg-slate-900 dark:text-slate-100 text-slate-900">
+        <div className="container  flex md:flex-row flex-col gap-2 relative bg-slate-100 dark:bg-slate-900  dark:text-slate-100 text-slate-900">
             <div className='absolute top-3 z-50 text-3xl text-slate-500 md:hidden'>
                 <MdDashboard />
             </div>

@@ -39,7 +39,7 @@ const Transactions = () => {
     const [data, setData] = useState([{
 
         username: "Mayank Choudhary",
-        action: <Link to="/">Manage</Link>,
+        action: <Link className="bg-blue-500 px-3 py-1 hover:bg-blue-600 rounded-full font-semibold text-slate-100" to="/admin/transactions/abcd">Manage</Link>,
         status: <Link to="/"> delivered</Link>,
         quantity: 50,
         amount: 5000,
@@ -47,7 +47,7 @@ const Transactions = () => {
     }, {
 
         username: "Mayank Choudhary",
-        action: <Link to="/">Manage</Link>,
+        action: <Link className="bg-blue-500 px-3 py-1 hover:bg-blue-600 rounded-full font-semibold text-slate-100" to="/">Manage</Link>,
         status: <Link to="/"> delivered</Link>,
         quantity: 50,
         amount: 5000,
@@ -55,7 +55,7 @@ const Transactions = () => {
     }, {
 
         username: "Mayank Choudhary",
-        action: <Link to="/">Manage</Link>,
+        action: <Link className="bg-blue-500 px-3 py-1 hover:bg-blue-600 rounded-full font-semibold text-slate-100" to="/">Manage</Link>,
         status: <Link to="/"> delivered</Link>,
         quantity: 50,
         amount: 5000,
@@ -63,7 +63,7 @@ const Transactions = () => {
     }, {
 
         username: "Mayank Choudhary",
-        action: <Link to="/">Manage</Link>,
+        action: <Link className="bg-blue-500 px-3 py-1 hover:bg-blue-600 rounded-full font-semibold text-slate-100" to="/">Manage</Link>,
         status: <Link to="/"> delivered</Link>,
         quantity: 50,
         amount: 5000,
@@ -71,7 +71,7 @@ const Transactions = () => {
     }, {
 
         username: "Mayank Choudhary",
-        action: <Link to="/">Manage</Link>,
+        action: <Link className="bg-blue-500 px-3 py-1 hover:bg-blue-600 rounded-full font-semibold text-slate-100" to="/">Manage</Link>,
         status: <Link to="/"> delivered</Link>,
         quantity: 50,
         amount: 5000,
@@ -79,7 +79,7 @@ const Transactions = () => {
     }, {
 
         username: "Mayank Choudhary",
-        action: <Link to="/">Manage</Link>,
+        action: <Link className="bg-blue-500 px-3 py-1 hover:bg-blue-600 rounded-full font-semibold text-slate-100" to="/">Manage</Link>,
         status: <Link to="/"> delivered</Link>,
         quantity: 50,
         amount: 5000,
@@ -87,7 +87,7 @@ const Transactions = () => {
     }, {
 
         username: "Mayank Choudhary",
-        action: <Link to="/">Manage</Link>,
+        action: <Link className="bg-blue-500 px-3 py-1 hover:bg-blue-600 rounded-full font-semibold text-slate-100" to="/">Manage</Link>,
         status: <Link to="/"> delivered</Link>,
         quantity: 50,
         amount: 5000,

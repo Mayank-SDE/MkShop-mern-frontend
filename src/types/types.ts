@@ -46,3 +46,28 @@ export interface Product {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface OrderItem {
+  name: string;
+  images: string[];
+  price: number;
+  quantity: number;
+  _id: string;
+}
+
+export interface Order {
+  _id: string;
+  name: string;
+  address: string;
+  city: string;
+  country: string;
+  state: string;
+  pinCode: string;
+  status: 'Placed' | 'Picked' | 'Packed' | 'Shipped' | 'Delivered';
+  subTotal: number;
+  discount: number;
+  shippingCharges: number;
+  tax: number;
+  total: number;
+  orderItems: OrderItem[];
+}
