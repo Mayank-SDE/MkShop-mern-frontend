@@ -10,11 +10,11 @@ const Profile = lazy(() => import("./pages/Profile"))
 const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
 const Products = lazy(() => import('./pages/admin/Products'));
 const Customers = lazy(() => import('./pages/admin/Customers'));
-const PieChart = lazy(() => import('./pages/admin/PieChart'));
-const BarChart = lazy(() => import('./pages/admin/BarChart'));
+const PieChart = lazy(() => import('./pages/admin/charts/PieCharts'));
+const BarChart = lazy(() => import('./pages/admin/charts/BarCharts'));
 const Coupon = lazy(() => import('./pages/admin/Coupon'));
 const Transactions = lazy(() => import('./pages/admin/Transactions'));
-const LineChart = lazy(() => import("./pages/admin/LineChart"));
+const LineChart = lazy(() => import("./pages/admin/charts/LineCharts"));
 const LoginSuccess = lazy(() => import('./pages/LoginSuccess'));
 const Navbar = lazy(() => import('./components/Navbar'));
 const Search = lazy(() => import("./pages/Search"));
@@ -35,7 +35,7 @@ function App() {
   const { user } = useSelector((state: { userReducer: UserReducerInitialState }) => state.userReducer);
 
   return (
-    <div className='text-slate-900 bg-slate-100 dark:bg-slate-900 dark:text-slate-100 min-h-screen max-h-fit pb-[20px] '>
+    <div className='text-slate-900 bg-slate-100 dark:bg-slate-900 dark:text-slate-100 overflow-auto min-h-screen max-h-fit pb-[20px] '>
       <Router>
         <Suspense fallback={<NavbarSkeleton />}>
           <Navbar />

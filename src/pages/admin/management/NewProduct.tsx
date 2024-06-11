@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useNewProductMutation } from "../../../redux/api/productAPI";
+import toast from "react-hot-toast";
 
 const NewProduct = () => {
+
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [price, setPrice] = useState<number>(0);
@@ -12,6 +15,8 @@ const NewProduct = () => {
     const [images, setImages] = useState<File[]>([]);
     const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
+    const [newProduct] = useNewProductMutation();
+
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             const files = Array.from(event.target.files);
@@ -21,9 +26,49 @@ const NewProduct = () => {
         }
     };
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         // Handle form submission logic here
+        if (!title ||
+            !description ||
+            !price ||
+            !rating ||
+            !discountPercentage ||
+            !stock ||
+            !brand ||
+            !category ||
+            !images) {
+            toast.error("Enter all the fileds correctly");
+            return;
+        }
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("description", description);
+        formData.append("price", price.toString());
+        formData.append("rating", rating.toString());
+        formData.append("discountPercentage", discountPercentage.toString());
+        formData.append("stock", stock.toString());
+        formData.append("brand", brand);
+        formData.append("category", category);
+        images.forEach((image) => {
+            formData.append("images", image);
+        });
+
+        try {
+            const response = await newProduct({ formData }).unwrap();
+
+            if (response.success) {
+                toast.success(response.message);
+                // navigate("/login");
+            } else {
+                toast.error(response.message);
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Registration failed. Please try again.");
+        }
+
+        // newProduct()
         console.log({
             title,
             description,
@@ -35,6 +80,7 @@ const NewProduct = () => {
             category: category.trim().replace(/\s+/g, '-').toUpperCase(),
             images
         });
+
     };
 
     return (

@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 
 const ProductManagement = () => {
+    // const { data, isLoading, isError, error } = useGetAllProductsQuery();
+
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [price, setPrice] = useState<number>(0);

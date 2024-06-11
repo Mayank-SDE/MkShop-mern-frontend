@@ -32,7 +32,22 @@ const columns: Column<TransactionTableInterface>[] = [{
     accessor: "action"
 }];
 
-
+const getStatusColor = (status: string) => {
+    switch (status) {
+        case 'Placed':
+            return 'text-[#007BFF]';
+        case 'Picked':
+            return 'text-[#FFA500]';
+        case 'Packed':
+            return 'text-[#6F42C1]';
+        case 'Shipped':
+            return 'text-[#28A745]';
+        case 'Delivered':
+            return 'text-[#20C997]';
+        default:
+            return 'text-black';
+    }
+}
 
 const Transactions = () => {
 
@@ -40,7 +55,7 @@ const Transactions = () => {
 
         username: "Mayank Choudhary",
         action: <Link className="bg-blue-500 px-3 py-1 hover:bg-blue-600 rounded-full font-semibold text-slate-100" to="/admin/transactions/abcd">Manage</Link>,
-        status: <Link to="/"> delivered</Link>,
+        status: <Link to="/" > delivered</Link>,
         quantity: 50,
         amount: 5000,
         discount: 50
