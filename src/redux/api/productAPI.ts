@@ -3,11 +3,14 @@ import {
   AllBrandsResponse,
   AllCategoriesResponse,
   AllProductsResponse,
+  DeleteProductRequestBody,
   LatestProductResponse,
   MessageResponse,
   NewProductRequestBody,
   SearchProductsRequest,
   SearchProductsResponse,
+  SingleProductResponse,
+  UpdateProductRequestBody,
 } from '../../types/api-types';
 
 export const productAPI = createApi({
@@ -16,12 +19,26 @@ export const productAPI = createApi({
     baseUrl: 'http://localhost:3000/api/v1/product/',
     credentials: 'include',
   }),
+  tagTypes: [
+    'latest-products',
+    'all-products',
+    'filtered-categories',
+    'filtered-brands',
+    'search-products',
+  ],
   endpoints: (builder) => {
     return {
+      getProductDetails: builder.query<SingleProductResponse, string>({
+        query: (productId) => {
+          return productId;
+        },
+        providesTags: ['latest-products'],
+      }),
       latestProducts: builder.query<LatestProductResponse, void>({
         query: () => {
           return 'latest';
         },
+        providesTags: ['latest-products'],
       }),
       getFilteredCategories: builder.query<
         AllCategoriesResponse,
@@ -30,6 +47,7 @@ export const productAPI = createApi({
         query: ({ selectedBrand }) => {
           return `categories?brand=${selectedBrand}`;
         },
+        providesTags: ['filtered-categories'],
       }),
       getFilteredBrands: builder.query<
         AllBrandsResponse,
@@ -38,11 +56,13 @@ export const productAPI = createApi({
         query: ({ selectedCategory }) => {
           return `brands?category=${selectedCategory}`;
         },
+        providesTags: ['filtered-brands'],
       }),
       getAllProducts: builder.query<AllProductsResponse, void>({
         query: () => {
           return 'admin-products';
         },
+        providesTags: ['all-products'],
       }),
       searchProducts: builder.query<
         SearchProductsResponse,
@@ -66,6 +86,7 @@ export const productAPI = createApi({
 
           return base;
         },
+        providesTags: ['search-products'],
       }),
       newProduct: builder.mutation<MessageResponse, NewProductRequestBody>({
         query: ({ formData }) => {
@@ -75,6 +96,50 @@ export const productAPI = createApi({
             body: formData,
           };
         },
+        invalidatesTags: [
+          'latest-products',
+          'all-products',
+          'filtered-categories',
+          'filtered-brands',
+          'search-products',
+        ],
+      }),
+      updateProduct: builder.mutation<
+        MessageResponse,
+        UpdateProductRequestBody
+      >({
+        query: ({ formData, productId }) => {
+          return {
+            url: productId,
+            method: 'PUT',
+            body: formData,
+          };
+        },
+        invalidatesTags: [
+          'latest-products',
+          'all-products',
+          'filtered-categories',
+          'filtered-brands',
+          'search-products',
+        ],
+      }),
+      deleteProduct: builder.mutation<
+        MessageResponse,
+        DeleteProductRequestBody
+      >({
+        query: ({ productId }) => {
+          return {
+            url: productId,
+            method: 'DELETE',
+          };
+        },
+        invalidatesTags: [
+          'latest-products',
+          'all-products',
+          'filtered-categories',
+          'filtered-brands',
+          'search-products',
+        ],
       }),
     };
   },
@@ -87,4 +152,7 @@ export const {
   useGetAllProductsQuery,
   useSearchProductsQuery,
   useNewProductMutation,
+  useGetProductDetailsQuery,
+  useUpdateProductMutation,
+  useDeleteProductMutation,
 } = productAPI;

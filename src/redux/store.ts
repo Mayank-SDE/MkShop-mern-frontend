@@ -12,6 +12,7 @@ import {
   REGISTER,
 } from 'redux-persist';
 import { productAPI } from './api/productAPI';
+import { cartReducer } from './reducer/cartReducer';
 
 const persistConfig = {
   key: 'root',
@@ -19,12 +20,14 @@ const persistConfig = {
 };
 
 const persistedUserReducer = persistReducer(persistConfig, userReducer.reducer);
+const persistedCartReducer = persistReducer(persistConfig, cartReducer.reducer);
 
 export const store = configureStore({
   reducer: {
     [userAPI.reducerPath]: userAPI.reducer,
     [productAPI.reducerPath]: productAPI.reducer,
     [userReducer.name]: persistedUserReducer,
+    [cartReducer.name]: persistedCartReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

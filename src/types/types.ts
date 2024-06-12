@@ -71,3 +71,23 @@ export interface Order {
   total: number;
   orderItems: OrderItem[];
 }
+
+export type ShippingInfo = {
+  address: string;
+  city: string;
+  country: string;
+  state: string;
+  billingName: string;
+  phoneNumber: string;
+  pinCode: string;
+  email: string;
+};
+
+export type CartItem = {
+  productId: string;
+  thumbnail: string;
+  title: string;
+  price: number;
+  quantity: number;
+  stock: number;
+};

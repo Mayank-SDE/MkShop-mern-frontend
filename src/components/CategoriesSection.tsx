@@ -1,8 +1,10 @@
-import { useGetCategoriesQuery } from '../redux/api/productAPI';
+import { useGetFilteredCategoriesQuery } from '../redux/api/productAPI';
 import CategoriesSkeleton from './skeletons/CategoriesSkeleton';
 const CategoriesSection = () => {
 
-    const { data, isLoading, error, isError } = useGetCategoriesQuery();
+    const { data, isLoading, error, isError } = useGetFilteredCategoriesQuery({
+        selectedBrand: ""
+    });
 
 
     if (isError) {

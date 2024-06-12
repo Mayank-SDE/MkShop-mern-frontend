@@ -51,6 +51,17 @@ export interface SearchProductsRequest {
 export interface NewProductRequestBody {
   formData: FormData;
 }
+export interface UpdateProductRequestBody extends NewProductRequestBody {
+  productId: string;
+}
+export interface DeleteProductRequestBody {
+  productId: string;
+}
+export interface SingleProductResponse {
+  success: boolean;
+  product: Product;
+}
+
 /*{
     description: string;
     price: string;

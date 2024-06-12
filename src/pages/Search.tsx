@@ -164,6 +164,8 @@ const Search = () => {
                                     productRating={Math.round(product.rating)}
                                     productThumbnail={product.thumbnail}
                                     productDescription={product.description}
+                                    productQuantity={1}
+                                    productStock={product.stock}
                                 />
                             ))}
                             {productLoading &&

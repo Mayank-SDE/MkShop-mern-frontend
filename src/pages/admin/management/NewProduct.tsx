@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { useNewProductMutation } from "../../../redux/api/productAPI";
 import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import { MdArrowBack } from "react-icons/md";
 
 const NewProduct = () => {
+
+    const navigate = useNavigate();
 
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
@@ -28,7 +32,7 @@ const NewProduct = () => {
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        // Handle form submission logic here
+
         if (!title ||
             !description ||
             !price ||
@@ -39,6 +43,10 @@ const NewProduct = () => {
             !category ||
             !images) {
             toast.error("Enter all the fileds correctly");
+            return;
+        }
+        if (images.length !== 4) {
+            toast.error("Enter exactly 4 images.");
             return;
         }
         const formData = new FormData();
@@ -59,7 +67,7 @@ const NewProduct = () => {
 
             if (response.success) {
                 toast.success(response.message);
-                // navigate("/login");
+                navigate("/admin/products");
             } else {
                 toast.error(response.message);
             }
@@ -68,23 +76,17 @@ const NewProduct = () => {
             toast.error("Registration failed. Please try again.");
         }
 
-        // newProduct()
-        console.log({
-            title,
-            description,
-            price,
-            rating,
-            discountPercentage,
-            stock,
-            brand,
-            category: category.trim().replace(/\s+/g, '-').toUpperCase(),
-            images
-        });
+
+
 
     };
 
     return (
-        <div className=" w-fit border-2 border-slate-500 rounded-xl mx-auto  p-4  my-6">
+        <div className=" w-fit relative border-2 border-slate-500 rounded-xl mx-auto  p-4  my-6">
+            <Link className="bg-slate-900 dark:bg-slate-100 px-3 py-1 absolute top-2 right-2 text-slate-100 dark:text-slate-900 flex items-center justify-center gap-1 rounded-full" to="/admin/products">
+                <div className="text-sm"><MdArrowBack /></div>
+                <div className="text-xs "> Products</div>
+            </Link>
             <div className="text-center text-lg font-bold">New Product</div>
             <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-6">
                 <div className="flex flex-wrap justify-around mt-4 gap-3 ">
@@ -113,8 +115,10 @@ const NewProduct = () => {
                                 className="text-xs  rounded-lg py-1 px-2 bg-slate-900 text-slate-100 dark:bg-slate-100 dark:text-slate-900"
                                 type="number"
                                 id="price"
+                                min={1}
+                                max={100000}
                                 value={price}
-                                onChange={(e) => setPrice(parseFloat(e.target.value))}
+                                onChange={(e) => setPrice(Number(e.target.value))}
                                 placeholder="Enter product price"
                                 required
                             />
@@ -129,7 +133,7 @@ const NewProduct = () => {
                                 type="number"
                                 id="rating"
                                 value={rating}
-                                onChange={(e) => setRating(parseFloat(e.target.value))}
+                                onChange={(e) => setRating(Number(e.target.value))}
                                 placeholder="Enter product rating"
                                 required
                                 max={5}
@@ -146,7 +150,7 @@ const NewProduct = () => {
                                 type="number"
                                 id="discountPercentage"
                                 value={discountPercentage}
-                                onChange={(e) => setDiscountPercentage(parseFloat(e.target.value))}
+                                onChange={(e) => setDiscountPercentage(Number(e.target.value))}
                                 placeholder="Enter discount percentage"
                                 required
                                 max={100}
@@ -163,9 +167,10 @@ const NewProduct = () => {
                                 type="number"
                                 id="stock"
                                 value={stock}
-                                onChange={(e) => setStock(parseFloat(e.target.value))}
+                                onChange={(e) => setStock(Number(e.target.value))}
                                 placeholder="Enter product stock"
                                 required
+                                min={0}
                             />
                         </div>
                         <div className="flex flex-col text-sm  gap-2">

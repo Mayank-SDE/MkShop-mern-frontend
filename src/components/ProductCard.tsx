@@ -1,5 +1,10 @@
 import { FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { CartItem } from "../types/types";
+import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
+import { addToCart } from "../redux/reducer/cartReducer";
+
 
 type ProductCardProps = {
     productId: string;
@@ -8,13 +13,11 @@ type ProductCardProps = {
     productRating: number;
     productThumbnail: string;
     productDescription: string;
+    productQuantity: number;
+    productStock: number;
 }
 
-const ProductCard = ({ productId, productPrice, productTitle, productRating, productThumbnail, productDescription }: ProductCardProps) => {
-
-    const addToCartHandler = () => {
-        // Add to cart logic
-    }
+const ProductCard = ({ productId, productPrice, productTitle, productRating, productThumbnail, productDescription, productStock, productQuantity }: ProductCardProps) => {
 
     const renderStars = () => {
         const stars = [];
@@ -25,6 +28,15 @@ const ProductCard = ({ productId, productPrice, productTitle, productRating, pro
         }
         return stars;
     };
+    const dispatch = useDispatch();
+    const addToCartHandler = (cartItem: CartItem) => {
+        console.log("From add to cart", cartItem);
+        if (cartItem.stock < 1) {
+            toast.error("Product is out of stock.");
+            return;
+        }
+        dispatch(addToCart(cartItem));
+    }
 
     return (
         <div className="max-w-[300px] h-fit m-2  bg-slate-100 border-slate-500 border-2 flex flex-col justify-between items-center rounded-3xl text-slate-900 dark:bg-slate-900 dark:text-slate-100 shadow-2xl transition-all transform hover:scale-105 hover:bg-slate-900 hover:text-slate-100 dark:hover:bg-slate-100 dark:hover:text-slate-900 group">
@@ -41,7 +53,14 @@ const ProductCard = ({ productId, productPrice, productTitle, productRating, pro
                 </div>
             </div>
             <div className="w-full p-4 flex flex-col items-center">
-                <button onClick={addToCartHandler} className="w-fit bg-blue-500 text-white py-1 px-3 rounded-full mb-2 hover:bg-blue-600 text-xs transition">
+                <button onClick={() => (addToCartHandler({
+                    productId: productId,
+                    thumbnail: productThumbnail,
+                    title: productTitle,
+                    price: productPrice,
+                    quantity: productQuantity,
+                    stock: productStock
+                }))} className="w-fit bg-blue-500 text-white py-1 px-3 rounded-full mb-2 hover:bg-blue-600 text-xs transition">
                     Add to Cart
                 </button>
                 <Link to={`/product/${productId}`} className="w-fit text-center bg-blue-500 text-white py-1 px-3 rounded-full hover:bg-blue-600 text-xs transition">

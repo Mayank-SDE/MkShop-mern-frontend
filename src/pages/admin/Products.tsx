@@ -45,7 +45,7 @@ const Products = () => {
         if (data && data.success) {
             const newRows = data.products.map(product => {
                 return {
-                    image: <img src={product.thumbnail} alt="product" className="rounded-full w-[50px]" />,
+                    image: <img src={product.thumbnail.startsWith("a") ? `http://localhost:3000/${product.thumbnail}` : product.thumbnail} alt="product" className="rounded-full w-[50px]" />,
                     name: product.title,
                     price: product.price,
                     stock: product.stock,
