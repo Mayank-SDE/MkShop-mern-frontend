@@ -3,38 +3,54 @@ import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { CartItem as CartItemType } from "../types/types";
 
-
-type CartItemProps = { cartItem: CartItemType, removeHandler: (productId: string) => void, incrementQuantityHandler: (cartItem: CartItemType) => void, decrementQuantityHandler: (cartItem: CartItemType) => void };
-
+type CartItemProps = {
+    cartItem: CartItemType;
+    removeHandler: (productId: string) => void;
+    incrementQuantityHandler: (cartItem: CartItemType) => void;
+    decrementQuantityHandler: (cartItem: CartItemType) => void;
+};
 
 const CartItem = ({ cartItem, removeHandler, incrementQuantityHandler, decrementQuantityHandler }: CartItemProps) => {
-
-
-
     return (
-        <div className="flex sm:flex-row flex-col gap-4 sm:gap-14 xl:gap-[120px] my-4 justify-center items-center">
-            <div className="flex flex-col justify-center items-center gap-1">
-                <img src={cartItem.thumbnail} alt={cartItem.title} className="w-[100px] rounded-xl" />
-                <Link to={`/product/${cartItem.productId}`}>{cartItem.title}</Link>
-                <button onClick={() => removeHandler(cartItem.productId)} className="font-thin flex items-center justify-center gap-1"><MdDelete /><span>remove item</span></button>
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 my-4 justify-center items-center">
+            <div className="flex flex-col justify-center items-center gap-2 sm:gap-4">
+                <img src={cartItem.thumbnail} alt={cartItem.title} className="w-24 h-24 object-cover rounded-xl" />
+                <Link to={`/product/${cartItem.productId}`} className="font-semibold text-center">
+                    {cartItem.title}
+                </Link>
+                <button
+                    onClick={() => removeHandler(cartItem.productId)}
+                    className="font-light flex items-center justify-center gap-1 text-red-500 hover:text-red-700"
+                >
+                    <MdDelete />
+                    <span>Remove</span>
+                </button>
             </div>
-            <div>
-                <p className="hidden sm:block font-thin"> $ {cartItem.price}</p>
+            <div className="flex flex-col items-center sm:items-start">
+                <p className="hidden sm:block font-light text-lg">$ {cartItem.price.toFixed(2)}</p>
             </div>
-            <div className="flex gap-2 justify-center items-center text-xs">
-                <button onClick={() => { incrementQuantityHandler(cartItem) }} className="border-2 border-slate-900 px-1 py-1">
+            <div className="flex gap-2 items-center">
+                <button
+                    onClick={() => incrementQuantityHandler(cartItem)}
+                    className="hover:scale-110 text-green-500 hover:text-green-700"
+                >
                     <FaPlus />
                 </button>
-                <div>{cartItem.quantity}</div>
-                <button onClick={() => decrementQuantityHandler(cartItem)} className="border-2 border-slate-900 px-1 py-1">
+                <div className="border-slate-500 text-slate-100 dark:text-slate-900 rounded-full border bg-slate-900 dark:bg-slate-100 px-3 py-1">
+                    {cartItem.quantity}
+                </div>
+                <button
+                    onClick={() => decrementQuantityHandler(cartItem)}
+                    className="hover:scale-110 text-red-500 hover:text-red-700"
+                >
                     <FaMinus />
                 </button>
             </div>
-            <div className="font-thin">
-                $ {cartItem.price * cartItem.quantity}
+            <div className="font-light text-lg">
+                $ {(cartItem.price * cartItem.quantity).toFixed(2)}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default CartItem
+export default CartItem;

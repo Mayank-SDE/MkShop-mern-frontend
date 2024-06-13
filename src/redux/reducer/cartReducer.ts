@@ -1,6 +1,7 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CartReducerInitialState } from '../../types/reducer-types';
 import { CartItem } from '../../types/types';
+
 const initialState: CartReducerInitialState = {
   loading: false,
   cartItems: [],
@@ -20,30 +21,62 @@ const initialState: CartReducerInitialState = {
     state: '',
   },
 };
+
 export const cartReducer = createSlice({
   name: 'cartReducer',
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<CartItem>) => {
       state.loading = true;
-      const existingItemIndex = state.cartItems.findIndex(
-        (cartItem) => cartItem.productId === action.payload.productId
+      const existingItem = state.cartItems.find(
+        (item) => item.productId === action.payload.productId
       );
-      if (existingItemIndex !== -1) {
-        state.cartItems[existingItemIndex] = action.payload;
+
+      if (existingItem) {
+        existingItem.quantity += 1;
       } else {
         state.cartItems.push(action.payload);
       }
       state.loading = false;
     },
+
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.loading = true;
-      state.cartItems = state.cartItems.filter((cartItems) => {
-        return cartItems.productId !== action.payload;
-      });
+      state.cartItems = state.cartItems.filter(
+        (item) => item.productId !== action.payload
+      );
       state.loading = false;
+    },
+
+    deleteFromCart: (state, action: PayloadAction<string>) => {
+      state.loading = true;
+      const existingItem = state.cartItems.find(
+        (item) => item.productId === action.payload
+      );
+      if (existingItem) {
+        if (existingItem.quantity > 1) {
+          existingItem.quantity--;
+        } else {
+          state.cartItems = state.cartItems.filter(
+            (item) => item.productId !== action.payload
+          );
+        }
+      }
+      state.loading = false;
+    },
+    calculatePrice: (state) => {
+      const subTotal = state.cartItems.reduce((total, cartItem) => {
+        return total + cartItem.price * cartItem.quantity;
+      }, 0);
+      state.subTotal = subTotal;
+      state.shippingCharges = state.subTotal > 1000 ? 0 : 200;
+      state.tax = Math.round(state.subTotal * 0.18);
+      state.total = state.subTotal + state.tax + state.shippingCharges;
     },
   },
 });
 
-export const { addToCart, removeFromCart } = cartReducer.actions;
+export const { addToCart, removeFromCart, deleteFromCart, calculatePrice } =
+  cartReducer.actions;
+
+export default cartReducer.reducer;

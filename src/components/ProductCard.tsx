@@ -36,6 +36,7 @@ const ProductCard = ({ productId, productPrice, productTitle, productRating, pro
             return;
         }
         dispatch(addToCart(cartItem));
+        toast.success("Successfully added to cart");
     }
 
     return (
