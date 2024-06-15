@@ -47,28 +47,21 @@ export interface Product {
   updatedAt: Date;
 }
 
-export interface OrderItem {
-  name: string;
-  images: string[];
-  price: number;
-  quantity: number;
-  _id: string;
-}
-
 export interface Order {
   _id: string;
-  name: string;
-  address: string;
-  city: string;
-  country: string;
-  state: string;
-  pinCode: string;
+  shippingInfo: ShippingInfo;
+  user:
+    | string
+    | {
+        _id: string;
+        name: string;
+      };
   status: 'Placed' | 'Picked' | 'Packed' | 'Shipped' | 'Delivered';
-  subTotal: number;
-  discount: number;
-  shippingCharges: number;
   tax: number;
+  shippingCharges: number;
+  subTotal: number;
   total: number;
+  discount: number;
   orderItems: OrderItem[];
 }
 
@@ -91,3 +84,11 @@ export type CartItem = {
   quantity: number;
   stock: number;
 };
+
+export interface OrderItem {
+  productId: string;
+  thumbnail: string;
+  title: string;
+  price: number;
+  quantity: number;
+}

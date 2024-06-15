@@ -19,6 +19,7 @@ type ProductCardProps = {
 
 const ProductCard = ({ productId, productPrice, productTitle, productRating, productThumbnail, productDescription, productStock, productQuantity }: ProductCardProps) => {
 
+
     const renderStars = () => {
         const stars = [];
         for (let i = 1; i <= 5; i++) {
@@ -37,6 +38,7 @@ const ProductCard = ({ productId, productPrice, productTitle, productRating, pro
         }
         dispatch(addToCart(cartItem));
         toast.success("Successfully added to cart");
+
     }
 
     return (

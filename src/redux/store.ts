@@ -13,6 +13,7 @@ import {
 } from 'redux-persist';
 import { productAPI } from './api/productAPI';
 import { cartReducer } from './reducer/cartReducer';
+import { orderAPI } from './api/orderAPI';
 
 const persistConfig = {
   key: 'root',
@@ -26,6 +27,7 @@ export const store = configureStore({
   reducer: {
     [userAPI.reducerPath]: userAPI.reducer,
     [productAPI.reducerPath]: productAPI.reducer,
+    [orderAPI.reducerPath]: orderAPI.reducer,
     [userReducer.name]: persistedUserReducer,
     [cartReducer.name]: persistedCartReducer,
   },
@@ -34,7 +36,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(userAPI.middleware, productAPI.middleware),
+    }).concat(userAPI.middleware, productAPI.middleware, orderAPI.middleware),
 });
 
 export const persistor = persistStore(store);

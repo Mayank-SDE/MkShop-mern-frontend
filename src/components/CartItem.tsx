@@ -12,42 +12,46 @@ type CartItemProps = {
 
 const CartItem = ({ cartItem, removeHandler, incrementQuantityHandler, decrementQuantityHandler }: CartItemProps) => {
     return (
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 my-4 justify-center items-center">
-            <div className="flex flex-col justify-center items-center gap-2 sm:gap-4">
-                <img src={cartItem.thumbnail} alt={cartItem.title} className="w-24 h-24 object-cover rounded-xl" />
-                <Link to={`/product/${cartItem.productId}`} className="font-semibold text-center">
-                    {cartItem.title}
-                </Link>
-                <button
-                    onClick={() => removeHandler(cartItem.productId)}
-                    className="font-light flex items-center justify-center gap-1 text-red-500 hover:text-red-700"
-                >
-                    <MdDelete />
-                    <span>Remove</span>
-                </button>
-            </div>
-            <div className="flex flex-col items-center sm:items-start">
-                <p className="hidden sm:block font-light text-lg">$ {cartItem.price.toFixed(2)}</p>
-            </div>
-            <div className="flex gap-2 items-center">
-                <button
-                    onClick={() => incrementQuantityHandler(cartItem)}
-                    className="hover:scale-110 text-green-500 hover:text-green-700"
-                >
-                    <FaPlus />
-                </button>
-                <div className="border-slate-500 text-slate-100 dark:text-slate-900 rounded-full border bg-slate-900 dark:bg-slate-100 px-3 py-1">
-                    {cartItem.quantity}
+        <div className="flex flex-col sm:flex-row sm:justify-between items-center gap-6 py-4 px-2 border-b border-gray-200 dark:border-gray-700">
+            <div className="flex items-center gap-4 w-full sm:w-auto">
+                <img src={cartItem.thumbnail} alt={cartItem.title} className="w-20 h-20 object-cover rounded-lg shadow-md" />
+                <div className="flex flex-col">
+                    <Link to={`/product/${cartItem.productId}`} className="text-sm font-semibold text-gray-900 dark:text-gray-100 hover:underline">
+                        {cartItem.title}
+                    </Link>
+                    <button
+                        onClick={() => removeHandler(cartItem.productId)}
+                        className="text-xs text-red-500 hover:text-red-700 flex items-center gap-1 mt-1"
+                    >
+                        <MdDelete />
+                        <span>Remove</span>
+                    </button>
                 </div>
-                <button
-                    onClick={() => decrementQuantityHandler(cartItem)}
-                    className="hover:scale-110 text-red-500 hover:text-red-700"
-                >
-                    <FaMinus />
-                </button>
             </div>
-            <div className="font-light text-lg">
-                $ {(cartItem.price * cartItem.quantity).toFixed(2)}
+            <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+                <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    ${cartItem.price.toFixed(2)}
+                </p>
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => incrementQuantityHandler(cartItem)}
+                        className="text-green-500 text-xs hover:text-green-700 transition-transform transform hover:scale-110"
+                    >
+                        <FaPlus />
+                    </button>
+                    <div className="sm:text-sm font-mono font-semibold text-gray-900 text-xs dark:text-gray-100 px-3 py-1 border rounded-lg border-gray-300 dark:border-gray-600">
+                        {cartItem.quantity}
+                    </div>
+                    <button
+                        onClick={() => decrementQuantityHandler(cartItem)}
+                        className="text-red-500 text-xs hover:text-red-700 transition-transform transform hover:scale-110"
+                    >
+                        <FaMinus />
+                    </button>
+                </div>
+                <p className="sm:text-sm text-xs font-mono font-medium text-gray-900 dark:text-gray-100">
+                    ${(cartItem.price * cartItem.quantity).toFixed(2)}
+                </p>
             </div>
         </div>
     );

@@ -1,9 +1,10 @@
+
 import { FaSortDown, FaSortUp } from 'react-icons/fa';
 import { GrCaretNext, GrCaretPrevious, GrChapterNext, GrChapterPrevious } from 'react-icons/gr';
 import { TiArrowUnsorted } from 'react-icons/ti';
 import { Column, useTable, TableOptions, useSortBy, usePagination } from 'react-table';
 
-function TableHOC<T extends Object>(columns: Column<T>[], data: T[], containerClassname: string, heading: string, showPagination: boolean = false) {
+function TableHOC<T extends NonNullable<unknown>>(columns: Column<T>[], data: T[], containerClassname: string, heading: string, showPagination: boolean = false) {
     return function HOC() {
         const options: TableOptions<T> = {
             columns, data, initialState: {
@@ -16,7 +17,7 @@ function TableHOC<T extends Object>(columns: Column<T>[], data: T[], containerCl
         const { pageIndex, pageSize } = state;
 
         return (
-            <div className="relative">
+            <div className="relative container">
                 {showPagination && (
                     <div className="fixed bottom-0 left-0 w-full bg-white dark:bg-gray-800 shadow-lg z-10 flex text-sm flex-wrap justify-center items-center gap-4 py-2">
                         <button className={`${!canPreviousPage ? 'opacity-20' : ''}`} disabled={!canPreviousPage} onClick={() => gotoPage(0)}><GrChapterPrevious /></button>
@@ -106,3 +107,4 @@ function TableHOC<T extends Object>(columns: Column<T>[], data: T[], containerCl
 }
 
 export default TableHOC;
+

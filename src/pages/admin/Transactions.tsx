@@ -1,8 +1,14 @@
 import { Column } from "react-table";
 import TableHOC from "../../components/admin/TableHOC";
-import { ReactElement, useCallback, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import { useAllOrdersQuery } from "../../redux/api/orderAPI";
+import { UserReducerInitialState } from "../../types/reducer-types";
+import { useSelector } from "react-redux";
+import { CustomError } from "../../types/api-types";
+import toast from "react-hot-toast";
+import { getStatusColor } from "../../utils/style";
+import TableSkeleton from "../../components/skeletons/TableSkeleton";
 
 interface TransactionTableInterface {
     username: string;
@@ -12,6 +18,7 @@ interface TransactionTableInterface {
     status: ReactElement;
     action: ReactElement;
 }
+
 const columns: Column<TransactionTableInterface>[] = [{
     Header: "Username",
     accessor: "username"
@@ -32,85 +39,41 @@ const columns: Column<TransactionTableInterface>[] = [{
     accessor: "action"
 }];
 
-const getStatusColor = (status: string) => {
-    switch (status) {
-        case 'Placed':
-            return 'text-[#007BFF]';
-        case 'Picked':
-            return 'text-[#FFA500]';
-        case 'Packed':
-            return 'text-[#6F42C1]';
-        case 'Shipped':
-            return 'text-[#28A745]';
-        case 'Delivered':
-            return 'text-[#20C997]';
-        default:
-            return 'text-black';
-    }
-}
-
 const Transactions = () => {
+    const { user } = useSelector((state: { userReducer: UserReducerInitialState }) => state.userReducer);
+    const { isLoading, data, isError, error } = useAllOrdersQuery();
 
-    const [data, setData] = useState([{
+    const [rows, setRows] = useState<TransactionTableInterface[]>([]);
 
-        username: "Mayank Choudhary",
-        action: <Link className="bg-blue-500 px-3 py-1 hover:bg-blue-600 rounded-full font-semibold text-slate-100" to="/admin/transactions/abcd">Manage</Link>,
-        status: <Link to="/" > delivered</Link>,
-        quantity: 50,
-        amount: 5000,
-        discount: 50
-    }, {
+    if (isError) {
+        const err = error as CustomError;
+        toast.error(err.data.message);
+    }
+    useEffect(() => {
+        if (data) {
+            setRows(data.orders.map((order) => {
+                return {
+                    username: user?.username as string,
+                    amount: order.total,
+                    quantity: order.orderItems.length,
+                    discount: order.discount,
+                    status: <Link to="/" className={`${getStatusColor(order.status)}`}>{order.status}</Link>,
+                    action: <Link className="bg-blue-500 px-3 py-1 hover:bg-blue-600 rounded-full font-semibold text-slate-100" to="/admin/transactions/abcd">Manage</Link>,
+                };
+            }));
+        }
+    }, [data, user]);
 
-        username: "Mayank Choudhary",
-        action: <Link className="bg-blue-500 px-3 py-1 hover:bg-blue-600 rounded-full font-semibold text-slate-100" to="/">Manage</Link>,
-        status: <Link to="/"> delivered</Link>,
-        quantity: 50,
-        amount: 5000,
-        discount: 50
-    }, {
 
-        username: "Mayank Choudhary",
-        action: <Link className="bg-blue-500 px-3 py-1 hover:bg-blue-600 rounded-full font-semibold text-slate-100" to="/">Manage</Link>,
-        status: <Link to="/"> delivered</Link>,
-        quantity: 50,
-        amount: 5000,
-        discount: 50
-    }, {
+    const Table = TableHOC<TransactionTableInterface>(
+        columns,
+        rows,
+        'bg-slate-100 text-slate-900 dark:bg-slate-900 dark:text-slate-100 w-full overflow-x-auto h-[500px] mt-4',
+        "Transactions",
+        true
+    );
 
-        username: "Mayank Choudhary",
-        action: <Link className="bg-blue-500 px-3 py-1 hover:bg-blue-600 rounded-full font-semibold text-slate-100" to="/">Manage</Link>,
-        status: <Link to="/"> delivered</Link>,
-        quantity: 50,
-        amount: 5000,
-        discount: 50
-    }, {
-
-        username: "Mayank Choudhary",
-        action: <Link className="bg-blue-500 px-3 py-1 hover:bg-blue-600 rounded-full font-semibold text-slate-100" to="/">Manage</Link>,
-        status: <Link to="/"> delivered</Link>,
-        quantity: 50,
-        amount: 5000,
-        discount: 50
-    }, {
-
-        username: "Mayank Choudhary",
-        action: <Link className="bg-blue-500 px-3 py-1 hover:bg-blue-600 rounded-full font-semibold text-slate-100" to="/">Manage</Link>,
-        status: <Link to="/"> delivered</Link>,
-        quantity: 50,
-        amount: 5000,
-        discount: 50
-    }, {
-
-        username: "Mayank Choudhary",
-        action: <Link className="bg-blue-500 px-3 py-1 hover:bg-blue-600 rounded-full font-semibold text-slate-100" to="/">Manage</Link>,
-        status: <Link to="/"> delivered</Link>,
-        quantity: 50,
-        amount: 5000,
-        discount: 50
-    }]);
-    const Table = useCallback(TableHOC<TransactionTableInterface>(columns, data, 'bg-slate-100  text-slate-900 dark:bg-slate-900 dark:text-slate-100 w-full overflow-x-auto  h-[500px]  mt-4', "Transactions", true), []);
-
-    return Table();
+    return <>{isLoading ? <TableSkeleton /> : <Table />}</>;
 }
 
-export default Transactions
+export default Transactions;

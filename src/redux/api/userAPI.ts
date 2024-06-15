@@ -5,7 +5,7 @@ import { UserLoginBodyInterface } from '../../types/types';
 export const userAPI = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `http://localhost:3000/auth/`,
+    baseUrl: `http://localhost:3000/`,
     credentials: 'include',
   }),
   endpoints: (builder) => {
@@ -13,7 +13,7 @@ export const userAPI = createApi({
       register: builder.mutation<MessageResponse, FormData>({
         query: (userFormData) => {
           return {
-            url: 'register',
+            url: 'auth/register',
             method: 'POST',
             body: userFormData,
           };
@@ -21,7 +21,7 @@ export const userAPI = createApi({
       }),
       update: builder.mutation<UserMessageResponse, FormData>({
         query: (updateFormData) => ({
-          url: 'profile/update',
+          url: 'auth/profile/update',
           method: 'PUT',
           body: updateFormData,
         }),
@@ -29,7 +29,7 @@ export const userAPI = createApi({
       login: builder.mutation<UserMessageResponse, UserLoginBodyInterface>({
         query: (loginInformation) => {
           return {
-            url: 'login',
+            url: 'auth/login',
             method: 'POST',
             body: loginInformation,
           };
@@ -38,20 +38,20 @@ export const userAPI = createApi({
       logout: builder.mutation<MessageResponse, void>({
         query: () => {
           return {
-            url: 'logout',
+            url: 'auth/logout',
             method: 'GET',
           };
         },
       }),
       loggedIn: builder.query<UserMessageResponse, void>({
         query: () => {
-          return 'login/success';
+          return 'auth/login/success';
         },
       }),
       deleteUser: builder.mutation<MessageResponse, string>({
         query: (userId) => {
           return {
-            url: `profile/delete/${userId}`,
+            url: `auth/profile/delete/${userId}`,
             method: 'DELETE',
           };
         },

@@ -1,104 +1,93 @@
-import { useState } from "react";
-import { Order, OrderItem } from "../../../types/types";
+import { getStatusColor } from "../../../utils/style";
+import { useDeleteOrderMutation, useOrderDetailsQuery, useProcessOrderMutation } from "../../../redux/api/orderAPI";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
+import TransactionManagementSkeleton from "../../../components/skeletons/TransactionManagementSkeleton";
+import toast from "react-hot-toast";
 
-const orderItemss: OrderItem[] = [{
-    name: "Macbook Air",
-    images: ["https://images.unsplash.com/photo-1611078489935-0cb964de46d6?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wc3xlbnwwfHwwfHx8MA%3D%3D", "https://images.unsplash.com/photo-1611078489935-0cb964de46d6?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wc3xlbnwwfHwwfHx8MA%3D%3D", "https://images.unsplash.com/photo-1611078489935-0cb964de46d6?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wc3xlbnwwfHwwfHx8MA%3D%3D", "https://images.unsplash.com/photo-1611078489935-0cb964de46d6?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wc3xlbnwwfHwwfHx8MA%3D%3D"],
-    price: 100000,
-    quantity: 50,
-    _id: "abcdef"
-}, {
-    name: "Macbook Air",
-    images: ["https://images.unsplash.com/photo-1611078489935-0cb964de46d6?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wc3xlbnwwfHwwfHx8MA%3D%3D", "https://images.unsplash.com/photo-1611078489935-0cb964de46d6?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wc3xlbnwwfHwwfHx8MA%3D%3D", "https://images.unsplash.com/photo-1611078489935-0cb964de46d6?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wc3xlbnwwfHwwfHx8MA%3D%3D", "https://images.unsplash.com/photo-1611078489935-0cb964de46d6?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wc3xlbnwwfHwwfHx8MA%3D%3D"],
-    price: 100000,
-    quantity: 50,
-    _id: "abcdef"
-},]
 
 const TransactionManagement = () => {
+    const params = useParams();
+    const navigate = useNavigate();
+    const { isLoading, isError, data } = useOrderDetailsQuery(params.orderId!);
 
-    const [orders, setOrders] = useState<Order>({
-        name: "Mayank Choudhary",
-        address: "77 Black Street",
-        city: "Newyork",
-        state: "Blade",
-        country: "USA",
-        status: "Placed",
-        subTotal: 4000,
-        discount: 1200,
-        shippingCharges: 0,
+    const [processOrder] = useProcessOrderMutation();
+    const [deleteOrder] = useDeleteOrderMutation();
+
+    const { shippingInfo, _id, discount, orderItems, shippingCharges, status, subTotal, tax, total } = data?.order || {
+        _id: "",
+        shippingInfo: {
+            address: "",
+            city: "",
+            country: "",
+            state: "",
+            billingName: "",
+            phoneNumber: "",
+            pinCode: "",
+            email: "",
+        },
+        user: {
+            _id: "",
+            name: "",
+        },
+        status: '',
         tax: 0,
-        total: 4200,
-        orderItems: orderItemss,
-        _id: "jiofheoiwhgr",
-        pinCode: "435345"
-    });
+        shippingCharges: 0,
+        subTotal: 0,
+        total: 0,
+        discount: 0,
+        orderItems: [{
+            productId: "",
+            thumbnail: "",
+            title: "",
+            price: 0,
+            quantity: 0,
+        }]
+    };
 
-    const {
-        name,
-        address,
-        city,
-        country,
-        state,
-        pinCode,
-        status,
-        subTotal,
-        discount,
-        shippingCharges,
-        tax,
-        total,
-        orderItems
-    } = orders;
+    const processOrderHandler = async () => {
 
-    const getStatusColor = (status: string) => {
-        switch (status) {
-            case 'Placed':
-                return 'text-[#007BFF]';
-            case 'Picked':
-                return 'text-[#FFA500]';
-            case 'Packed':
-                return 'text-[#6F42C1]';
-            case 'Shipped':
-                return 'text-[#28A745]';
-            case 'Delivered':
-                return 'text-[#20C997]';
-            default:
-                return 'text-black';
+        try {
+            const response = await processOrder(_id).unwrap();
+            if (response.success) {
+                toast.success(response.message);
+                navigate("/admin/transactions");
+                return;
+            } else {
+                toast.error(response.message);
+
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Processing order failed. Please try again.");
         }
     }
-    const processOrderHandler = () => {
-        switch (status) {
-            case 'Placed':
-                setOrders((prevOrder) => {
-                    return { ...prevOrder, status: 'Picked' }
-                })
-                break;
-            case 'Picked':
-                setOrders((prevOrder) => {
-                    return { ...prevOrder, status: 'Packed' }
-                })
-                break;
-            case 'Packed':
-                setOrders((prevOrder) => {
-                    return { ...prevOrder, status: 'Shipped' }
-                })
-                break;
-            case 'Shipped':
-                setOrders((prevOrder) => {
-                    return { ...prevOrder, status: 'Delivered' }
-                })
-                break;
-            default:
-                break;
+    const deleteOrderHandler = async () => {
+        try {
+            const response = await deleteOrder(_id).unwrap();
+            if (response.success) {
+                toast.success(response.message);
+                navigate("/admin/transactions");
+                return;
+            } else {
+                toast.error(response.message);
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Deletion failed. Please try again.");
         }
     }
+    if (isError) {
+        return <Navigate to={"/404"} />
+    }
+
     return (
-        <div className="flex flex-wrap  gap-4 justify-center  mt-6">
+        isLoading ? <TransactionManagementSkeleton /> : <div className="flex flex-wrap  gap-4 justify-center  mt-6">
             <div className="flex flex-col gap-2 p-4 border-2 border-slate-500  rounded-3xl items-center ">
                 <div className="text-lg mt-2 font-bold">Order Items</div>
+                <div>Order id : {_id}</div>
                 {
                     orderItems.map((orderItem) => {
-                        return <ProductOrderCard key={orderItem._id} _id={orderItem._id} images={orderItem.images} name={orderItem.name} price={orderItem.price} quantity={orderItem.quantity} />
+                        return <ProductOrderCard key={orderItem.productId} productId={orderItem.productId} thumbnail={orderItem.thumbnail} title={orderItem.title} price={orderItem.price} quantity={orderItem.quantity} />
                     })
                 }
             </div>
@@ -108,8 +97,8 @@ const TransactionManagement = () => {
                     <div className="flex flex-col justify-center items-start gap-2">
                         <div className="text-sm">User Info :-</div>
                         <div className="text-xs font-thin">
-                            <div>Name: {name}</div>
-                            <div>Address: {`${address}, ${city}, ${state}, ${country} ${pinCode}`}</div>
+                            <div>Billing Name: {shippingInfo.billingName}</div>
+                            <div>Address: {`${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state}, ${shippingInfo.country} ${shippingInfo.pinCode}`}</div>
                         </div>
                     </div>
                     <div className="flex flex-col justify-center items-start gap-2">
@@ -128,23 +117,33 @@ const TransactionManagement = () => {
                         <div className={`${getStatusColor(status)} text-xs`}>{status}</div>
                     </div>
                 </div>
-                <button
-                    className={`bg-green-500 rounded-full px-3 py-2 cursor-pointer w-fit font-semibold text-xs hover:bg-green-600 text-slate-100 ${status === 'Delivered' && 'opacity-50 cursor-not-allowed'}`}
-                    onClick={processOrderHandler}
-                    disabled={status === 'Delivered'}
-                >
-                    {status !== 'Delivered' ? 'Process Order' : 'Completed'}
-                </button>
+                <div className="w-full flex sm:justify-between items-center justify-center  flex-col sm:flex-row gap-4">
+                    <button
+                        className={`bg-green-500 rounded-full px-3 py-1 cursor-pointer w-fit font-semibold text-xs hover:bg-green-600 text-slate-100 ${status === 'Delivered' && 'opacity-50 cursor-not-allowed'}`}
+                        onClick={processOrderHandler}
+                        disabled={status === 'Delivered'}
+                    >
+                        {status !== 'Delivered' ? 'Process Order' : 'Completed'}
+                    </button>
+                    <button
+                        className={`bg-red-500 rounded-full px-3 py-1 cursor-pointer w-fit font-semibold text-xs hover:bg-red-600 text-slate-100`}
+                        onClick={deleteOrderHandler}
+                        disabled={status === 'Delivered'}
+                    >
+                        Delete
+                    </button>
+                </div>
             </div>
         </div>
     )
 }
 
-const ProductOrderCard = ({ _id, images, name, price, quantity }: OrderItem) => {
+const ProductOrderCard = ({ productId, thumbnail, title, price, quantity }: { productId: string, thumbnail: string, title: string, price: number, quantity: number }) => {
     return (
         <div className="flex justify-center items-center gap-4">
-            <img className="w-[50px] h-[50px] object-cover rounded-lg" src={images[0]} alt="order-image" />
-            <div className="text-xs font-mono">{name}</div>
+            <img className="w-[50px] h-[50px] object-cover rounded-lg" src={thumbnail} alt="order-image" />
+            <div>{productId}</div>
+            <div className="text-xs font-mono">{title}</div>
             <div className="text-xs font-mono">${price} x {quantity} = ${price * quantity}/-</div>
         </div>
     )

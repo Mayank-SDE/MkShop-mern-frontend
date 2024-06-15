@@ -6,7 +6,9 @@ import { useSelector } from 'react-redux';
 import NavbarSkeleton from './components/skeletons/NavbarSkeleton';
 
 
-const Profile = lazy(() => import("./pages/Profile"))
+const Checkout = lazy(() => import('./pages/Checkout'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+const Profile = lazy(() => import("./pages/Profile"));
 const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
 const Products = lazy(() => import('./pages/admin/Products'));
 const Customers = lazy(() => import('./pages/admin/Customers'));
@@ -57,6 +59,7 @@ function App() {
               <Route path="/orders" element={<Orders />} />
               <Route path="/orders/:id" element={<OrderDetail />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path='/pay' element={<Checkout />} />
             </Route>
             {/* Admin Routes */}
             <Route element={<ProtectedRoute isAuthenticated={true} adminOnly={true} admin={user?.role === 'admin'} />}>
@@ -71,10 +74,11 @@ function App() {
                 <Route path="coupon" element={<Coupon />} />
                 <Route path="product/new" element={<NewProduct />} />
                 <Route path="product/:id" element={<ProductManagement />} />
-                <Route path="transactions/:id" element={<TransactionManagement />} />
+                <Route path="transactions/:orderId" element={<TransactionManagement />} />
 
               </Route>
             </Route>
+            <Route path='*' element={<NotFound />} />
           </Routes>
         </Suspense>
         <Toaster position='top-center' />

@@ -1,5 +1,5 @@
 import { UserStateInterface } from './reducer-types';
-import { Product } from './types';
+import { Order, OrderItem, Product, ShippingInfo } from './types';
 
 export interface MessageResponse {
   success: boolean;
@@ -61,16 +61,24 @@ export interface SingleProductResponse {
   success: boolean;
   product: Product;
 }
+export type NewOrderRequestBody = {
+  shippingInfo: ShippingInfo;
+  user: string;
+  status: 'Placed' | 'Picked' | 'Packed' | 'Shipped' | 'Delivered';
+  tax: number;
+  shippingCharges: number;
+  subTotal: number;
+  total: number;
+  discount: number;
+  orderItems: OrderItem[];
+};
 
-/*{
-    description: string;
-    price: string;
-    rating: string;
-    discountPercentage: string;
-    stock: string;
-    brand: string;
-    category: string;
-    title: string;
-    images: File[];
-  };
-*/
+export type AllOrdersResponse = {
+  success: boolean;
+  orders: Order[];
+};
+
+export type OrderDetailsResponse = {
+  success: boolean;
+  order: Order;
+};

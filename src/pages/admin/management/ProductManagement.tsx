@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDeleteProductMutation, useGetProductDetailsQuery, useUpdateProductMutation } from "../../../redux/api/productAPI";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { Product } from "../../../types/types";
 import ProductManagementSkeleton from "../../../components/skeletons/ProductManagementSkeleton";
 import toast from "react-hot-toast";
@@ -8,7 +8,8 @@ import { MdArrowBack } from "react-icons/md";
 
 const ProductManagement = () => {
     const params = useParams();
-    const { data, isLoading } = useGetProductDetailsQuery(params.id as string);
+    const { data, isLoading, isError } = useGetProductDetailsQuery(params.id as string);
+
     const [updateProduct] = useUpdateProductMutation();
     const [deleteProduct] = useDeleteProductMutation();
     const navigate = useNavigate()
@@ -25,6 +26,7 @@ const ProductManagement = () => {
     const [imageFiles, setImageFiles] = useState<File[]>([]);
     const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
+
     useEffect(() => {
         if (product) {
             setUpdatedTitle(product.title);
@@ -38,7 +40,9 @@ const ProductManagement = () => {
             setImagePreviews(product.images.map((image: string) => (image)));
         }
     }, [product]);
-
+    if (isError) {
+        return <Navigate to={"/404"} />
+    }
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             const files = Array.from(event.target.files);
