@@ -68,7 +68,7 @@ const Dashboard = () => {
     }];
     console.log(stats);
     return (
-        <div className="container flex flex-col justify-center items-center overflow-y-auto mt-8">
+        <div className="container flex flex-col justify-center gap-2 items-center overflow-y-auto mt-8">
             <div className="flex flex-wrap justify-around gap-2 items-center">
                 {WidgetItems.map((widgetItem) => (
                     <WidgetItem
@@ -81,8 +81,8 @@ const Dashboard = () => {
                     />
                 ))}
             </div>
-            <div className="flex flex-wrap w-full mt-3">
-                <div className="min-w-full bg-slate-900 dark:bg-slate-100 flex flex-col rounded-2xl shadow-2xl justify-start items-center h-fit p-8 text-slate-100 dark:text-slate-900">
+            <div className="flex flex-wrap w-full border border-slate-900 dark:border-slate-100 rounded-2xl mt-3">
+                <div className="min-w-full  flex flex-col rounded-2xl shadow-2xl justify-start items-center h-fit p-8 ">
                     <span className="text-lg underline">REVENUE & TRANSACTIONS</span>
                     <div className="w-full h-[400px]">
                         <BarChart
@@ -97,8 +97,8 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex flex-wrap justify-around items-center w-full mt-10">
-                <div className="flex flex-col h-[400px] lg:w-1/3 w-full rounded-2xl relative bg-slate-900 text-slate-100 dark:bg-slate-100 p-10 dark:text-slate-900 items-center">
+            <div className="flex flex-wrap gap-2 justify-around items-center w-full mt-10">
+                <div className="flex flex-col h-[400px] lg:w-1/3 w-full px-4 rounded-2xl relative border-slate-900 border dark:border-slate-100 items-center">
                     <div className="font-semibold text-lg underline">Gender Ratio</div>
                     <div className="w-full h-full flex items-center justify-center">
                         <DoughnutChart
@@ -112,7 +112,7 @@ const Dashboard = () => {
                         <BiMaleFemale />
                     </div>
                 </div>
-                <div className="lg:w-1/3 w-full bg-slate-100 h-[353px] dark:bg-slate-900 flex flex-col justify-start items-center relative pt-8">
+                <div className="lg:w-1/3 w-full  h-[353px] border border-slate-900 dark:border-slate-100 rounded-2xl flex flex-col justify-start items-center relative pt-8">
                     <span className="sticky top-4 underline">INVENTORY</span>
                     <div className="mt-3 w-full overflow-y-auto">
                         {stats?.categoryCount!.map((item) => {

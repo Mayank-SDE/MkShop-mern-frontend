@@ -15,6 +15,7 @@ import {
 import { productAPI } from './api/productAPI';
 import { cartReducer } from './reducer/cartReducer';
 import { orderAPI } from './api/orderAPI';
+import { couponAPI } from './api/couponAPI';
 
 const persistConfig = {
   key: 'root',
@@ -29,6 +30,7 @@ export const store = configureStore({
     [userAPI.reducerPath]: userAPI.reducer,
     [productAPI.reducerPath]: productAPI.reducer,
     [orderAPI.reducerPath]: orderAPI.reducer,
+    [couponAPI.reducerPath]: couponAPI.reducer,
     [dashboardAPI.reducerPath]: dashboardAPI.reducer,
     [userReducer.name]: persistedUserReducer,
     [cartReducer.name]: persistedCartReducer,
@@ -42,7 +44,8 @@ export const store = configureStore({
       userAPI.middleware,
       productAPI.middleware,
       orderAPI.middleware,
-      dashboardAPI.middleware
+      dashboardAPI.middleware,
+      couponAPI.middleware
     ),
 });
 

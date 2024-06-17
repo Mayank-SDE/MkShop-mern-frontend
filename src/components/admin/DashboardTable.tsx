@@ -29,7 +29,7 @@ const columns: Column<transactionTable>[] = [
 
 const DashboardTable = ({ data = [] }: { data: transactionTable[] }) => {
 
-    const Table = TableHOC<transactionTable>(columns, data, 'bg-slate-900 text-slate-100 dark:bg-slate-100 dark:text-slate-900 rounded-2xl h-[400px] overflow-auto p-4 w-full  mt-4 ', "Top Transactions", false);
+    const Table = TableHOC<transactionTable>(columns, data, 'border border-slate-900 dark:border-slate-100  rounded-2xl h-[400px] overflow-auto p-4 w-full  mt-4 ', "Top Transactions", false);
 
     return <Table />;
 

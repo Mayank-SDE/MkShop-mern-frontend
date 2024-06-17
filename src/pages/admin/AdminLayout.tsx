@@ -16,7 +16,7 @@ const AdminLayout = () => {
             <div className={`md:flex ${isSidebarVisible ? 'flex' : 'hidden'} h-fit md:flex-col absolute md:relative top-12 md:top-8 left-0 md:left-0 z-40 w-fit md:w-fit  bg-slate-100 dark:bg-slate-900 transition-all`}>
                 <AdminSideBar />
             </div>
-            <div className="w-full md:w-3/4  overflow-y-auto h-screen">
+            <div className="flex-1  overflow-y-auto h-screen">
                 <Outlet />
             </div>
         </div>

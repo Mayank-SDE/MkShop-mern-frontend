@@ -1,4 +1,4 @@
-import { ReactElement, useCallback, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { Column } from "react-table";
 import TableHOC from "../../components/admin/TableHOC";
 
@@ -56,7 +56,7 @@ const Products = () => {
         }
     }, [data, isError, error]);
 
-    const Table = useCallback(TableHOC<ProductTableInterface>(columns, rows, 'bg-slate-100 rounded-2xl text-slate-900 dark:bg-slate-900 dark:text-slate-100 w-full overflow-x-auto h-[500px] mt-4', "Products", true), [rows]);
+    const Table = TableHOC<ProductTableInterface>(columns, rows, 'bg-slate-100 rounded-2xl text-slate-900 dark:bg-slate-900 dark:text-slate-100 w-full overflow-x-auto h-[500px] mt-4', "Products", true);
 
     return (
         <>

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useGetFilteredCategoriesQuery } from '../redux/api/productAPI';
 import CategoriesSkeleton from './skeletons/CategoriesSkeleton';
 const CategoriesSection = () => {
@@ -20,7 +21,7 @@ const CategoriesSection = () => {
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-4">
                 {categories.map((data: string) => {
-                    return <a href="#" key={data} className=" m-3 border-2 text-center uppercase  rounded-full py-2  btn  hover:scale-115">{data}</a>
+                    return <Link to={`/search?category=${data}`} key={data} className=" m-3 border-2 text-center uppercase  rounded-full py-2  btn  hover:scale-115">{data}</Link>
                 })}
             </div>
         </div>

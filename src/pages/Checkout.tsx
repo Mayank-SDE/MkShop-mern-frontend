@@ -26,7 +26,7 @@ const CheckoutForm = () => {
 
     const [newOrder] = useNewOrderMutation();
     const dispatch = useDispatch();
-
+    const [isCopied, setIsCopied] = useState<boolean>(false);
     const [isProcessing, setIsProcessing] = useState<boolean>(false);
     const stripe = useStripe();
     const elements = useElements();
@@ -79,6 +79,10 @@ const CheckoutForm = () => {
         }
         setIsProcessing(false);
     }
+    const copyTextHandler = async (enteredCoupon: string) => {
+        await window.navigator.clipboard.writeText(enteredCoupon);
+        setIsCopied(true);
+    }
     return <div className='container flex justify-center items-center mt-[100px] '>
 
         <form className='w-fit rounded-3xl text-sm font-mono bg-slate-100 text-slate-900  dark:text-slate-100 border border-slate-500  flex flex-col gap-4 justify-center items-center p-4 ' onSubmit={submitHandler}>
@@ -86,7 +90,8 @@ const CheckoutForm = () => {
             <button type='submit' disabled={isProcessing} className='px-3 bg-green-500 hover:bg-green-600 py-1 text-slate-100 font-bold text-sm rounded-full'>
                 {isProcessing ? "Processing..." : "Pay"}
             </button>
-            <div className='text-xs font-mono font-thin'>Test card - 4000 0035 6000 0008</div>
+            <button onClick={() => copyTextHandler("4000003560000008")} className='text-xs font-mono font-thin'>Test card - 4000 0035 6000 0008</button>
+            <button type="button" className="bg-slate-900 dark:bg-slate-100 dark:text-slate-900 text-slate-100 px-3 w-fit text-sm font-mono rounded-3xl " onClick={() => copyTextHandler("4000003560000008")}>{isCopied ? 'Copied' : 'Copy'}</button>
         </form>
     </div>
 }

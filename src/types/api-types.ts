@@ -13,6 +13,13 @@ export type CustomError = {
   };
 };
 
+export type CouponRequestBody = { coupon: string; amount: number };
+
+export type AllCouponResponse = {
+  success: boolean;
+  coupons: { _id: string; amount: number; coupon: string }[];
+};
+
 export interface UserMessageResponse extends MessageResponse {
   user: UserStateInterface;
 }

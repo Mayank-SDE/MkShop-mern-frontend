@@ -34,6 +34,7 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [logout] = useLogoutMutation();
+    const [search, setSearch] = useState<string>("");
 
     const { user } = useSelector((state: { userReducer: UserReducerInitialState }) => state.userReducer);
     const imageURL = user ? (user.image as string) : '';
@@ -82,8 +83,8 @@ const Navbar = () => {
                     </Link>
                     <div className="flex items-center gap-2 sm:gap-3">
                         <div className="group relative hidden lg:block">
-                            <input type="text" placeholder="Search" className="w-[150px] sm:w-[200px] sm:group-hover:w-[300px] transition-all duration-300 rounded-full border px-2 py-1 focus:outline-none dark:text-slate-900 dark:bg-slate-100 bg-slate-900 text-slate-100" />
-                            <Link to="/search">
+                            <input type="text" placeholder="Search" className="w-[150px] sm:w-[200px] sm:group-hover:w-[300px] transition-all duration-300 rounded-full border px-2 py-1 focus:outline-none dark:text-slate-900 dark:bg-slate-100 bg-slate-900 text-slate-100" onChange={(event) => setSearch(event.target.value)} />
+                            <Link to={`/search?keyword=${search}`}>
                                 <IoMdSearch className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer dark:text-slate-900 dark:bg-slate-100 bg-slate-900 text-slate-100 hover:scale-125" />
                             </Link>
                         </div>

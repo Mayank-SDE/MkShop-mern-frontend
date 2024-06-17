@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useGetFilteredBrandsQuery, useGetFilteredCategoriesQuery, useSearchProductsQuery } from "../redux/api/productAPI";
 import ProductCard from "../components/ProductCard";
@@ -6,15 +6,17 @@ import { CustomError } from "../types/api-types";
 import { Product } from "../types/types";
 import { ImCross } from "react-icons/im";
 import ProductSkeleton from "../components/skeletons/ProductSkeleton";
+import { useSearchParams } from "react-router-dom";
 
 const Search = () => {
 
+    const [searchParams] = useSearchParams()
 
-    const [search, setSearch] = useState<string>("");
+    const [search, setSearch] = useState<string>(searchParams.get("keyword") || "");
     const [sort, setSort] = useState<string>("");
     const [maxPrice, setMaxPrice] = useState<number>(10000);
     const [page, setPage] = useState<number>(1);
-    const [selectedCategory, setSelectedCategory] = useState<string>('');
+    const [selectedCategory, setSelectedCategory] = useState<string>(searchParams.get("category") || '');
     const [selectedBrand, setSelectedBrand] = useState<string>('');
 
     const { data: filteredCategories, isLoading: loadingCategories, isError: isCategoryError, error: categoryError } = useGetFilteredCategoriesQuery({ selectedBrand });
@@ -30,6 +32,10 @@ const Search = () => {
 
     const { isLoading: productLoading, data: searchedProducts, isError: isLoadingProductsError, error: loadingProductsError } = useSearchProductsQuery({ search, sort, category: selectedCategory, brand: selectedBrand, page, price: maxPrice });
 
+    useEffect(() => {
+        setSearch(searchParams.get("keyword") || "");
+        setSelectedCategory(searchParams.get("category") || "");
+    }, [searchParams]);
 
     if (isLoadingProductsError) {
         toast.error((loadingProductsError as CustomError).data.message);
@@ -124,35 +130,38 @@ const Search = () => {
                         {totalPage && totalPage > 1 && <div className="flex justify-between items-center w-[80%]">
                             <button disabled={!isPrevPage} onClick={() => setPage(prev => prev - 1)} className={`${!isPrevPage ? 'bg-slate-500' : ''} bg-slate-900 dark:bg-slate-100 px-4 text-slate-100 dark:text-slate-900 hover:scale-110 text-xs py-1 rounded-full`}>Prev</button>
                             <span className="text-xs font-mono">{page} of {searchedProducts?.totalPage}</span>
-                            <button disabled={!isNextPage} onClick={() => setPage(prev => prev + 1)} className={`${!isNextPage ? 'bg-slate-500' : ''} bg-slate-900 dark:bg-slate-100 px-4 text-slate-100 dark:text-slate-900 hover:scale-110 text-xs py-1 rounded-full`}>Next</button>
+                            <button disabled={!isNextPage} onClick={() => setPage(prev => prev + 1)} className={`${!isNextPage ? 'bg-slate-500' : ''} bg-slate-900 hover:bg-slate-600 hover:text-slate-100 dark:bg-slate-100 px-4 text-slate-100 dark:text-slate-900 hover:scale-110 text-xs py-1 rounded-full`}>Next</button>
                         </div>
                         }
                         <div className=" flex justify-center items-center text-xs flex-wrap gap-2">
-                            {search && <div className="font-mono  gap-2 rounded-xl px-3  py-1 flex justify-center items-center  border-slate-500 border text-slate-500 order"><div> Keyword : {search}</div>  <button className="text-xs" onClick={clearFilters}>
+                            {search && <div className="font-mono  gap-2 rounded-xl px-3  py-1 flex justify-center items-center  border-slate-500 border text-slate-500 hover:bg-slate-600 hover:text-slate-100 order"><div> Keyword : {search}</div>  <button className="text-xs" onClick={() => setSearch("")}>
                                 <ImCross />
                             </button>
                             </div>}
-                            {sort && <div className="font-mono flex justify-center items-center gap-2 rounded-xl px-3  py-1  border-slate-500  text-slate-500 border"><div> Order : {sort}</div>  <button className="text-xs" onClick={clearFilters}>
+                            {sort && <div className="font-mono flex justify-center items-center gap-2 rounded-xl px-3  py-1  border-slate-500  text-slate-500 hover:bg-slate-600 hover:text-slate-100 border"><div> Order : {sort}</div>  <button className="text-xs" onClick={() => setSort("")}>
                                 <ImCross />
                             </button>
                             </div>}
-                            {selectedCategory && <div className="font-mono flex justify-center items-center gap-2 rounded-xl px-3  py-1 border-slate-500  text-slate-500 border"><div> Category : {selectedCategory}</div> <button className="text-xs">
+                            {selectedCategory && <div className="font-mono flex justify-center items-center gap-2 rounded-xl px-3  py-1 border-slate-500  text-slate-500 hover:bg-slate-600 hover:text-slate-100 border"><div> Category : {selectedCategory}</div> <button className="text-xs" onClick={() => setSelectedCategory("")}>
                                 <ImCross />
                             </button>
                             </div>}
-                            {selectedBrand && <div className="font-mono flex justify-center items-center gap-2 rounded-xl px-3  py-1 border-slate-500 border text-slate-500 "><div> Brand : {selectedBrand}</div> <button className="text-xs" onClick={clearFilters}>
+                            {selectedBrand && <div className="font-mono flex justify-center items-center gap-2 rounded-xl px-3  py-1 border-slate-500 border text-slate-500 hover:bg-slate-600 hover:text-slate-100 "><div> Brand : {selectedBrand}</div> <button className="text-xs" onClick={() => setSelectedBrand("")}>
                                 <ImCross />
                             </button>
                             </div>}
-                            {page && <div className="font-mono flex justify-center items-center gap-2 rounded-xl px-3  py-1 border-slate-500 border text-slate-500 "><div> Page : {page}
-                            </div> <button className="text-xs" onClick={clearFilters}>
+                            {page && <div className="font-mono flex justify-center items-center gap-2 rounded-xl px-3  py-1 border-slate-500 border text-slate-500 hover:bg-slate-600 hover:text-slate-100 "><div> Page : {page}
+                            </div> <button className="text-xs" onClick={() => setPage(1)}>
                                     <ImCross />
                                 </button>
                             </div>}
-                            {maxPrice && <div className="font-mono flex justify-center items-center gap-2 rounded-xl px-3  py-1 border  text-slate-500 border-slate-500 "><div> Less than :</div> {maxPrice} <button className="text-xs" onClick={clearFilters}>
+                            {maxPrice && <div className="font-mono flex justify-center items-center gap-2 rounded-xl px-3  py-1 border  text-slate-500 border-slate-500 hover:bg-slate-600 hover:text-slate-100 "><div> Less than :</div> {maxPrice} <button className="text-xs" onClick={() => setMaxPrice(100000)}>
                                 <ImCross />
                             </button>
                             </div>}
+                            {
+                                (maxPrice || page || selectedBrand || selectedCategory || sort || search) && <button onClick={clearFilters} className="gap-2 rounded-xl px-3  py-1 border  text-slate-500 border-slate-500 cursor-pointer hover:bg-slate-600 hover:text-slate-100">Clear All</button>
+                            }
                         </div>
                         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 h-screen overflow-y-scroll ">
                             {!productLoading && searchedProducts?.products.map((product: Product) => (

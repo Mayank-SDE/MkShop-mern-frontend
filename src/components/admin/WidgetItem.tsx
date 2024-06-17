@@ -19,7 +19,7 @@ const WidgetItem = ({ title, value, percent, color, amount = false }: WidgetItem
 
 
     return (
-        <div className="border border-black bg-slate-900 text-slate-100 text-xs dark:text-slate-900 dark:bg-slate-100 flex justify-between items-center shadow-2xl rounded-xl w-[250px] p-8">
+        <div className="border border-slate-900 dark:border-slate-100 text-xs  flex justify-between items-center shadow-2xl rounded-xl w-[250px] p-8">
             <div className="flex flex-col justify-center gap-1 items-start overflow-x-scroll mx-2">
                 <div className="font-thin text-sm">{title}</div>
                 <div className="font-bold font-mono">{amount ? `$${value}` : value}</div>
@@ -40,7 +40,7 @@ const WidgetItem = ({ title, value, percent, color, amount = false }: WidgetItem
                 {/* Gradient container */}
                 <div className="relative w-20 h-20 rounded-full" style={conicGradientStyle}>
                     {/* Inner white circle */}
-                    <div className="absolute inset-0 dark:bg-slate-100 bg-slate-900 rounded-full m-2 flex items-center justify-center">
+                    <div className="absolute inset-0 dark:bg-slate-900 bg-slate-100 rounded-full m-2 flex items-center justify-center">
                         <div>
                             {percent > 0 ? (
                                 <div className="text-green-500 font-mono">

@@ -58,8 +58,8 @@ const LineCharts = () => {
                 <LineChart
                     data={discounts}
                     label="Users"
-                    borderColor="rgb(53,162,255)"
-                    bgColor="rgba(53,162,255,0.5)"
+                    borderColor="hsl(129,80%,40%)"
+                    bgColor="hsla(129,80%,40%,0.4)"
                     labels={months}
                 />
                 <div className="font-bold text-lg underline font-mono">Discount Alloted</div>
