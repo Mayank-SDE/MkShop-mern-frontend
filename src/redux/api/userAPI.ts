@@ -1,5 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { MessageResponse, UserMessageResponse } from '../../types/api-types';
+import {
+  AllUsersResponse,
+  MessageResponse,
+  UserMessageResponse,
+} from '../../types/api-types';
 import { UserLoginBodyInterface } from '../../types/types';
 
 export const userAPI = createApi({
@@ -8,6 +12,7 @@ export const userAPI = createApi({
     baseUrl: `http://localhost:3000/`,
     credentials: 'include',
   }),
+  tagTypes: ['users'],
   endpoints: (builder) => {
     return {
       register: builder.mutation<MessageResponse, FormData>({
@@ -18,6 +23,7 @@ export const userAPI = createApi({
             body: userFormData,
           };
         },
+        invalidatesTags: ['users'],
       }),
       update: builder.mutation<UserMessageResponse, FormData>({
         query: (updateFormData) => ({
@@ -25,6 +31,7 @@ export const userAPI = createApi({
           method: 'PUT',
           body: updateFormData,
         }),
+        invalidatesTags: ['users'],
       }),
       login: builder.mutation<UserMessageResponse, UserLoginBodyInterface>({
         query: (loginInformation) => {
@@ -34,6 +41,7 @@ export const userAPI = createApi({
             body: loginInformation,
           };
         },
+        invalidatesTags: ['users'],
       }),
       logout: builder.mutation<MessageResponse, void>({
         query: () => {
@@ -55,6 +63,11 @@ export const userAPI = createApi({
             method: 'DELETE',
           };
         },
+        invalidatesTags: ['users'],
+      }),
+      allUsers: builder.query<AllUsersResponse, void>({
+        query: () => 'auth/all',
+        providesTags: ['users'],
       }),
     };
   },
@@ -67,4 +80,5 @@ export const {
   useLoggedInQuery,
   useUpdateMutation,
   useDeleteUserMutation,
+  useAllUsersQuery,
 } = userAPI;

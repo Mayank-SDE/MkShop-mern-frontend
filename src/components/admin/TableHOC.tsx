@@ -52,7 +52,7 @@ function TableHOC<T extends NonNullable<unknown>>(columns: Column<T>[], data: T[
                     <div className="text-xl text-center underline font-bold mt-2">{heading}</div>
                     <div className="overflow-x-auto">
                         <table {...getTableProps()} className="min-w-full relative mt-4">
-                            <thead className="bg-slate-900 text-slate-100 sticky top-0 dark:bg-slate-100 dark:text-slate-900">
+                            <thead className="bg-slate-900 text-slate-100  sticky top-0 dark:bg-slate-100 dark:text-slate-900">
                                 {headerGroups.map((headerGroup, index) => (
                                     <tr {...headerGroup.getHeaderGroupProps()} key={index}>
                                         {headerGroup.headers.map((column, index) => (

@@ -81,17 +81,17 @@ const TransactionManagement = () => {
     }
 
     return (
-        isLoading ? <TransactionManagementSkeleton /> : <div className="flex flex-wrap  gap-4 justify-center  mt-6">
-            <div className="flex flex-col gap-2 p-4 border-2 border-slate-500  rounded-3xl items-center ">
+        isLoading ? <TransactionManagementSkeleton /> : <div className="grid w-full max-h-screen p-8 gap-4 sm:grid-cols-3 grid-cols-1">
+            <div className="flex sm:col-span-2 flex-col h-fit max-h-[800px] overflow-y-auto gap-2 p-4 border-2 border-slate-500  rounded-3xl items-center ">
                 <div className="text-lg mt-2 font-bold">Order Items</div>
-                <div>Order id : {_id}</div>
+                <div className="font-thin text-xs font-mono text-slate-500">Order id : {_id}</div>
                 {
                     orderItems.map((orderItem) => {
                         return <ProductOrderCard key={orderItem.productId} productId={orderItem.productId} thumbnail={orderItem.thumbnail} title={orderItem.title} price={orderItem.price} quantity={orderItem.quantity} />
                     })
                 }
             </div>
-            <div className="flex flex-col gap-2 p-4 border-2 border-slate-500 rounded-3xl items-center ">
+            <div className="flex sm:col-span-1 flex-col gap-2 p-4 border-2 border-slate-500 rounded-3xl items-center ">
                 <div className="text-lg mt-2 font-bold">Order Info</div>
                 <div className="flex flex-col gap-2 justify-start items-start">
                     <div className="flex flex-col justify-center items-start gap-2">
@@ -117,7 +117,7 @@ const TransactionManagement = () => {
                         <div className={`${getStatusColor(status)} text-xs`}>{status}</div>
                     </div>
                 </div>
-                <div className="w-full flex sm:justify-between items-center justify-center  flex-col sm:flex-row gap-4">
+                <div className="w-full flex  sm:justify-between items-center justify-center mt-14  flex-col  gap-4">
                     <button
                         className={`bg-green-500 rounded-full px-3 py-1 cursor-pointer w-fit font-semibold text-xs hover:bg-green-600 text-slate-100 ${status === 'Delivered' && 'opacity-50 cursor-not-allowed'}`}
                         onClick={processOrderHandler}
@@ -140,10 +140,10 @@ const TransactionManagement = () => {
 
 const ProductOrderCard = ({ productId, thumbnail, title, price, quantity }: { productId: string, thumbnail: string, title: string, price: number, quantity: number }) => {
     return (
-        <div className="flex justify-center items-center gap-4">
+        <div className="flex sm:flex-row flex-col m-2 justify-center items-center gap-4">
             <img className="w-[50px] h-[50px] object-cover rounded-lg" src={thumbnail} alt="order-image" />
-            <div>{productId}</div>
-            <div className="text-xs font-mono">{title}</div>
+            <div className="text-xs font-mono font-thin text-slate-500">{productId}</div>
+            <div className="text-xs font-semibold">{title}</div>
             <div className="text-xs font-mono">${price} x {quantity} = ${price * quantity}/-</div>
         </div>
     )

@@ -53,42 +53,43 @@ const ProductManagement = () => {
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-
-        if (!updatedTitle ||
-            !updatedDescription ||
-            !updatedPrice ||
-            !updatedRating ||
-            !updatedDiscountPercentage ||
-            !updatedStock ||
-            !updatedBrand ||
-            !updatedCategory ||
-            !imageFiles.length
-        ) {
-            toast.error("Enter all the fields correctly");
-            return;
-        }
-        if (imageFiles.length !== 4) {
-            toast.error("Enter exactly 4 images");
-            return;
-        }
-
         const formData = new FormData();
-        formData.append("title", updatedTitle.trim());
-        formData.append("description", updatedDescription.trim());
-        formData.append("price", updatedPrice.toString().trim());
-        formData.append("rating", updatedRating.toString().trim());
-        formData.append("discountPercentage", updatedDiscountPercentage.toString().trim());
-        formData.append("stock", updatedStock.toString().trim());
-        formData.append("brand", updatedBrand.trim());
-        formData.append("category", updatedCategory.trim());
-        imageFiles.forEach((file) => {
-            formData.append("images", file);
-        });
+        if (updatedTitle !== product.title) {
 
+            formData.append("title", updatedTitle.trim());
+        }
+        if (updatedDescription !== product.description) {
+            formData.append("description", updatedDescription.trim());
+        } if (updatedPrice !== product.price) {
+            formData.append("price", updatedPrice.toString().trim());
+        } if (updatedRating !== product.rating) {
+            formData.append("rating", updatedRating.toString().trim());
+        } if (updatedDiscountPercentage !== product.discountPercentage) {
+            formData.append("discountPercentage", updatedDiscountPercentage.toString().trim());
+        } if (updatedStock !== product.stock) {
+            formData.append("stock", updatedStock.toString().trim());
+        } if (updatedBrand !== product.brand) {
+            formData.append("brand", updatedBrand.trim());
+        } if (updatedCategory !== product.category) {
+            formData.append("category", updatedCategory.trim());
+
+        } if (imageFiles.length != 0) {
+            if (imageFiles.length === 4) {
+                console.log("Sending images also");
+
+                imageFiles.forEach((file) => {
+                    formData.append("images", file);
+                });
+            } else {
+                toast.error("Please upload exactly 4 images.")
+                return;
+            }
+        }
         try {
             const response = await updateProduct({ formData, productId: product._id }).unwrap();
             if (response.success) {
                 toast.success(response.message);
+                navigate("/admin/products");
             } else {
                 toast.error(response.message);
             }
@@ -111,6 +112,7 @@ const ProductManagement = () => {
         } catch (error) {
             console.error(error);
             toast.error("Deletion failed. Please try again.");
+            return;
         }
     }
 
@@ -170,7 +172,7 @@ const ProductManagement = () => {
                                     value={updatedTitle}
                                     onChange={(e) => setUpdatedTitle(e.target.value)}
                                     placeholder="Enter product title."
-                                    required
+
                                 />
                             </div>
                             <div className="flex flex-col text-sm gap-2">
@@ -185,7 +187,7 @@ const ProductManagement = () => {
                                     value={updatedPrice}
                                     onChange={(e) => setUpdatedPrice(Number(e.target.value))}
                                     placeholder="Enter product price."
-                                    required
+
                                 />
                             </div>
                             <div className="flex flex-col text-sm gap-2">
@@ -200,7 +202,7 @@ const ProductManagement = () => {
                                     value={updatedRating}
                                     onChange={(e) => setUpdatedRating(Number(e.target.value))}
                                     placeholder="Enter product rating."
-                                    required
+
                                     max={5}
                                     min={1}
                                 />
@@ -217,7 +219,7 @@ const ProductManagement = () => {
                                     value={updatedDiscountPercentage}
                                     onChange={(e) => setUpdatedDiscountPercentage(Number(e.target.value))}
                                     placeholder="Enter discount percentage."
-                                    required
+
                                     max={100}
                                     min={0}
                                 />
@@ -234,7 +236,7 @@ const ProductManagement = () => {
                                     value={updatedStock}
                                     onChange={(e) => setUpdatedStock(Number(e.target.value))}
                                     placeholder="Enter product stock."
-                                    required
+
                                 />
                             </div>
                             <div className="flex flex-col text-sm gap-2">
@@ -249,7 +251,7 @@ const ProductManagement = () => {
                                     value={updatedBrand}
                                     onChange={(e) => setUpdatedBrand(e.target.value)}
                                     placeholder="Enter product brand."
-                                    required
+
                                 />
                             </div>
                         </div>
@@ -266,7 +268,7 @@ const ProductManagement = () => {
                                     value={updatedCategory}
                                     onChange={(e) => setUpdatedCategory(e.target.value)}
                                     placeholder="Enter product category."
-                                    required
+
                                 />
                             </div>
                             <div className="flex flex-col text-sm gap-2">
@@ -280,7 +282,7 @@ const ProductManagement = () => {
                                     value={updatedDescription}
                                     onChange={(e) => setUpdatedDescription(e.target.value)}
                                     placeholder="Enter product description."
-                                    required
+
                                 />
                             </div>
                             <div className="flex flex-col text-sm justify-center cursor-pointer items-center mt-5 gap-2">
@@ -296,7 +298,7 @@ const ProductManagement = () => {
                                     multiple
                                     accept="image/*"
                                     onChange={handleImageChange}
-                                    required
+
                                 />
                                 <div className="flex flex-wrap text-sm font-semibold gap-2">
                                     {imagePreviews.map((src, index) => (

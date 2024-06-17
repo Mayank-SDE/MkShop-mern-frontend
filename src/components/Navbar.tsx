@@ -16,6 +16,7 @@ import { userDoesNotExists } from "../redux/reducer/userReducer";
 import { persistor } from "../redux/store";
 import DarkMode from "./DarkMode";
 import { UserReducerInitialState } from "../types/reducer-types";
+import { resetCart } from "../redux/reducer/cartReducer";
 
 const menuItems = [
     { title: "Home", icon: <IoHomeOutline />, link: "/" },
@@ -41,8 +42,10 @@ const Navbar = () => {
 
     const logoutHandler = async () => {
         try {
-            await persistor.purge();
-            dispatch(userDoesNotExists());
+            persistor.purge().then(() => {
+                dispatch(userDoesNotExists());
+                dispatch(resetCart());
+            });
             const response = await logout().unwrap();
             if (response.success) toast.success(response.message);
             navigate("/");

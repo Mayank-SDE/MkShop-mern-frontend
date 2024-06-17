@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { userAPI } from './api/userAPI';
+import { dashboardAPI } from './api/dashboardAPI';
 import { userReducer } from './reducer/userReducer';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -28,6 +29,7 @@ export const store = configureStore({
     [userAPI.reducerPath]: userAPI.reducer,
     [productAPI.reducerPath]: productAPI.reducer,
     [orderAPI.reducerPath]: orderAPI.reducer,
+    [dashboardAPI.reducerPath]: dashboardAPI.reducer,
     [userReducer.name]: persistedUserReducer,
     [cartReducer.name]: persistedCartReducer,
   },
@@ -36,7 +38,14 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(userAPI.middleware, productAPI.middleware, orderAPI.middleware),
+    }).concat(
+      userAPI.middleware,
+      productAPI.middleware,
+      orderAPI.middleware,
+      dashboardAPI.middleware
+    ),
 });
 
 export const persistor = persistStore(store);
+
+export type RootState = ReturnType<typeof store.getState>;

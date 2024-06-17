@@ -39,6 +39,7 @@ const NewProduct = () => {
             !rating ||
             !discountPercentage ||
             !stock ||
+            stock <= 0 ||
             !brand ||
             !category ||
             !images) {

@@ -7,6 +7,7 @@ interface transactionTable {
     discount: number;
     status: string;
 }
+
 const columns: Column<transactionTable>[] = [
     {
         Header: "Id",
@@ -27,9 +28,11 @@ const columns: Column<transactionTable>[] = [
 ]
 
 const DashboardTable = ({ data = [] }: { data: transactionTable[] }) => {
-    return (
-        TableHOC<transactionTable>(columns, data, 'bg-slate-900 text-slate-100 dark:bg-slate-100 dark:text-slate-900 rounded-2xl h-[400px] overflow-auto p-4 w-full  mt-4 ', "Top Transactions")()
-    )
+
+    const Table = TableHOC<transactionTable>(columns, data, 'bg-slate-900 text-slate-100 dark:bg-slate-100 dark:text-slate-900 rounded-2xl h-[400px] overflow-auto p-4 w-full  mt-4 ', "Top Transactions", false);
+
+    return <Table />;
+
 }
 
 export default DashboardTable

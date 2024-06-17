@@ -1822,6 +1822,7 @@ import { CustomError } from "../types/api-types";
 import toast from "react-hot-toast";
 import TableHOC from "../components/admin/TableHOC";
 import TableSkeleton from "../components/skeletons/TableSkeleton";
+import { RootState } from "../redux/store";
 
 export const columns: Column<OrderTableInterface>[] = [
     {
@@ -1856,7 +1857,7 @@ export const columns: Column<OrderTableInterface>[] = [
 
 
 const Orders = () => {
-    const { user } = useSelector((state: { userReducer: UserReducerInitialState }) => state.userReducer);
+    const { user } = useSelector((state: RootState) => state.userReducer);
     // const navigate = useNavigate();
 
     const { isLoading, data, isError, error } = useMyOrdersQuery(user?._id!);

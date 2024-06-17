@@ -26,12 +26,12 @@ const WidgetItem = ({ title, value, percent, color, amount = false }: WidgetItem
                 <div>
                     {percent > 0 ? (
                         <div className="text-green-500 font-mono">
-                            <HiTrendingUp />+{percent}%
+                            <HiTrendingUp />+{percent > 10000 ? 9999 : percent}%
                         </div>
                     ) : (
                         <div className="text-red-500 font-mono">
                             <HiTrendingDown />
-                            {percent}%
+                            {percent < -10000 ? -9999 : percent}%
                         </div>
                     )}
                 </div>
@@ -41,7 +41,18 @@ const WidgetItem = ({ title, value, percent, color, amount = false }: WidgetItem
                 <div className="relative w-20 h-20 rounded-full" style={conicGradientStyle}>
                     {/* Inner white circle */}
                     <div className="absolute inset-0 dark:bg-slate-100 bg-slate-900 rounded-full m-2 flex items-center justify-center">
-                        <span className={`text-xs text-${color}-500 font-mono`}>{percent}%</span>
+                        <div>
+                            {percent > 0 ? (
+                                <div className="text-green-500 font-mono">
+                                    <HiTrendingUp />+{percent > 10000 ? 9999 : percent}%
+                                </div>
+                            ) : (
+                                <div className="text-red-500 font-mono">
+                                    <HiTrendingDown />
+                                    {percent < -10000 ? -9999 : percent}%
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

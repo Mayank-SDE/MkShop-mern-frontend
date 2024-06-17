@@ -1,15 +1,19 @@
+
 import { ChangeEvent, FormEvent, ReactNode, useEffect, useState } from "react";
 import { FaArrowLeft, FaRegSadCry } from "react-icons/fa";
 import CartItem from "../components/CartItem";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { CartReducerInitialState } from "../types/reducer-types";
+import { CartReducerInitialState, UserReducerInitialState } from "../types/reducer-types";
 import { addToCart, applyDiscount, calculatePrice, deleteFromCart, removeFromCart, saveShippingInfo } from "../redux/reducer/cartReducer";
 import { CartItem as CartItemType, ShippingInfo } from "../types/types";
 import toast from "react-hot-toast";
 import axios from "axios";
 
 const Cart = () => {
+    const { user } = useSelector(
+        (state: { userReducer: UserReducerInitialState }) => state.userReducer
+    );
     const { cartItems, subTotal, discount, shippingCharges, shippingInfo, tax, total } = useSelector(
         (state: { cartReducer: CartReducerInitialState }) => state.cartReducer
     );
@@ -21,6 +25,9 @@ const Cart = () => {
     const [isValidCouponCode, setIsValidCouponCode] = useState<boolean>(false);
     const [content, setContent] = useState<ReactNode>(null);
     const [buttonLabel, setButtonLabel] = useState<string>("Checkout");
+    useEffect(() => {
+        dispatch(saveShippingInfo(updatedShippingInfo));
+    }, [updatedShippingInfo, dispatch]);
 
     useEffect(() => {
         const { token: cancelToken, cancel } = axios.CancelToken.source();
@@ -51,7 +58,6 @@ const Cart = () => {
             dispatch(applyDiscount(0));
         }
     }, [couponCode, dispatch]);
-
     useEffect(() => {
         dispatch(calculatePrice());
     }, [updatedCartItems, dispatch]);
@@ -60,7 +66,7 @@ const Cart = () => {
 
         setUpdatedShippingInfo((prevState) => {
             return { ...prevState, [event.target.name]: event.target.value }
-        })
+        });
     };
 
     const incrementQuantityHandler = (cartItem: CartItemType) => {
@@ -139,7 +145,6 @@ const Cart = () => {
     );
     const shippingDetailsHandler = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        dispatch(saveShippingInfo(updatedShippingInfo));
         try {
 
             const { data } = await axios.post("http://localhost:3000/api/v1/payment/create", {
@@ -161,119 +166,121 @@ const Cart = () => {
         }
     }
     const renderBillingForm = () => (
-        <div className="sm:col-span-2 order-1 h-fit w-fit overflow-y-scroll p-4 m-4 xl:m-8 rounded-xl border-2 border-slate-500">
+        <div className="sm:col-span-2  h-fit w-fit overflow-y-scroll p-4 m-4 xl:m-8 rounded-xl border-2 order-1 border-slate-500">
             <div className="font-bold flex justify-center items-center text-sm lg:text-lg font-mono">
                 <p>Billing Address</p>
             </div>
             <div className="border-b-2 border-slate-500 mt-8"></div>
-            <form onSubmit={shippingDetailsHandler} className="flex w-fit p-4 flex-wrap text-slate-900 bg-slate-100 dark:text-slate-100 dark:bg-slate-900 items-start mx-auto gap-2 font-serif text-sm mt-4">
-                <div className="flex flex-col justify-center items-start gap-1 mt-3 ml-3 w-fit">
-                    <label htmlFor="billingName" className="">Billing Name :</label>
-                    <input
-                        type="text"
-                        name="billingName"
-                        onChange={shippingInfoHandler}
-                        required
-                        // value={updatedShippingInfo.billingName}
-                        placeholder="Enter your billing name."
-                        id="billing name"
-                        className="rounded-lg p-1  border-slate-500 border  max-w-full"
-                    />
-                </div>
-                <div className="flex flex-col justify-center items-start gap-1 mt-3 ml-3 w-fit">
-                    <label htmlFor="city" className="">City :</label>
-                    <input
-                        type="text"
-                        name="city"
-                        onChange={shippingInfoHandler}
-                        required
-                        // value={updatedShippingInfo.city}
-                        placeholder="Enter your city."
-                        id="city"
-                        className="rounded-lg p-1  border-slate-500 border  max-w-full"
-                    />
-                </div>
-                <div className="flex flex-col justify-center items-start gap-1 mt-3 ml-3 w-fit">
-                    <label htmlFor="state" className="">State :</label>
-                    <input
-                        type="text"
-                        name="state"
-                        onChange={shippingInfoHandler}
-                        required
-                        // value={updatedShippingInfo.state}
-                        placeholder="Enter your state."
-                        id="state"
-                        className="rounded-lg p-1  border-slate-500 border  max-w-full"
-                    />
-                </div>
+            <form onSubmit={shippingDetailsHandler} className="flex w-fit p-4 flex-col text-slate-900 bg-slate-100 dark:text-slate-100 dark:bg-slate-900 items-center justify-center gap-2 mt-4">
+                <div className="flex w-fit p-4 flex-wrap  items-start mx-auto gap-2 font-serif text-sm">
+                    <div className="flex flex-col justify-center items-start gap-1 mt-3 ml-3 w-fit">
+                        <label htmlFor="billingName" className="">Billing Name :</label>
+                        <input
+                            type="text"
+                            name="billingName"
+                            onChange={(event) => shippingInfoHandler(event)}
+                            required
+                            // value={updatedShippingInfo.billingName}
+                            placeholder="Enter your billing name."
+                            id="billing name"
+                            className="rounded-lg p-1  border-slate-500 border text-slate-900  max-w-full"
+                        />
+                    </div>
+                    <div className="flex flex-col justify-center items-start gap-1 mt-3 ml-3 w-fit">
+                        <label htmlFor="city" className="">City :</label>
+                        <input
+                            type="text"
+                            name="city"
+                            onChange={(event) => shippingInfoHandler(event)}
+                            required
+                            // value={updatedShippingInfo.city}
+                            placeholder="Enter your city."
+                            id="city"
+                            className="rounded-lg p-1  border-slate-500 border text-slate-900  max-w-full"
+                        />
+                    </div>
+                    <div className="flex flex-col justify-center items-start gap-1 mt-3 ml-3 w-fit">
+                        <label htmlFor="state" className="">State :</label>
+                        <input
+                            type="text"
+                            name="state"
+                            onChange={(event) => shippingInfoHandler(event)}
+                            required
+                            // value={updatedShippingInfo.state}
+                            placeholder="Enter your state."
+                            id="state"
+                            className="rounded-lg p-1  border-slate-500 border text-slate-900  max-w-full"
+                        />
+                    </div>
 
-                <div className="flex flex-col justify-center items-start gap-1 mt-3 ml-3 w-fit">
-                    <label htmlFor="Country" className="">Country :</label>
-                    <input
-                        type="text"
-                        name="country"
-                        onChange={shippingInfoHandler}
-                        required
-                        // value={updatedShippingInfo.country}
-                        placeholder="Enter your Country."
-                        id="Country"
-                        className="rounded-lg p-1  border-slate-500 border  max-w-full"
-                    />
+                    <div className="flex flex-col justify-center items-start gap-1 mt-3 ml-3 w-fit">
+                        <label htmlFor="Country" className="">Country :</label>
+                        <input
+                            type="text"
+                            name="country"
+                            onChange={(event) => shippingInfoHandler(event)}
+                            required
+                            // value={updatedShippingInfo.country}
+                            placeholder="Enter your Country."
+                            id="Country"
+                            className="rounded-lg p-1  border-slate-500 border text-slate-900  max-w-full"
+                        />
+                    </div>
+                    <div className="flex flex-col justify-center items-start gap-1 mt-3 ml-3 w-fit">
+                        <label htmlFor="pinCode" className="">Pin Code :</label>
+                        <input
+                            type="text"
+                            name="pinCode"
+                            onChange={(event) => shippingInfoHandler(event)}
+                            required
+                            // value={updatedShippingInfo.pinCode}
+                            placeholder="Enter your pin code."
+                            id="pinCode"
+                            className="rounded-lg p-1  border-slate-500 border text-slate-900  max-w-full"
+                        />
+                    </div>
+                    <div className="flex flex-col justify-center items-start gap-1 mt-3 ml-3 w-fit">
+                        <label htmlFor="phoneNumber" className="">Phone Number :</label>
+                        <input
+                            type="text"
+                            name="phoneNumber"
+                            onChange={(event) => shippingInfoHandler(event)}
+                            required
+                            // value={updatedShippingInfo.phoneNumber}
+                            placeholder="Enter your phone number."
+                            id="phoneNumber"
+                            className="rounded-lg p-1  border-slate-500 border text-slate-900  max-w-full"
+                        />
+                    </div>
+                    <div className="flex flex-col justify-center items-start gap-1 mt-3 ml-3 w-fit">
+                        <label htmlFor="email" className="">Email :</label>
+                        <input
+                            type="email"
+                            name="email"
+                            onChange={(event) => shippingInfoHandler(event)}
+                            required
+                            // value={updatedShippingInfo.email}
+                            placeholder="Enter your email."
+                            id="pinCode"
+                            className="rounded-lg p-1  border-slate-500 border text-slate-900  max-w-full"
+                        />
+                    </div>
+                    <div className="flex flex-col justify-center items-start gap-1 mt-3 ml-3 w-fit">
+                        <label htmlFor="address" className="">Address :</label>
+                        <textarea
+                            onChange={(event) => shippingInfoHandler(event)}
+                            required
+                            name="address"
+                            // value={updatedShippingInfo.address}
+                            placeholder="Enter your address"
+                            id="address"
+                            className="rounded-lg p-1 border-stale-500 border text-slate-900 sm:w-[80%] w-full"
+                            rows={5}
+                            cols={50}
+                        />
+                    </div>
                 </div>
-                <div className="flex flex-col justify-center items-start gap-1 mt-3 ml-3 w-fit">
-                    <label htmlFor="pinCode" className="">Pin Code :</label>
-                    <input
-                        type="text"
-                        name="pinCode"
-                        onChange={shippingInfoHandler}
-                        required
-                        // value={updatedShippingInfo.pinCode}
-                        placeholder="Enter your pin code."
-                        id="pinCode"
-                        className="rounded-lg p-1  border-slate-500 border  max-w-full"
-                    />
-                </div>
-                <div className="flex flex-col justify-center items-start gap-1 mt-3 ml-3 w-fit">
-                    <label htmlFor="phoneNumber" className="">Phone Number :</label>
-                    <input
-                        type="text"
-                        name="phoneNumber"
-                        onChange={shippingInfoHandler}
-                        required
-                        // value={updatedShippingInfo.phoneNumber}
-                        placeholder="Enter your phone number."
-                        id="phoneNumber"
-                        className="rounded-lg p-1  border-slate-500 border  max-w-full"
-                    />
-                </div>
-                <div className="flex flex-col justify-center items-start gap-1 mt-3 ml-3 w-fit">
-                    <label htmlFor="email" className="">Email :</label>
-                    <input
-                        type="email"
-                        name="email"
-                        onChange={shippingInfoHandler}
-                        required
-                        // value={updatedShippingInfo.email}
-                        placeholder="Enter your email."
-                        id="pinCode"
-                        className="rounded-lg p-1  border-slate-500 border  max-w-full"
-                    />
-                </div>
-                <div className="flex flex-col justify-center items-start gap-1 mt-3 ml-3 w-fit">
-                    <label htmlFor="address" className="">Address :</label>
-                    <textarea
-                        onChange={shippingInfoHandler}
-                        required
-                        name="address"
-                        // value={updatedShippingInfo.address}
-                        placeholder="Enter your address"
-                        id="address"
-                        className="rounded-lg p-1 border-stale-500 border sm:w-[80%] w-full"
-                        rows={5}
-                        cols={50}
-                    />
-                </div>
-                <button type="submit" className="px-3 py-1 bg-green-500 hover:bg-green-600 rounded-full ">Submit</button>
+                <button type="submit" className="px-3 py-1 text-sm text-slate-100 font-semibold bg-green-500 hover:bg-green-600 rounded-full ">Submit</button>
             </form>
         </div>
     );
@@ -285,15 +292,22 @@ const Cart = () => {
 
     const toggleContent = () => {
         if (buttonLabel === "Checkout") {
+            if (user === null) {
+                toast.success("We have saved your cart. Please login to continue.");
+                navigate("/login");
+            }
             setContent(renderBillingForm());
-            setButtonLabel("");
+            setButtonLabel("<- Back");
+        } else {
+            setContent(renderCartItems());
+            setButtonLabel("Checkout");
         }
     };
 
     return (
         <section className="grid  sm:grid-cols-3 container  grid-cols-1 py-4">
             {content}
-            <div className="sm:col-span-1 w-fit border-2 py-4 px-8 rounded-xl text-xs border-slate-500 order-1 mx-auto mt-4 xl:mt-8">
+            <div className="sm:col-span-1 w-fit border-2 py-4 px-8 rounded-xl text-xs border-slate-500  mx-auto mt-4 xl:mt-8">
                 <div className="font-bold text-sm lg:text-lg flex justify-center items-center font-mono">
                     <p>Order Summary</p>
                 </div>
@@ -323,12 +337,12 @@ const Cart = () => {
                         <p>${total}</p>
                     </div>
                 </div>
-                {buttonLabel !== "" && <button
+                <button
                     onClick={toggleContent}
                     className="border-2 w-full border-slate-500 bg-gray-800 text-white hover:bg-gray-200 hover:text-gray-800 hover:scale-105 px-3 py-1 font-bold transition-transform  font-mono rounded-full"
                 >
                     {buttonLabel}
-                </button>}
+                </button>
                 <div className="border-b-2 border-slate-500 mt-8"></div>
                 <div className="flex flex-col justify-center gap-4 items-center font-bold text-sm lg:text-lg mt-8">
                     <input

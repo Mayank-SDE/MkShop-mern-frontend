@@ -1,48 +1,11 @@
+
 import { DoughnutChart, PieChart } from "../../../components/admin/Charts";
-const categories = [
-    'smartphones',
-    'laptops',
-    'fragrances',
-    'skincare',
-    'groceries',
-    'home-decoration',
-    'furniture',
-    'tops',
-    'womens-dresses',
-    'womens-shoes',
-    'mens-shirts',
-    'mens-shoes',
-    'mens-watches',
-    'womens-watches',
-    'womens-bags',
-    'womens-jewellery',
-    'sunglasses',
-    'automotive',
-    'motorcycle',
-    'lighting',
-];
-const categoriesValues: number[] = [
-    1,
-    12,
-    3,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    11,
-    21,
-    31,
-    41,
-    51,
-    61,
-    17,
-    18,
-    19,
-    91,
-    10,
-];
+import { usePieQuery } from "../../../redux/api/dashboardAPI";
+
+import { PieChartSkeleton } from "../../../components/skeletons/PieChartSkeleton";
+import { Navigate } from "react-router-dom";
+import { PieChartResponse } from "../../../types/api-types";
+
 const colors = [
     '#007BFF',
     '#FFA500',
@@ -69,12 +32,48 @@ const colors = [
 
 const PieCharts = () => {
 
+    const { data, isLoading, isError } = usePieQuery();
+    const pieCharts = data?.pieCharts as PieChartResponse;
+    if (isError) {
+        return <Navigate to={"/admin/dashboard"} />
+    }
+    if (isLoading) {
+        return <PieChartSkeleton />;
+    }
 
 
+
+    const orderFullfillmentRatio = [
+        pieCharts.orderFullfillmentRatio.placed,
+        pieCharts.orderFullfillmentRatio.picked,
+        pieCharts.orderFullfillmentRatio.packed,
+        pieCharts.orderFullfillmentRatio.shipped,
+        pieCharts.orderFullfillmentRatio.delivered,
+
+    ];
+
+
+    const revenueDistribution = [
+        pieCharts.revenueDistribution.marketingCost,
+        pieCharts.revenueDistribution.discount,
+        pieCharts.revenueDistribution.burnt,
+        pieCharts.revenueDistribution.productionCost,
+        pieCharts.revenueDistribution.netMargin
+    ];
+
+    const userAgeGroup = [
+        pieCharts.usersAgeGroup.teen,
+        pieCharts.usersAgeGroup.adult,
+        pieCharts.usersAgeGroup.old,
+
+    ]
+
+    // data = { orderFullfillmentRatio  };
     return (
+
         <div className="flex flex-col w-full justify-center items-center  mt-6 gap-4 sm:gap-20">
             <div className="flex flex-col justify-center items-center w-full h-[400px] gap-4">
-                <PieChart labels={["Placed", "Picked", "Packed", "Shipped", "Delivered"]} data={[1, 2, 3, 4, 5]} backgroundColor={[
+                <PieChart labels={["Placed", "Picked", "Packed", "Shipped", "Delivered"]} data={orderFullfillmentRatio} backgroundColor={[
                     '#007BFF',
                     '#FFA500',
                     '#6F42C1',
@@ -84,25 +83,25 @@ const PieCharts = () => {
                 <div className="font-bold text-lg underline font-mono">Order Fullfillment ratio</div>
             </div>
             <div className="flex flex-col justify-center items-center w-full h-[400px] mt-14 gap-4">
-                <DoughnutChart labels={categories} data={categoriesValues} legends={false} backgroundColor={colors} offset={[0, 50]} />
+                <DoughnutChart labels={pieCharts.productCategories.map(category => Object.keys(category)[0])} data={pieCharts.productCategories.map(category => Object.values(category)[0])} legends={false} backgroundColor={colors} offset={[0, 50]} />
 
                 <div className="font-bold text-lg underline font-mono">Products-Categories ratio</div>
             </div>
             <div className="flex flex-col justify-center items-center w-full h-[400px] mt-8 gap-4">
-                <DoughnutChart labels={["In Stock", "Out of Stock"]} data={[40, 20]} legends={false} backgroundColor={['green',
-                    'grey']} offset={[0, 50]} cutout={"70%"} />
+                <DoughnutChart labels={["In Stock", "Out of Stock"]} data={[pieCharts.stockAvailability.inStock, pieCharts.stockAvailability.outOfStock]} legends={false} backgroundColor={['green',
+                    'blue']} offset={[0, 50]} cutout={"70%"} />
                 <div className="font-bold text-lg underline font-mono">Stock Availability</div>
 
             </div>
             <div className="flex flex-col justify-center items-center w-full h-[400px] mt-8 gap-4">
-                <DoughnutChart labels={["Marketing Cost", "Discount", "Burnt", "Production Cost", "Net Margin"]} data={[40, 20, 10, 100]} legends={false} backgroundColor={['#FFA500',
+                <DoughnutChart labels={["Marketing Cost", "Discount", "Burnt", "Production Cost", "Net Margin"]} data={revenueDistribution} legends={false} backgroundColor={['#FFA500',
                     '#6F42C1',
                     '#28A745',
                     '#20C997']} offset={[20, 30, 20, 30, 80]} />
                 <div className="font-bold text-lg underline font-mono">Revenue Distribution</div>
             </div>
             <div className="flex flex-col justify-center items-center w-full h-[400px] gap-4">
-                <PieChart labels={["Teenage (Below 20)", "Adults (20 - 40)", "Older (Above 40)"]} data={[1, 2, 3]} backgroundColor={[
+                <PieChart labels={["Teenage (Below 20)", "Adults (20 - 40)", "Older (Above 40)"]} data={userAgeGroup} backgroundColor={[
                     '#007BFF',
                     '#FFA500',
                     '#6F42C1',
@@ -111,7 +110,7 @@ const PieCharts = () => {
                 <div className="font-bold text-lg underline font-mono">User Age Group</div>
             </div>
             <div className="flex flex-col justify-center items-center w-full h-[400px] mt-14 gap-4">
-                <DoughnutChart labels={["Admin", "Customers"]} data={[40, 250]} legends={false} backgroundColor={['#FFA500',
+                <DoughnutChart labels={["Admin", "Customers"]} data={[pieCharts.adminCustomer.admin, pieCharts.adminCustomer.customer]} legends={false} backgroundColor={['#FFA500',
                     '#6F42C1',]} offset={[0, 50]} />
 
                 <div className="font-bold text-lg underline font-mono">User-Admin ratio</div>

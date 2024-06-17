@@ -5,23 +5,23 @@ import toast from 'react-hot-toast';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { NewOrderRequestBody } from '../types/api-types';
 import { useSelector } from 'react-redux';
-import { CartReducerInitialState, UserReducerInitialState } from '../types/reducer-types';
 import { useNewOrderMutation } from '../redux/api/orderAPI';
 import { resetCart } from '../redux/reducer/cartReducer';
 import { useDispatch } from 'react-redux';
+import { RootState } from '../redux/store';
 
 
 
-const stripePromise = loadStripe('pk_test_51P7tQlSEQClnb0YAArYSa3wc2uTthagoOUQUDt1JpNwTRgoHSQsLRxJMf29BDWdMhXXMZXoAvDUNq6SI71vam43300zCqcXCMt');
+const stripePromise = loadStripe("pk_test_51P7tQlSEQClnb0YAArYSa3wc2uTthagoOUQUDt1JpNwTRgoHSQsLRxJMf29BDWdMhXXMZXoAvDUNq6SI71vam43300zCqcXCMt");
 
 const CheckoutForm = () => {
 
     const { user } = useSelector(
-        (state: { userReducer: UserReducerInitialState }) => state.userReducer
+        (state: RootState) => state.userReducer
     );
 
     const { cartItems, subTotal, discount, shippingCharges, shippingInfo, tax, total } = useSelector(
-        (state: { cartReducer: CartReducerInitialState }) => state.cartReducer
+        (state: RootState) => state.cartReducer
     );
 
     const [newOrder] = useNewOrderMutation();
@@ -86,6 +86,7 @@ const CheckoutForm = () => {
             <button type='submit' disabled={isProcessing} className='px-3 bg-green-500 hover:bg-green-600 py-1 text-slate-100 font-bold text-sm rounded-full'>
                 {isProcessing ? "Processing..." : "Pay"}
             </button>
+            <div className='text-xs font-mono font-thin'>Test card - 4000 0035 6000 0008</div>
         </form>
     </div>
 }
