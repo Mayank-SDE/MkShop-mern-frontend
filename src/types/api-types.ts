@@ -12,12 +12,24 @@ export type CustomError = {
     message: string;
   };
 };
+export type ForgotPasswordBody = {
+  email: string;
+  username: string;
+  dob: string;
+  gender: string;
+  password: string;
+};
 
 export type CouponRequestBody = { coupon: string; amount: number };
 
 export type AllCouponResponse = {
   success: boolean;
-  coupons: { _id: string; amount: number; coupon: string }[];
+  coupons: {
+    amount: number;
+    coupon: string;
+    createdAt: string;
+    _id: string;
+  }[];
 };
 
 export interface UserMessageResponse extends MessageResponse {

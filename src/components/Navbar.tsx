@@ -96,16 +96,16 @@ const Navbar = () => {
             </div>
             {user && (
                 <p className="flex justify-center items-center py-4 gap-2 tracking-wider font-bold font-serif text-lg">
-                    <img src={imageURL.startsWith("a") ? `http://localhost:3000/${imageURL}` : imageURL} alt={user.username} className="w-[50px] h-[50px] object-cover rounded-full" />
+                    <img src={imageURL.startsWith("a") ? `http://localhost:3000/${imageURL}` : imageURL} alt={user.username} className="w-[100px]  rounded-full" />
                     {`Welcome, ${user.username.toUpperCase()}`}
                 </p>
             )}
             {hamburgerIsOpen && (
                 <div className="flex flex-col lg:hidden">
                     <div className="p-3">
-                        <input type="text" placeholder="Search" className="w-full rounded-xl border px-2 py-1 dark:text-slate-900 dark:bg-slate-100 bg-slate-900 text-slate-100 focus:outline-none" />
-                        <Link to="/search">
-                            <IoMdSearch className="absolute top-[69px] right-8 sm:top-[73px] sm:right-[65px] text-xl cursor-pointer dark:text-slate-900 text-slate-100 hover:scale-110" />
+                        <input type="text" placeholder="Search" className="w-full relative rounded-xl border px-2 py-1 dark:text-slate-900 dark:bg-slate-100 bg-slate-900 text-slate-100 focus:outline-none" onChange={(event) => setSearch(event.target.value)} />
+                        <Link to={`/search?keyword=${search}`}>
+                            <IoMdSearch className="absolute top-[205px] right-8  sm:right-[65px] text-xl cursor-pointer dark:text-slate-900 text-slate-100 hover:scale-110" />
                         </Link>
                     </div>
 
@@ -117,12 +117,7 @@ const Navbar = () => {
                     ))}
                 </div>
             )}
-            {/* <div>
-                {user && <div>
-                    <img src={user.image} alt={user.username} />
-                    <span>Hey, {user.username}</span>
-                </div>}
-            </div> */}
+
         </div>
     );
 };

@@ -5,16 +5,21 @@ import { useCreateCouponMutation, useDeleteCouponMutation, useGetAllCouponQuery 
 import { Column } from "react-table";
 import { Navigate } from "react-router-dom";
 import TableHOC from "../../components/admin/TableHOC";
+import { formatDate } from "../../utils/date";
 
 interface CouponTableInterface {
+    _id: string;
     coupon: string;
     amount: number;
+    date: string;
     action: ReactElement;
 }
 
 const columns: Column<CouponTableInterface>[] = [
+    { Header: "ID", accessor: "_id" },
     { Header: "Coupon", accessor: "coupon" },
     { Header: "Amount", accessor: "amount" },
+    { Header: "Date", accessor: "date" },
     { Header: "Action", accessor: "action" }
 ];
 
@@ -23,7 +28,7 @@ const allNumbers = "0123456789";
 const allSymbols = "!@#$%^&*()_+";
 
 const Coupon = () => {
-    const { isLoading, data, isError } = useGetAllCouponQuery();
+    const { isLoading, data, isError, refetch } = useGetAllCouponQuery();
     const [deleteCoupon] = useDeleteCouponMutation();
     const [createCoupon] = useCreateCouponMutation();
 
@@ -40,8 +45,10 @@ const Coupon = () => {
     useEffect(() => {
         if (data) {
             setRows(data.coupons.map((coupon) => ({
+                _id: coupon._id,
                 coupon: coupon.coupon,
                 amount: coupon.amount,
+                date: formatDate(coupon.createdAt),
                 action: <button onClick={() => deleteHandler(coupon._id)} className="bg-red-500 px-3 py-1 hover:bg-red-600 rounded-full font-semibold text-slate-100">Delete</button>,
             })));
         }
@@ -52,7 +59,7 @@ const Coupon = () => {
             const response = await deleteCoupon(couponId).unwrap();
             if (response.success) {
                 toast.success(response.message);
-                setIsCopied(prevState => !prevState);
+                refetch();
             } else {
                 toast.error(response.message);
             }
@@ -90,7 +97,7 @@ const Coupon = () => {
             const response = await createCoupon({ coupon: result, amount }).unwrap();
             if (response.success) {
                 toast.success(response.message);
-                setIsCopied(prevState => !prevState);
+                refetch();
             } else {
                 toast.error(response.message);
             }
@@ -123,7 +130,7 @@ const Coupon = () => {
                 <div className="text-lg font-bold">Coupon Generator</div>
                 <div className="sm:w-[50%] border-slate-500 border-2 rounded-2xl h-fit p-4 w-full">
                     <form onSubmit={couponSubmitHandler} className="flex justify-center flex-col gap-4 items-center">
-                        <div className="flex flex-wrap items-center justify-center gap-2">
+                        <div className="flex flex-col items-center justify-center gap-2">
                             <div className="flex flex-wrap gap-2 items-center justify-center">
                                 <label htmlFor="textToInclude" className="text-sm font-semibold">Text to include:</label>
                                 <input
@@ -139,7 +146,7 @@ const Coupon = () => {
                             <div className="flex flex-wrap gap-2 items-center justify-center">
                                 <label htmlFor="couponLength" className="text-sm font-semibold">Coupon length:</label>
                                 <input
-                                    className="border dark:text-slate-900 text-xs border-slate-500 p-2 rounded-xl"
+                                    className="border dark:text-slate-900 text-xs border-slate-500 py-1 px-4 rounded-xl"
                                     type="number"
                                     id="couponLength"
                                     value={size}

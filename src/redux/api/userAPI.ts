@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {
   AllUsersResponse,
+  ForgotPasswordBody,
   MessageResponse,
   UserMessageResponse,
 } from '../../types/api-types';
@@ -69,6 +70,17 @@ export const userAPI = createApi({
         query: () => 'auth/all',
         providesTags: ['users'],
       }),
+      forgotPassword: builder.mutation<UserMessageResponse, ForgotPasswordBody>(
+        {
+          query: (verifyPasswordBody) => {
+            return {
+              method: 'POST',
+              body: verifyPasswordBody,
+              url: 'auth/reset/password',
+            };
+          },
+        }
+      ),
     };
   },
 });
@@ -81,4 +93,5 @@ export const {
   useUpdateMutation,
   useDeleteUserMutation,
   useAllUsersQuery,
+  useForgotPasswordMutation,
 } = userAPI;

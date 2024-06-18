@@ -47,7 +47,7 @@ export interface Product {
   updatedAt: Date;
 }
 
-export interface Order {
+export type Order = {
   _id: string;
   shippingInfo: ShippingInfo;
   user:
@@ -63,7 +63,9 @@ export interface Order {
   total: number;
   discount: number;
   orderItems: OrderItem[];
-}
+  createdAt: string;
+  updatedAt: string;
+};
 
 export type ShippingInfo = {
   address: string;

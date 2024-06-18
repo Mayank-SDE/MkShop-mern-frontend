@@ -91,9 +91,9 @@ const Login = () => {
                                 className="border-gray-400 border-2 text-slate-900 py-2 px-1 rounded-md"
                             />
                         </div>
-                        <a href="" className="text-blue-500 text-center">
+                        <Link to={"/forgot-password"} className="text-blue-500 text-center">
                             Forgot password?
-                        </a>
+                        </Link>
                         <button className="bg-blue-500 text-slate-100 font-semibold py-3 w-[90%] mx-auto rounded-xl" type="submit">
                             Login
                         </button>

@@ -7,7 +7,8 @@ type OrderTableInterface = {
     amount: number;
     status: ReactElement;
     action: ReactElement;
-    // date: string;
+    purchase_date: string;
+    last_updated: string;
 }
 
 export const myOrderTableData = [
@@ -1814,7 +1815,6 @@ export const myOrderTableData = [
 ];
 import { Column } from 'react-table';
 import { useMyOrdersQuery } from "../redux/api/orderAPI";
-import { UserReducerInitialState } from "../types/reducer-types";
 import { useSelector } from "react-redux";
 import { getStatusColor } from "../utils/style";
 import { Link } from "react-router-dom";
@@ -1823,6 +1823,7 @@ import toast from "react-hot-toast";
 import TableHOC from "../components/admin/TableHOC";
 import TableSkeleton from "../components/skeletons/TableSkeleton";
 import { RootState } from "../redux/store";
+import { formatDate } from "../utils/date";
 
 export const columns: Column<OrderTableInterface>[] = [
     {
@@ -1841,10 +1842,13 @@ export const columns: Column<OrderTableInterface>[] = [
         Header: 'Amount',
         accessor: 'amount',
     },
-    // {
-    //     Header: 'Date',
-    //     accessor: 'date',
-    // },
+    {
+        Header: 'Purchase_Date',
+        accessor: 'purchase_date',
+    }, {
+        Header: 'Last_Updated',
+        accessor: 'last_updated',
+    },
     {
         Header: 'Status',
         accessor: 'status',
@@ -1858,19 +1862,11 @@ export const columns: Column<OrderTableInterface>[] = [
 
 const Orders = () => {
     const { user } = useSelector((state: RootState) => state.userReducer);
-    // const navigate = useNavigate();
 
-    const { isLoading, data, isError, error } = useMyOrdersQuery(user?._id!);
+    const { isLoading, data, isError, error } = useMyOrdersQuery(user?._id as string);
+    console.log(data?.orders);
 
-    const [rows, setRows] = useState<OrderTableInterface[]>([{
-        orderId: 1,
-        quantity: 16,
-        discount: 35,
-        amount: 6885,
-        status: <Link to="/" className={`${getStatusColor('Delivered')} bg-slate-900 px-3 py-1 dark:bg-slate-100 rounded-full font-bold`}>Delivered</Link>,
-        action: <Link className="bg-blue-500 px-3 py-1 hover:bg-blue-600 rounded-full font-semibold text-slate-100" to="/orders/abcd">View</Link>,
-        // date: '01/11/2023',
-    }]);
+    const [rows, setRows] = useState<OrderTableInterface[]>([]);
 
     if (isError) {
         const err = error as CustomError;
@@ -1886,8 +1882,10 @@ const Orders = () => {
                     discount: order.discount,
                     amount: order.total,
                     status: <Link to="/" className={`${getStatusColor(order.status)} bg-slate-900 px-3 py-1 dark:bg-slate-100 rounded-full font-bold`}>{order.status}</Link>,
-                    action: <Link className="bg-blue-500 px-3 py-1 hover:bg-blue-600 rounded-full font-semibold text-slate-100" to={`/orders/${order._id}`}>View</Link>,
-                    // date: order.,
+                    action: <Link className="bg-blue-500 px-3 py-1 hover:bg-blue-600 rounded-full font-semibold text-slate-100" to={`/order/${order._id}`}>View</Link>,
+                    purchase_date: formatDate(order.createdAt),
+                    last_updated: formatDate(order.updatedAt),
+
                 };
             }));
         }

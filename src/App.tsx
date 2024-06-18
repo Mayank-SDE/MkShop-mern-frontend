@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import NavbarSkeleton from './components/skeletons/NavbarSkeleton';
 
 
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 const Checkout = lazy(() => import('./pages/Checkout'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Profile = lazy(() => import("./pages/Profile"));
@@ -52,12 +53,14 @@ function App() {
             <Route>
               <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
               <Route path="/register" element={!user ? <Register /> : <Navigate to="/" />} />
+              <Route path="/forgot-password" element={!user ? <ForgotPassword /> : <Navigate to="/" />} />
+
               <Route path="/login/success" element={<LoginSuccess />} />
             </Route>
             {/* Logged In User Route */}
             <Route element={<ProtectedRoute isAuthenticated={user ? true : false} />}>
               <Route path="/orders" element={<Orders />} />
-              <Route path="/orders/:id" element={<OrderDetail />} />
+              <Route path="/order/:_id" element={<OrderDetail />} />
               <Route path="/profile" element={<Profile />} />
               <Route path='/pay' element={<Checkout />} />
             </Route>

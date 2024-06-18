@@ -1,6 +1,6 @@
 
 import { ChangeEvent, FormEvent, ReactNode, useEffect, useState } from "react";
-import { FaArrowLeft, FaRegSadCry } from "react-icons/fa";
+import { FaArrowLeft, FaRegCopy, FaRegSadCry } from "react-icons/fa";
 import CartItem from "../components/CartItem";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -9,6 +9,8 @@ import { addToCart, applyDiscount, calculatePrice, deleteFromCart, removeFromCar
 import { CartItem as CartItemType, ShippingInfo } from "../types/types";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { IoIosArrowDropdownCircle, IoIosArrowDropupCircle } from "react-icons/io";
+import { useGetAllCouponQuery } from "../redux/api/couponAPI";
 
 const Cart = () => {
     const { user } = useSelector(
@@ -19,12 +21,15 @@ const Cart = () => {
     );
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [showCoupon, setShowCoupon] = useState<boolean>(false);
+    const { isLoading, data, isError } = useGetAllCouponQuery();
     const [updatedCartItems, setUpdatedCartItems] = useState<CartItemType[]>(cartItems);
     const [updatedShippingInfo, setUpdatedShippingInfo] = useState<ShippingInfo>(shippingInfo);
     const [couponCode, setCouponCode] = useState<string>("");
     const [isValidCouponCode, setIsValidCouponCode] = useState<boolean>(false);
     const [content, setContent] = useState<ReactNode>(null);
     const [buttonLabel, setButtonLabel] = useState<string>("Checkout");
+    const [isCopied, setIsCopied] = useState<boolean>(false);
     useEffect(() => {
         dispatch(saveShippingInfo(updatedShippingInfo));
     }, [updatedShippingInfo, dispatch]);
@@ -54,8 +59,8 @@ const Cart = () => {
         return () => {
             clearTimeout(timeoutId);
             cancel();
-            setIsValidCouponCode(false);
-            dispatch(applyDiscount(0));
+            // setIsValidCouponCode(false);
+            // dispatch(applyDiscount(0));
         }
     }, [couponCode, dispatch]);
     useEffect(() => {
@@ -111,7 +116,7 @@ const Cart = () => {
 
     const renderCartItems = () => (
         <div className="lg:col-span-2 m-4 relative xl:m-8 border-b-2 border-slate-500">
-            <div className="font-bold flex justify-between items-center text-sm lg:text-lg font-mono">
+            <div className="font-bold flex  justify-between items-center text-sm lg:text-lg font-mono">
                 <p>Shopping Cart</p>
                 <p>{updatedCartItems.length} Items</p>
             </div>
@@ -166,7 +171,7 @@ const Cart = () => {
         }
     }
     const renderBillingForm = () => (
-        <div className="sm:col-span-2  h-fit w-fit overflow-y-scroll p-4 m-4 xl:m-8 rounded-xl border-2 order-1 border-slate-500">
+        <div className="lg:col-span-2  h-fit w-fit overflow-y-scroll p-4 m-4 xl:m-8 rounded-xl border-2 order-1 border-slate-500">
             <div className="font-bold flex justify-center items-center text-sm lg:text-lg font-mono">
                 <p>Billing Address</p>
             </div>
@@ -303,9 +308,16 @@ const Cart = () => {
             setButtonLabel("Checkout");
         }
     };
-
+    const copyTextHandler = async (enteredCoupon: string) => {
+        await window.navigator.clipboard.writeText(enteredCoupon);
+        setIsCopied(true);
+    }
+    if (isCopied) {
+        toast.success("Coupon copied successfully. Paste it.");
+        setIsCopied(false);
+    }
     return (
-        <section className="grid  sm:grid-cols-3 container  grid-cols-1 py-4">
+        <section className="grid sm:grid-cols-2 lg:grid-cols-3 container  grid-cols-1 py-4">
             {content}
             <div className="sm:col-span-1 w-fit border-2 py-4 px-8 rounded-xl text-xs border-slate-500  mx-auto mt-4 xl:mt-8">
                 <div className="font-bold text-sm lg:text-lg flex justify-center items-center font-mono">
@@ -358,8 +370,24 @@ const Cart = () => {
                         ) : (
                             <div className="text-red-500 text-xs animate-bounce font-serif">Invalid coupon. Better luck next time. 😝</div>
                         )
-                    ) : (
-                        <div className="text-purple-500 text-xs">Try your luck!</div>
+                    ) : (<div>
+                        <button onClick={() => setShowCoupon(prevState => !prevState)} className="flex  gap-1 justify-center items-center">
+                            <div className="text-sm">Show coupons</div>
+                            {!showCoupon ? <IoIosArrowDropdownCircle /> : <IoIosArrowDropupCircle />}
+                        </button>
+                        {showCoupon && <div className="border flex flex-col justify-center items-start  rounded-2xl overflow-auto bg-slate-900 text-slate-100 dark:bg-slate-100 dark:text-slate-900  border-slate-500 p-2 text-xs sm:text-sm">
+                            {!isError && !isLoading && data?.coupons.filter(({ coupon, amount }) => {
+                                return amount <= total;
+                            }).map(({ amount, coupon }) => {
+                                return <div onClick={() => copyTextHandler(coupon)} key={coupon} className="flex justify-center items-center cursor-pointer gap-1 p-2">
+
+                                    <div className="whitespace-pre-wrap w-[200px]">{`Get $${amount}off using ${coupon}`}</div>
+                                    <FaRegCopy />
+                                </div>
+                            })}</div>
+                        }
+
+                    </div>
                     )}
                 </div>
             </div>

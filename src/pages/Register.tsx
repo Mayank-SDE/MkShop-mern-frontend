@@ -123,7 +123,7 @@ const Register = () => {
                             <div className="flex gap-2 flex-wrap">
                                 <div className="flex items-center gap-2">
                                     <input
-                                        className="accent-slate-900 dark:accent-slate-100"
+
                                         onChange={handleInputChange}
                                         type="radio"
                                         name="gender"
@@ -133,7 +133,7 @@ const Register = () => {
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <input
-                                        className="accent-slate-900 dark:accent-slate-100"
+
                                         onChange={handleInputChange}
                                         type="radio"
                                         name="gender"
@@ -143,7 +143,7 @@ const Register = () => {
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <input
-                                        className="accent-slate-900 dark:accent-slate-100"
+
                                         onChange={handleInputChange}
                                         type="radio"
                                         name="gender"
