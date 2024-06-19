@@ -2,8 +2,8 @@ import { FormEvent, useState } from "react";
 import { useForgotPasswordMutation } from "../redux/api/userAPI";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { userExists } from "../redux/reducer/userReducer";
-import { useDispatch } from "react-redux";
+
+
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState<string>("");

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { UserReducerInitialState, UserStateInterface } from "../types/reducer-types"
+import { UserStateInterface } from "../types/reducer-types"
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useDeleteUserMutation, useUpdateMutation } from "../redux/api/userAPI";

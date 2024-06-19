@@ -377,7 +377,7 @@ const Cart = () => {
                                 {!showCoupon ? <IoIosArrowDropdownCircle /> : <IoIosArrowDropupCircle />}
                             </button>
                             {showCoupon && <div className="border flex flex-col justify-center items-start  rounded-2xl overflow-auto bg-slate-900 text-slate-100 dark:bg-slate-100 dark:text-slate-900  border-slate-500 p-2 text-xs sm:text-sm">
-                                {!isError && !isLoading && data?.coupons.filter(({ coupon, amount }) => {
+                                {!isError && !isLoading && data?.coupons.filter(({ amount }) => {
                                     return amount <= total;
                                 }).map(({ amount, coupon }) => {
                                     return <div onClick={() => copyTextHandler(coupon)} key={coupon} className="flex justify-center items-center cursor-pointer gap-1 p-2">
