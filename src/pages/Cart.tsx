@@ -38,7 +38,7 @@ const Cart = () => {
     useEffect(() => {
         const { token: cancelToken, cancel } = axios.CancelToken.source();
         const timeoutId = setTimeout(() => {
-            if (couponCode !== "") {
+            if (couponCode !== "" && user !== null) {
                 axios.get(`${server}/api/v1/payment/discount?coupon=${couponCode}`, {
                     withCredentials: true,
                     cancelToken
@@ -372,7 +372,7 @@ const Cart = () => {
                             <div className="text-red-500 text-xs animate-bounce font-serif">Invalid coupon. Better luck next time. 😝</div>
                         )
                     ) : (
-                        user != null && <div>
+                        user !== null && <div>
                             <button onClick={() => setShowCoupon(prevState => !prevState)} className="flex  gap-1 justify-center items-center">
                                 <div className="text-sm">Show coupons</div>
                                 {!showCoupon ? <IoIosArrowDropdownCircle /> : <IoIosArrowDropupCircle />}
