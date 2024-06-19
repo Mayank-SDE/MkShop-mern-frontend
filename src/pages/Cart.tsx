@@ -23,7 +23,7 @@ const Cart = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [showCoupon, setShowCoupon] = useState<boolean>(false);
-    const { isLoading, data, isError } = useGetAllCouponQuery();
+
     const [updatedCartItems, setUpdatedCartItems] = useState<CartItemType[]>(cartItems);
     const [updatedShippingInfo, setUpdatedShippingInfo] = useState<ShippingInfo>(shippingInfo);
     const [couponCode, setCouponCode] = useState<string>("");
@@ -31,6 +31,16 @@ const Cart = () => {
     const [content, setContent] = useState<ReactNode>(null);
     const [buttonLabel, setButtonLabel] = useState<string>("Checkout");
     const [isCopied, setIsCopied] = useState<boolean>(false);
+    let isLoadingCoupon = true;
+    let couponsData = null;
+    let isErrorData = true;
+    if (user !== null) {
+
+        const { isLoading, data, isError } = useGetAllCouponQuery();
+        isLoadingCoupon = isLoading;
+        couponsData = data;
+        isErrorData = isError;
+    }
     useEffect(() => {
         dispatch(saveShippingInfo(updatedShippingInfo));
     }, [updatedShippingInfo, dispatch]);
@@ -38,7 +48,7 @@ const Cart = () => {
     useEffect(() => {
         const { token: cancelToken, cancel } = axios.CancelToken.source();
         const timeoutId = setTimeout(() => {
-            if (couponCode !== "" && user !== null) {
+            if (couponCode !== "") {
                 axios.get(`${server}/api/v1/payment/discount?coupon=${couponCode}`, {
                     withCredentials: true,
                     cancelToken
@@ -378,7 +388,7 @@ const Cart = () => {
                                 {!showCoupon ? <IoIosArrowDropdownCircle /> : <IoIosArrowDropupCircle />}
                             </button>
                             {showCoupon && <div className="border flex flex-col justify-center items-start  rounded-2xl overflow-auto bg-slate-900 text-slate-100 dark:bg-slate-100 dark:text-slate-900  border-slate-500 p-2 text-xs sm:text-sm">
-                                {!isError && !isLoading && data?.coupons.filter(({ amount }) => {
+                                {!isErrorData && !isLoadingCoupon && couponsData?.coupons.filter(({ amount }) => {
                                     return amount <= total;
                                 }).map(({ amount, coupon }) => {
                                     return <div onClick={() => copyTextHandler(coupon)} key={coupon} className="flex justify-center items-center cursor-pointer gap-1 p-2">
