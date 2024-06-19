@@ -43,7 +43,7 @@ const Login = () => {
 
     const googleLoginHandler = () => {
         try {
-            window.open("http://localhost:3000/auth/google", "_self");
+            window.open("https://mkshop-mern-backend.onrender.com/auth/google", "_self");
 
         } catch (error) {
             toast.error("Sign in failed with google. Try again later.")
@@ -53,7 +53,7 @@ const Login = () => {
     const gitHubLoginHandler = () => {
         try {
 
-            window.open("http://localhost:3000/auth/github", "_self");
+            window.open("https://mkshop-mern-backend.onrender.com/auth/github", "_self");
 
         } catch (error) {
             toast.error("Sign in failed with github. Try again later.")

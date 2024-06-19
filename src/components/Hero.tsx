@@ -59,7 +59,7 @@ const Hero = () => {
                                             <div className="order-1 sm:order-2">
                                                 <div className="relative z-10 mt-2">
                                                     <img
-                                                        src={product.thumbnail.startsWith("a") ? `http://localhost:3000/${product.thumbnail}` : product.thumbnail}
+                                                        src={product.thumbnail.startsWith("a") ? `https://mkshop-mern-backend.onrender.com/${product.thumbnail}` : product.thumbnail}
                                                         alt={product.title}
                                                         className="rounded-full mx-auto w-[300px] h-[300px] object-contain"
                                                     />

@@ -105,7 +105,7 @@ const Profile = () => {
                             {preview ? (
                                 <img src={preview} alt={profileInformation.username} className="w-24 h-24 rounded-full object-cover" />
                             ) : (
-                                <img src={imageURL.startsWith("a") ? `http://localhost:3000/${imageURL}` : imageURL} alt={profileInformation.username} className="w-24 h-24 rounded-full object-cover" />
+                                <img src={imageURL.startsWith("a") ? `https://mkshop-mern-backend.onrender.com/${imageURL}` : imageURL} alt={profileInformation.username} className="w-24 h-24 rounded-full object-cover" />
                             )}
                             <input type="file" name="image" onChange={profileInformationHandler} className="text-sm border-slate-500 border" />
                         </div>

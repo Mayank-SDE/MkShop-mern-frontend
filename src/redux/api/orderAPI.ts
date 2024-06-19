@@ -9,7 +9,7 @@ import {
 export const orderAPI = createApi({
   reducerPath: 'orderApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:3000/api/v1/order/',
+    baseUrl: 'https://mkshop-mern-backend.onrender.com/api/v1/order/',
     credentials: 'include',
   }),
   tagTypes: ['orders'],

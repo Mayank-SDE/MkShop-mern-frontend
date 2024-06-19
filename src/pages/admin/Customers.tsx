@@ -62,7 +62,7 @@ const Customers = () => {
                 const imageAddress: string = user.image as string;
 
                 return {
-                    avatar: <img className="w-24 h-24 object-cover rounded-full" src={imageAddress.startsWith("a") ? `http://localhost:3000/${imageAddress}` : imageAddress} alt={user.username} />,
+                    avatar: <img className="w-24 h-24 object-cover rounded-full" src={imageAddress.startsWith("a") ? `https://mkshop-mern-backend.onrender.com/${imageAddress}` : imageAddress} alt={user.username} />,
                     name: `${user.username.toUpperCase()} ${user._id === adminUser?._id ? '(You)' : ''}`,
                     gender: user.gender.toUpperCase(),
                     email: user.email.toUpperCase(),

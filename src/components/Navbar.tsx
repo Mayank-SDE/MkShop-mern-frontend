@@ -96,7 +96,7 @@ const Navbar = () => {
             </div>
             {user && (
                 <p className="flex justify-center items-center py-4 gap-2 tracking-wider font-bold font-serif text-lg">
-                    <img src={imageURL.startsWith("a") ? `http://localhost:3000/${imageURL}` : imageURL} alt={user.username} className="w-[100px]  rounded-full" />
+                    <img src={imageURL.startsWith("a") ? `https://mkshop-mern-backend.onrender.com/${imageURL}` : imageURL} alt={user.username} className="w-[50px]  rounded-full" />
                     {`Welcome, ${user.username.toUpperCase()}`}
                 </p>
             )}

@@ -10,7 +10,7 @@ import { UserLoginBodyInterface } from '../../types/types';
 export const userAPI = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `http://localhost:3000/`,
+    baseUrl: `https://mkshop-mern-backend.onrender.com/`,
     credentials: 'include',
   }),
   tagTypes: ['users'],

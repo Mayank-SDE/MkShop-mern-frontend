@@ -9,7 +9,7 @@ import {
 export const dashboardAPI = createApi({
   reducerPath: 'dasboardApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:3000/api/v1/dashboard/',
+    baseUrl: 'https://mkshop-mern-backend.onrender.com/api/v1/dashboard/',
     credentials: 'include',
   }),
   endpoints: (builder) => {

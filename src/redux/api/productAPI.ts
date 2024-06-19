@@ -16,7 +16,7 @@ import {
 export const productAPI = createApi({
   reducerPath: 'productApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:3000/api/v1/product/',
+    baseUrl: 'https://mkshop-mern-backend.onrender.com/api/v1/product/',
     credentials: 'include',
   }),
   tagTypes: [

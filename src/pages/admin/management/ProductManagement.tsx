@@ -144,7 +144,7 @@ const ProductManagement = () => {
                             <img
                                 className="w-[150px] rounded-lg"
                                 key={index}
-                                src={src.startsWith("a") ? `http://localhost:3000/${src}` : src}
+                                src={src.startsWith("a") ? `https://mkshop-mern-backend.onrender.com/${src}` : src}
                                 alt={`Product Image ${index + 1}`}
                             />
                         ))
@@ -305,7 +305,7 @@ const ProductManagement = () => {
                                         <img
                                             className="w-[60px] rounded-3xl"
                                             key={index}
-                                            src={src.startsWith("a") ? `http://localhost:3000/${src}` : src}
+                                            src={src.startsWith("a") ? `https://mkshop-mern-backend.onrender.com/${src}` : src}
                                             alt={`Product Image ${index + 1}`}
                                         />
                                     ))}

@@ -38,7 +38,7 @@ const Cart = () => {
         const { token: cancelToken, cancel } = axios.CancelToken.source();
         const timeoutId = setTimeout(() => {
             if (couponCode !== "") {
-                axios.get(`http://localhost:3000/api/v1/payment/discount?coupon=${couponCode}`, {
+                axios.get(`https://mkshop-mern-backend.onrender.com/api/v1/payment/discount?coupon=${couponCode}`, {
                     withCredentials: true,
                     cancelToken
                 }).then(response => {
@@ -152,7 +152,7 @@ const Cart = () => {
         event.preventDefault();
         try {
 
-            const { data } = await axios.post("http://localhost:3000/api/v1/payment/create", {
+            const { data } = await axios.post("https://mkshop-mern-backend.onrender.com/api/v1/payment/create", {
                 amount: total
             }, {
                 withCredentials: true,
@@ -370,24 +370,26 @@ const Cart = () => {
                         ) : (
                             <div className="text-red-500 text-xs animate-bounce font-serif">Invalid coupon. Better luck next time. 😝</div>
                         )
-                    ) : (<div>
-                        <button onClick={() => setShowCoupon(prevState => !prevState)} className="flex  gap-1 justify-center items-center">
-                            <div className="text-sm">Show coupons</div>
-                            {!showCoupon ? <IoIosArrowDropdownCircle /> : <IoIosArrowDropupCircle />}
-                        </button>
-                        {showCoupon && <div className="border flex flex-col justify-center items-start  rounded-2xl overflow-auto bg-slate-900 text-slate-100 dark:bg-slate-100 dark:text-slate-900  border-slate-500 p-2 text-xs sm:text-sm">
-                            {!isError && !isLoading && data?.coupons.filter(({ coupon, amount }) => {
-                                return amount <= total;
-                            }).map(({ amount, coupon }) => {
-                                return <div onClick={() => copyTextHandler(coupon)} key={coupon} className="flex justify-center items-center cursor-pointer gap-1 p-2">
+                    ) : (
+                        user != null && <div>
+                            <button onClick={() => setShowCoupon(prevState => !prevState)} className="flex  gap-1 justify-center items-center">
+                                <div className="text-sm">Show coupons</div>
+                                {!showCoupon ? <IoIosArrowDropdownCircle /> : <IoIosArrowDropupCircle />}
+                            </button>
+                            {showCoupon && <div className="border flex flex-col justify-center items-start  rounded-2xl overflow-auto bg-slate-900 text-slate-100 dark:bg-slate-100 dark:text-slate-900  border-slate-500 p-2 text-xs sm:text-sm">
+                                {!isError && !isLoading && data?.coupons.filter(({ coupon, amount }) => {
+                                    return amount <= total;
+                                }).map(({ amount, coupon }) => {
+                                    return <div onClick={() => copyTextHandler(coupon)} key={coupon} className="flex justify-center items-center cursor-pointer gap-1 p-2">
 
-                                    <div className="whitespace-pre-wrap w-[200px]">{`Get $${amount}off using ${coupon}`}</div>
-                                    <FaRegCopy />
-                                </div>
-                            })}</div>
-                        }
+                                        <div className="whitespace-pre-wrap w-[200px]">{`Get $${amount}off using ${coupon}`}</div>
+                                        <FaRegCopy />
+                                    </div>
+                                })}</div>
+                            }
 
-                    </div>
+                        </div>
+
                     )}
                 </div>
             </div>
