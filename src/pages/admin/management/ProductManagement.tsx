@@ -5,6 +5,7 @@ import { Product } from "../../../types/types";
 import ProductManagementSkeleton from "../../../components/skeletons/ProductManagementSkeleton";
 import toast from "react-hot-toast";
 import { MdArrowBack } from "react-icons/md";
+import { server } from "../../../redux/store";
 
 const ProductManagement = () => {
     const params = useParams();
@@ -144,7 +145,7 @@ const ProductManagement = () => {
                             <img
                                 className="w-[150px] rounded-lg"
                                 key={index}
-                                src={src.startsWith("a") ? `https://mkshop-mern-backend.onrender.com/${src}` : src}
+                                src={src.startsWith("a") ? `${server}/${src}` : src}
                                 alt={`Product Image ${index + 1}`}
                             />
                         ))
@@ -305,7 +306,7 @@ const ProductManagement = () => {
                                         <img
                                             className="w-[60px] rounded-3xl"
                                             key={index}
-                                            src={src.startsWith("a") ? `https://mkshop-mern-backend.onrender.com/${src}` : src}
+                                            src={src.startsWith("a") ? `${server}/${src}` : src}
                                             alt={`Product Image ${index + 1}`}
                                         />
                                     ))}

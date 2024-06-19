@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { IoIosArrowDropdownCircle, IoIosArrowDropupCircle } from "react-icons/io";
 import { useGetAllCouponQuery } from "../redux/api/couponAPI";
+import { server } from "../redux/store";
 
 const Cart = () => {
     const { user } = useSelector(
@@ -38,7 +39,7 @@ const Cart = () => {
         const { token: cancelToken, cancel } = axios.CancelToken.source();
         const timeoutId = setTimeout(() => {
             if (couponCode !== "") {
-                axios.get(`https://mkshop-mern-backend.onrender.com/api/v1/payment/discount?coupon=${couponCode}`, {
+                axios.get(`${server}/api/v1/payment/discount?coupon=${couponCode}`, {
                     withCredentials: true,
                     cancelToken
                 }).then(response => {
@@ -152,7 +153,7 @@ const Cart = () => {
         event.preventDefault();
         try {
 
-            const { data } = await axios.post("https://mkshop-mern-backend.onrender.com/api/v1/payment/create", {
+            const { data } = await axios.post(`${server}/api/v1/payment/create`, {
                 amount: total
             }, {
                 withCredentials: true,

@@ -4,11 +4,12 @@ import {
   CouponRequestBody,
   MessageResponse,
 } from '../../types/api-types';
+import { server } from '../store';
 
 export const couponAPI = createApi({
   reducerPath: 'couponApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://mkshop-mern-backend.onrender.com/api/v1/payment/coupon/',
+    baseUrl: `${server}/api/v1/payment/coupon/`,
     credentials: 'include',
   }),
   endpoints: (builder) => {

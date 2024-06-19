@@ -4,6 +4,7 @@ import { CartItem } from "../types/types";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { addToCart } from "../redux/reducer/cartReducer";
+import { server } from "../redux/store";
 
 
 type ProductCardProps = {
@@ -43,7 +44,7 @@ const ProductCard = ({ productId, productPrice, productTitle, productRating, pro
 
     return (
         <div className="max-w-[300px] h-fit m-2  bg-slate-100 border-slate-500 border-2 flex flex-col justify-between items-center rounded-3xl text-slate-900 dark:bg-slate-900 dark:text-slate-100 shadow-2xl transition-all transform hover:scale-105 hover:bg-slate-900 hover:text-slate-100 dark:hover:bg-slate-100 dark:hover:text-slate-900 group">
-            <img src={productThumbnail.startsWith("a") ? `https://mkshop-mern-backend.onrender.com/${productThumbnail}` : productThumbnail} alt={productDescription} className=" h-[150px] rounded-full object-contain" />
+            <img src={productThumbnail.startsWith("a") ? `${server}/${productThumbnail}` : productThumbnail} alt={productDescription} className=" h-[150px] rounded-full object-contain" />
             <div className="p-4 flex flex-col text-sm justify-center items-center">
                 <h3 className="text-sm font-semibold">{productTitle}</h3>
                 <div className="flex items-center mt-2">

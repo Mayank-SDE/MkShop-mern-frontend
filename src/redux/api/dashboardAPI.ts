@@ -5,11 +5,12 @@ import {
   PieResponse,
   StatsResponse,
 } from '../../types/api-types';
+import { server } from '../store';
 
 export const dashboardAPI = createApi({
   reducerPath: 'dasboardApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://mkshop-mern-backend.onrender.com/api/v1/dashboard/',
+    baseUrl: `${server}/api/v1/dashboard/`,
     credentials: 'include',
   }),
   endpoints: (builder) => {

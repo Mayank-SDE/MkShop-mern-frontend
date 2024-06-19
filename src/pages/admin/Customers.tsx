@@ -6,7 +6,7 @@ import { CustomError } from "../../types/api-types";
 import toast from "react-hot-toast";
 import TableSkeleton from "../../components/skeletons/TableSkeleton";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { RootState, server } from "../../redux/store";
 import { useDispatch } from "react-redux";
 import { userDoesNotExists } from "../../redux/reducer/userReducer";
 
@@ -62,7 +62,7 @@ const Customers = () => {
                 const imageAddress: string = user.image as string;
 
                 return {
-                    avatar: <img className="w-24 h-24 object-cover rounded-full" src={imageAddress.startsWith("a") ? `https://mkshop-mern-backend.onrender.com/${imageAddress}` : imageAddress} alt={user.username} />,
+                    avatar: <img className="w-24 h-24 object-cover rounded-full" src={imageAddress.startsWith("a") ? `${server}/${imageAddress}` : imageAddress} alt={user.username} />,
                     name: `${user.username.toUpperCase()} ${user._id === adminUser?._id ? '(You)' : ''}`,
                     gender: user.gender.toUpperCase(),
                     email: user.email.toUpperCase(),

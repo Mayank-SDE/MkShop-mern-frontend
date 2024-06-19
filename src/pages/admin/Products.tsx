@@ -8,6 +8,7 @@ import { useGetAllProductsQuery } from "../../redux/api/productAPI";
 import toast from "react-hot-toast";
 import { CustomError } from "../../types/api-types";
 import TableSkeleton from "../../components/skeletons/TableSkeleton";
+import { server } from "../../redux/store";
 
 interface ProductTableInterface {
     image: ReactElement;
@@ -45,7 +46,7 @@ const Products = () => {
         if (data && data.success) {
             const newRows = data.products.map(product => {
                 return {
-                    image: <img src={product.thumbnail.startsWith("a") ? `https://mkshop-mern-backend.onrender.com/${product.thumbnail}` : product.thumbnail} alt="product" className="rounded-full w-[50px]" />,
+                    image: <img src={product.thumbnail.startsWith("a") ? `${server}/${product.thumbnail}` : product.thumbnail} alt="product" className="rounded-full w-[50px]" />,
                     name: product.title,
                     price: product.price,
                     stock: product.stock,

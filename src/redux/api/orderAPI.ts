@@ -5,11 +5,12 @@ import {
   NewOrderRequestBody,
   OrderDetailsResponse,
 } from '../../types/api-types';
+import { server } from '../store';
 
 export const orderAPI = createApi({
   reducerPath: 'orderApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://mkshop-mern-backend.onrender.com/api/v1/order/',
+    baseUrl: `${server}/api/v1/order/`,
     credentials: 'include',
   }),
   tagTypes: ['orders'],

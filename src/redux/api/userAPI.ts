@@ -6,11 +6,12 @@ import {
   UserMessageResponse,
 } from '../../types/api-types';
 import { UserLoginBodyInterface } from '../../types/types';
+import { server } from '../store';
 
 export const userAPI = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `https://mkshop-mern-backend.onrender.com/`,
+    baseUrl: `${server}/auth`,
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
@@ -22,7 +23,7 @@ export const userAPI = createApi({
       register: builder.mutation<MessageResponse, FormData>({
         query: (userFormData) => {
           return {
-            url: 'auth/register',
+            url: '/register',
             method: 'POST',
             body: userFormData,
           };
@@ -31,7 +32,7 @@ export const userAPI = createApi({
       }),
       update: builder.mutation<UserMessageResponse, FormData>({
         query: (updateFormData) => ({
-          url: 'auth/profile/update',
+          url: '/profile/update',
           method: 'PUT',
           body: updateFormData,
         }),
@@ -40,7 +41,7 @@ export const userAPI = createApi({
       login: builder.mutation<UserMessageResponse, UserLoginBodyInterface>({
         query: (loginInformation) => {
           return {
-            url: 'auth/login',
+            url: '/login',
             method: 'POST',
             body: loginInformation,
           };
@@ -50,27 +51,27 @@ export const userAPI = createApi({
       logout: builder.mutation<MessageResponse, void>({
         query: () => {
           return {
-            url: 'auth/logout',
+            url: '/logout',
             method: 'GET',
           };
         },
       }),
       loggedIn: builder.query<UserMessageResponse, void>({
         query: () => {
-          return 'auth/login/success';
+          return '/login/success';
         },
       }),
       deleteUser: builder.mutation<MessageResponse, string>({
         query: (userId) => {
           return {
-            url: `auth/profile/delete/${userId}`,
+            url: `/profile/delete/${userId}`,
             method: 'DELETE',
           };
         },
         invalidatesTags: ['users'],
       }),
       allUsers: builder.query<AllUsersResponse, void>({
-        query: () => 'auth/all',
+        query: () => '/all',
         providesTags: ['users'],
       }),
       forgotPassword: builder.mutation<UserMessageResponse, ForgotPasswordBody>(
@@ -79,7 +80,7 @@ export const userAPI = createApi({
             return {
               method: 'POST',
               body: verifyPasswordBody,
-              url: 'auth/reset/password',
+              url: '/reset/password',
             };
           },
         }

@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { userExists } from "../redux/reducer/userReducer";
 import { useLoginMutation } from "../redux/api/userAPI";
 import { UserLoginBodyInterface } from "../types/types";
+import { server } from "../redux/store";
 
 const Login = () => {
     const [loginInformation, setLoginInformation] = useState<UserLoginBodyInterface>({
@@ -43,8 +44,8 @@ const Login = () => {
 
     const googleLoginHandler = () => {
         try {
-            console.log("Hitting https://mkshop-mern-backend.onrender.com/auth/google");
-            window.open("https://mkshop-mern-backend.onrender.com/auth/google", "_self");
+            console.log(`Hitting ${server}/auth/google`);
+            window.open(`${server}/auth/google`, "_self");
 
         } catch (error) {
             toast.error("Sign in failed with google. Try again later.")
@@ -54,7 +55,7 @@ const Login = () => {
     const gitHubLoginHandler = () => {
         try {
 
-            window.open("https://mkshop-mern-backend.onrender.com/auth/github", "_self");
+            window.open(`${server}/auth/github`, "_self");
 
         } catch (error) {
             toast.error("Sign in failed with github. Try again later.")

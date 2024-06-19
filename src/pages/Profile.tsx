@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { userDoesNotExists, userExists } from "../redux/reducer/userReducer";
 import { formatDate } from "../utils/date";
-import { RootState, persistor } from "../redux/store";
+import { RootState, persistor, server } from "../redux/store";
 
 const Profile = () => {
     const { user } = useSelector((state: RootState) => state.userReducer);
@@ -105,7 +105,7 @@ const Profile = () => {
                             {preview ? (
                                 <img src={preview} alt={profileInformation.username} className="w-24 h-24 rounded-full object-cover" />
                             ) : (
-                                <img src={imageURL.startsWith("a") ? `https://mkshop-mern-backend.onrender.com/${imageURL}` : imageURL} alt={profileInformation.username} className="w-24 h-24 rounded-full object-cover" />
+                                <img src={imageURL.startsWith("a") ? `${server}/${imageURL}` : imageURL} alt={profileInformation.username} className="w-24 h-24 rounded-full object-cover" />
                             )}
                             <input type="file" name="image" onChange={profileInformationHandler} className="text-sm border-slate-500 border" />
                         </div>

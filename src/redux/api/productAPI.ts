@@ -12,11 +12,12 @@ import {
   SingleProductResponse,
   UpdateProductRequestBody,
 } from '../../types/api-types';
+import { server } from '../store';
 
 export const productAPI = createApi({
   reducerPath: 'productApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://mkshop-mern-backend.onrender.com/api/v1/product/',
+    baseUrl: `${server}/api/v1/product/`,
     credentials: 'include',
   }),
   tagTypes: [
