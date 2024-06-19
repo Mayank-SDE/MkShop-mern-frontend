@@ -23,6 +23,7 @@ const LoginSuccess = () => {
             if ('data' in error) {
                 toast.error((error.data as MessageResponse).message);
             }
+            console.log(error);
         }
     }, [dispatch, location, response, error]);
 

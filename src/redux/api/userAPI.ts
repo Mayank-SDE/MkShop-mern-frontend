@@ -12,6 +12,9 @@ export const userAPI = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `https://mkshop-mern-backend.onrender.com/`,
     credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   }),
   tagTypes: ['users'],
   endpoints: (builder) => {

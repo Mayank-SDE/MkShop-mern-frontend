@@ -43,6 +43,7 @@ const Login = () => {
 
     const googleLoginHandler = () => {
         try {
+            console.log("Hitting https://mkshop-mern-backend.onrender.com/auth/google");
             window.open("https://mkshop-mern-backend.onrender.com/auth/google", "_self");
 
         } catch (error) {
