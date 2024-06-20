@@ -5,7 +5,9 @@ import { Product } from "../../../types/types";
 import ProductManagementSkeleton from "../../../components/skeletons/ProductManagementSkeleton";
 import toast from "react-hot-toast";
 import { MdArrowBack } from "react-icons/md";
-import { server } from "../../../redux/store";
+import { server } from "../../../utils/config";
+
+
 
 const ProductManagement = () => {
     const params = useParams();

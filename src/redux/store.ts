@@ -17,8 +17,6 @@ import { cartReducer } from './reducer/cartReducer';
 import { orderAPI } from './api/orderAPI';
 import { couponAPI } from './api/couponAPI';
 
-export const server = import.meta.env.MKShop_SERVER;
-
 const persistConfig = {
   key: 'root',
   storage,

@@ -5,7 +5,7 @@ import {
   NewOrderRequestBody,
   OrderDetailsResponse,
 } from '../../types/api-types';
-import { server } from '../store';
+import { server } from '../../utils/config';
 
 export const orderAPI = createApi({
   reducerPath: 'orderApi',

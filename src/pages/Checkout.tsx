@@ -90,8 +90,8 @@ const CheckoutForm = () => {
             <button type='submit' disabled={isProcessing} className='px-3 bg-green-500 hover:bg-green-600 py-1 text-slate-100 font-bold text-sm rounded-full'>
                 {isProcessing ? "Processing..." : "Pay"}
             </button>
-            <button onClick={() => copyTextHandler("4000003560000008")} className='text-xs font-mono font-thin'>Test card - 4000 0035 6000 0008</button>
-            <button type="button" className="bg-slate-900 dark:bg-slate-100 dark:text-slate-900 text-slate-100 px-3 w-fit text-sm font-mono rounded-3xl " onClick={() => copyTextHandler("4000003560000008")}>{isCopied ? 'Copied' : 'Copy'}</button>
+            <button onClick={() => copyTextHandler("4000003560000008")} className='text-xs text-slate-900 font-mono font-thin'>Test card - 4000 0035 6000 0008</button>
+            <button type="button" className="bg-slate-900  text-slate-100 px-3 w-fit text-sm font-mono rounded-3xl " onClick={() => copyTextHandler("4000003560000008")}>{isCopied ? 'Copied' : 'Copy'}</button>
         </form>
     </div>
 }

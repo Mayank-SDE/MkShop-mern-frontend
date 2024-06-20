@@ -5,7 +5,7 @@ import {
   PieResponse,
   StatsResponse,
 } from '../../types/api-types';
-import { server } from '../store';
+import { server } from '../../utils/config';
 
 export const dashboardAPI = createApi({
   reducerPath: 'dasboardApi',

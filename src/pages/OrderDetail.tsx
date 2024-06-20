@@ -10,6 +10,7 @@ import { Order } from "../types/types";
 import { ReactElement } from "react";
 import toast from "react-hot-toast";
 import { MdArrowBack } from "react-icons/md";
+import { server } from "../utils/config";
 
 const OrderDetail = () => {
     const params = useParams();
@@ -125,7 +126,7 @@ const OrderDetail = () => {
                                     {orderItems.map((item) => (
                                         <tr key={item.productId}>
                                             <td className="p-3 flex flex-col sm:flex-row items-center space-x-4">
-                                                <img src={item.thumbnail} alt={item.title} className="w-16 h-16 object-cover rounded-md" />
+                                                <img src={item.thumbnail.startsWith("a") ? `${server}/${item.thumbnail}` : item.thumbnail} alt={item.title} className="w-16 h-16 object-cover rounded-md" />
                                                 <span className="font-bold">{item.title}</span>
                                             </td>
                                             <td className="p-3 font-mono">{item.quantity}</td>

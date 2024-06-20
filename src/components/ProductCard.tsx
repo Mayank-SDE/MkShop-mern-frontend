@@ -4,7 +4,9 @@ import { CartItem } from "../types/types";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { addToCart } from "../redux/reducer/cartReducer";
-import { server } from "../redux/store";
+import { server } from "../utils/config";
+
+
 
 
 type ProductCardProps = {

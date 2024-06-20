@@ -6,16 +6,13 @@ import {
   UserMessageResponse,
 } from '../../types/api-types';
 import { UserLoginBodyInterface } from '../../types/types';
-import { server } from '../store';
+import { server } from '../../utils/config';
 
 export const userAPI = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
     baseUrl: `${server}/auth`,
     credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
   }),
   tagTypes: ['users'],
   endpoints: (builder) => {

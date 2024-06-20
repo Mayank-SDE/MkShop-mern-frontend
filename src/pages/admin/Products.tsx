@@ -8,7 +8,9 @@ import { useGetAllProductsQuery } from "../../redux/api/productAPI";
 import toast from "react-hot-toast";
 import { CustomError } from "../../types/api-types";
 import TableSkeleton from "../../components/skeletons/TableSkeleton";
-import { server } from "../../redux/store";
+import { server } from "../../utils/config";
+
+
 
 interface ProductTableInterface {
     image: ReactElement;

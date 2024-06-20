@@ -39,7 +39,19 @@ export const cartReducer = createSlice({
       }
       state.loading = false;
     },
+    addToCartWithQuantity: (state, action: PayloadAction<CartItem>) => {
+      state.loading = true;
+      const existingItem = state.cartItems.find(
+        (item) => item.productId === action.payload.productId
+      );
 
+      if (existingItem) {
+        existingItem.quantity = action.payload.quantity;
+      } else {
+        state.cartItems.push(action.payload);
+      }
+      state.loading = false;
+    },
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.loading = true;
       state.cartItems = state.cartItems.filter(
@@ -94,6 +106,7 @@ export const {
   applyDiscount,
   saveShippingInfo,
   resetCart,
+  addToCartWithQuantity,
 } = cartReducer.actions;
 
 export default cartReducer.reducer;

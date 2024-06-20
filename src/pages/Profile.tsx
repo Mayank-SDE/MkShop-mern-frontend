@@ -7,7 +7,9 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { userDoesNotExists, userExists } from "../redux/reducer/userReducer";
 import { formatDate } from "../utils/date";
-import { RootState, persistor, server } from "../redux/store";
+import { RootState, persistor } from "../redux/store";
+import { server } from "../utils/config";
+
 
 const Profile = () => {
     const { user } = useSelector((state: RootState) => state.userReducer);
@@ -100,31 +102,32 @@ const Profile = () => {
             <div className="flex flex-col items-center w-full">
                 <div className="font-bold text-lg mb-8">Profile Details</div>
                 <div className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl shadow-lg max-w-full p-8">
-                    <form onSubmit={profileInformationSubmitHandler} className="w-full max-w-md mx-auto">
+                    <form onSubmit={profileInformationSubmitHandler} className="w-full text-sm max-w-md mx-auto">
                         <div className="flex flex-col items-center gap-5">
                             {preview ? (
                                 <img src={preview} alt={profileInformation.username} className="w-24 h-24 rounded-full object-cover" />
                             ) : (
                                 <img src={imageURL.startsWith("a") ? `${server}/${imageURL}` : imageURL} alt={profileInformation.username} className="w-24 h-24 rounded-full object-cover" />
                             )}
-                            <input type="file" name="image" onChange={profileInformationHandler} className="text-sm border-slate-500 border" />
+                            <input type="file" name="image" onChange={profileInformationHandler} className=" text-sm border-slate-500 max-w-fit border" />
+                            <div className="text-xs font-thin text-slate-500">* Only png , jpeg and jpg format allowed.</div>
                         </div>
-                        <div className="flex flex-col gap-4 mt-4">
+                        <div className="flex flex-col gap-4 mt-2">
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="username" className="font-serif">Name</label>
-                                <input onChange={profileInformationHandler} className="rounded-xl border-slate-500 border text-gray-900 px-3 py-1" type="text" id="username" name="username" value={profileInformation.username} />
+                                <input onChange={profileInformationHandler} className="text-sm rounded-xl border-slate-500 border text-gray-900 px-3 py-1" type="text" id="username" name="username" value={profileInformation.username} />
                             </div>
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="email" className="font-serif">Email</label>
-                                <input onChange={profileInformationHandler} className="rounded-xl border-slate-500 border text-gray-900 px-3 py-1" type="email" name="email" id="email" value={profileInformation.email} />
+                                <input onChange={profileInformationHandler} className="text-sm rounded-xl border-slate-500 border text-gray-900 px-3 py-1" type="email" name="email" id="email" value={profileInformation.email} />
                             </div>
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="password" className="font-serif">Password</label>
-                                <input onChange={profileInformationHandler} className="rounded-xl border-slate-500 border text-gray-900 px-3 py-1" type="password" name="password" id="password" value={profileInformation.password || ''} />
+                                <input onChange={profileInformationHandler} className="text-sm rounded-xl border-slate-500 border text-gray-900 px-3 py-1" type="password" name="password" id="password" value={profileInformation.password || ''} />
                             </div>
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="gender" className="font-serif">Gender</label>
-                                <select onChange={profileInformationHandler} className="rounded-xl border-slate-500 border text-gray-900 px-3 py-1" name="gender" value={profileInformation.gender}>
+                                <select onChange={profileInformationHandler} className="text-sm rounded-xl border-slate-500 border text-gray-900 px-3 py-1" name="gender" value={profileInformation.gender}>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                     <option value="other">Other</option>
@@ -132,7 +135,7 @@ const Profile = () => {
                             </div>
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="dob" className="font-serif">Date of Birth</label>
-                                <input onChange={profileInformationHandler} name="dob" className="rounded-xl border-slate-500 border text-gray-900 px-3 py-1" type="date" id="dob" value={formatDate(profileInformation.dob)} />
+                                <input onChange={profileInformationHandler} name="dob" className="text-sm rounded-xl border-slate-500 border text-gray-900 px-3 py-1" type="date" id="dob" value={formatDate(profileInformation.dob)} />
                             </div>
                             <div className="flex flex-col sm:flex-row sm:justify-around gap-3 mt-4">
                                 <button type="submit" className="bg-green-500 hover:bg-green-600 text-white px-5 py-1 rounded-full transition-transform transform hover:scale-110">Update</button>

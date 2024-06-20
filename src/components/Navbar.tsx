@@ -13,10 +13,12 @@ import { useLogoutMutation } from "../redux/api/userAPI";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { userDoesNotExists } from "../redux/reducer/userReducer";
-import { persistor, server } from "../redux/store";
+import { persistor } from "../redux/store";
 import DarkMode from "./DarkMode";
 import { UserReducerInitialState } from "../types/reducer-types";
 import { resetCart } from "../redux/reducer/cartReducer";
+import { server } from "../utils/config";
+
 
 const menuItems = [
     { title: "Home", icon: <IoHomeOutline />, link: "/" },

@@ -4,7 +4,7 @@ import {
   CouponRequestBody,
   MessageResponse,
 } from '../../types/api-types';
-import { server } from '../store';
+import { server } from '../../utils/config';
 
 export const couponAPI = createApi({
   reducerPath: 'couponApi',

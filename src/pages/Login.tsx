@@ -7,7 +7,9 @@ import { useDispatch } from "react-redux";
 import { userExists } from "../redux/reducer/userReducer";
 import { useLoginMutation } from "../redux/api/userAPI";
 import { UserLoginBodyInterface } from "../types/types";
-import { server } from "../redux/store";
+import { server } from "../utils/config";
+
+
 
 const Login = () => {
     const [loginInformation, setLoginInformation] = useState<UserLoginBodyInterface>({

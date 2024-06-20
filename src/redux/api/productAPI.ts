@@ -12,7 +12,7 @@ import {
   SingleProductResponse,
   UpdateProductRequestBody,
 } from '../../types/api-types';
-import { server } from '../store';
+import { server } from '../../utils/config';
 
 export const productAPI = createApi({
   reducerPath: 'productApi',

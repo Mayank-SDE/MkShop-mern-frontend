@@ -2,6 +2,7 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { CartItem as CartItemType } from "../types/types";
+import { server } from "../utils/config";
 
 type CartItemProps = {
     cartItem: CartItemType;
@@ -14,7 +15,7 @@ const CartItem = ({ cartItem, removeHandler, incrementQuantityHandler, decrement
     return (
         <div className="flex flex-col lg:flex-row sm:justify-between items-center gap-6 py-4 px-2 border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-4 w-full sm:w-auto">
-                <img src={cartItem.thumbnail} alt={cartItem.title} className="w-20 h-20 object-cover rounded-lg shadow-md" />
+                <img src={cartItem.thumbnail.startsWith("a") ? `${server}/${cartItem.thumbnail}` : cartItem.thumbnail} alt={cartItem.title} className="w-20 h-20 object-cover rounded-lg shadow-md" />
                 <div className="flex flex-col">
                     <Link to={`/product/${cartItem.productId}`} className="text-sm font-semibold text-gray-900 dark:text-gray-100 hover:underline">
                         {cartItem.title}

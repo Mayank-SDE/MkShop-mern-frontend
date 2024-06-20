@@ -31,6 +31,7 @@ const Register = () => {
                 image: selectedFile,
             }));
         } else {
+
             setRegisterInformation((prevState) => ({
                 ...prevState,
                 [name]: value,
@@ -47,6 +48,7 @@ const Register = () => {
         });
 
         try {
+            console.log(formData);
             const response = await register(formData).unwrap();
 
             if (response.success) {
@@ -57,7 +59,7 @@ const Register = () => {
             }
         } catch (error) {
             console.error(error);
-            toast.error("Registration failed. Please try again.");
+            toast.error("Registration failed. Please check your details format or try again.");
         }
     };
 
