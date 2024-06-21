@@ -15,7 +15,7 @@ const Home = () => {
 
     // Conditionally use the useLoggedInQuery hook based on the user state
     const { data: response, error } = useLoggedInQuery(undefined, {
-        skip: user === null,
+        skip: user !== null,
     });
 
     useEffect(() => {
