@@ -8,6 +8,7 @@ import { userExists } from "../redux/reducer/userReducer";
 import { useLoginMutation } from "../redux/api/userAPI";
 import { UserLoginBodyInterface } from "../types/types";
 import { server } from "../utils/config";
+import { UserStateInterface } from "../types/reducer-types";
 
 
 
@@ -33,7 +34,7 @@ const Login = () => {
 
             const response = await login(loginInformation).unwrap();
             if (response.success) {
-                dispatch(userExists(response.user));
+                dispatch(userExists(response.user as UserStateInterface));
                 toast.success(response.message);
             } else {
                 toast.error("Not able to login. Please try again after some time.");
