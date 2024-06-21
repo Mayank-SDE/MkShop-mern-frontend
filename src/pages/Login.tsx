@@ -65,6 +65,7 @@ const Login = () => {
     
             }
         };*/
+    /*
     const googleLoginHandler = () => {
         try {
             window.open(`${server}/auth/google`, "_blank");
@@ -106,7 +107,41 @@ const Login = () => {
             toast.error("Sign in failed with GitHub. Try again later.");
         }
     };
+*/
+    const handleMessageEvent = (event: MessageEvent) => {
+        if (event.origin !== server) {
+            return;
+        }
 
+        if (event.data.success) {
+            dispatch(userExists(event.data.user));
+            toast.success(event.data.message);
+        } else {
+            toast.error("Sign in failed. Try again later.");
+        }
+    };
+
+    const googleLoginHandler = () => {
+        try {
+            window.open(`${server}/auth/google`, "_blank");
+
+            window.removeEventListener('message', handleMessageEvent);
+            window.addEventListener('message', handleMessageEvent);
+        } catch (error) {
+            toast.error("Sign in failed with Google. Try again later.");
+        }
+    };
+
+    const gitHubLoginHandler = () => {
+        try {
+            window.open(`${server}/auth/github`, "_blank");
+
+            window.removeEventListener('message', handleMessageEvent);
+            window.addEventListener('message', handleMessageEvent);
+        } catch (error) {
+            toast.error("Sign in failed with GitHub. Try again later.");
+        }
+    };
     return (
         <div className="container h-fit">
             <div className="flex flex-col mx-auto text-xs bg-slate-900 dark:bg-slate-100 mt-[10px] sm:mt-[20px] text-slate-100 dark:text-slate-900 w-[300px] lg:w-[400px] rounded-xl">
