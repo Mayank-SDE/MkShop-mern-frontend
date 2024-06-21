@@ -58,7 +58,7 @@ export const userAPI = createApi({
           if (flag) {
             return '/login/success';
           }
-          return '/login/failed';
+          return '/login/notify';
         },
       }),
       deleteUser: builder.mutation<MessageResponse, string>({

@@ -50,8 +50,9 @@ const Navbar = () => {
                 dispatch(resetCart());
             });
             const response = await logout().unwrap();
-            if (response.success) toast.success(response.message);
-            navigate("/");
+            if (response.success)
+                toast.success(response.message);
+            navigate("/login");
         } catch (error: any) {
             toast.error(error.data.message);
         }
