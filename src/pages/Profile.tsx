@@ -66,7 +66,7 @@ const Profile = () => {
 
             if (response.success) {
                 toast.success(response.message);
-                dispatch(userExists(response.user));
+                dispatch(userExists(response.user as UserStateInterface));
                 navigate("/profile");
             } else {
                 toast.error(response.message);
