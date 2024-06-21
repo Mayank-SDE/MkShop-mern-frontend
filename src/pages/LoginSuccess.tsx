@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 import { useLoggedInQuery } from "../redux/api/userAPI";
 import { userExists } from "../redux/reducer/userReducer";
 import { MessageResponse } from "../types/api-types";
+import Loader from "../components/Loader";
+import { server } from "../utils/config";
 
 const LoginSuccess = () => {
     const dispatch = useDispatch();
@@ -28,11 +30,11 @@ const LoginSuccess = () => {
     }, [dispatch, location, response, error]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <Loader />;
     }
 
     return (
-        <Navigate to="/" />
+        <Navigate to={`${server}`} />
     );
 };
 

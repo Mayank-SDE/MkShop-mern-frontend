@@ -12,6 +12,7 @@ import { useGetAllCouponQuery } from "../redux/api/couponAPI";
 import { server } from "../utils/config";
 import { RootState } from "../redux/store";
 
+
 const Cart = () => {
     const { user } = useSelector((state: RootState) => state.userReducer);
     const { cartItems, subTotal, discount, shippingCharges, shippingInfo, tax, total } = useSelector((state: RootState) => state.cartReducer);
@@ -26,12 +27,17 @@ const Cart = () => {
     const [content, setContent] = useState<ReactNode>(null);
     const [buttonLabel, setButtonLabel] = useState<string>("Checkout");
     const [isCopied, setIsCopied] = useState<boolean>(false);
-
+    let isLoadingCoupon = true;
+    let couponsData = undefined;
+    let isErrorData = false;
     // Fetching coupons if user is logged in
-    const { isLoading, data, isError } = useGetAllCouponQuery();
-    const isLoadingCoupon = isLoading;
-    const couponsData = data;
-    const isErrorData = isError;
+    if (user !== null) {
+        const { isLoading, data, isError } = useGetAllCouponQuery();
+        isLoadingCoupon = isLoading;
+        couponsData = data;
+        isErrorData = isError;
+    }
+
     const discountRef = useRef(0);
     // Effect to save shipping info when it changes
     useEffect(() => {
