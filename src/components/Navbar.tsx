@@ -45,18 +45,19 @@ const Navbar = () => {
 
     const logoutHandler = async () => {
         try {
-            persistor.purge().then(() => {
+            const response = await logout().unwrap();
+            if (response.success) {
+                toast.success(response.message);
                 dispatch(userDoesNotExists());
                 dispatch(resetCart());
-            });
-            const response = await logout().unwrap();
-            if (response.success)
-                toast.success(response.message);
+                await persistor.purge();
+                navigate("/login");
+            }
         } catch (error: any) {
             toast.error(error.data.message);
         }
-        navigate("/login");
     };
+
 
     const filteredMenuItems = menuItems.filter(menu => {
         if (user) {
