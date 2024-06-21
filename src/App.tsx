@@ -48,6 +48,7 @@ function App() {
             <Route path="/search" element={<Search />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/login/success" element={<LoginSuccess />} />
 
             {/* Not Logged in user */}
             <Route>
@@ -55,7 +56,6 @@ function App() {
               <Route path="/register" element={!user ? <Register /> : <Navigate to="/" />} />
               <Route path="/forgot-password" element={!user ? <ForgotPassword /> : <Navigate to="/" />} />
 
-              <Route path="/login/success" element={<LoginSuccess />} />
             </Route>
             {/* Logged In User Route */}
             <Route element={<ProtectedRoute isAuthenticated={user ? true : false} />}>
