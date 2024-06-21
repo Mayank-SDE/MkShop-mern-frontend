@@ -9,12 +9,13 @@ import { useLoggedInQuery } from "../redux/api/userAPI";
 import { RootState } from "../redux/store";
 import { UserStateInterface } from "../types/reducer-types";
 
-
 const Home = () => {
     const dispatch = useDispatch();
     const { user } = useSelector((state: RootState) => state.userReducer);
 
-    const { data: response, error } = useLoggedInQuery(user === null ? { flag: true } : { flag: false });
+    // Conditionally call the hook
+    const skip = user === null;
+    const { data: response, error } = useLoggedInQuery(undefined, { skip });
 
     useEffect(() => {
         if (response) {
