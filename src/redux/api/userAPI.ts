@@ -53,9 +53,12 @@ export const userAPI = createApi({
           };
         },
       }),
-      loggedIn: builder.query<UserMessageResponse, void>({
-        query: () => {
-          return '/login/success';
+      loggedIn: builder.query<UserMessageResponse, { flag: boolean }>({
+        query: ({ flag }) => {
+          if (flag) {
+            return '/login/success';
+          }
+          return '/login/failed';
         },
       }),
       deleteUser: builder.mutation<MessageResponse, string>({

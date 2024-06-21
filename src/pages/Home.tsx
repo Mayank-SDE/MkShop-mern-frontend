@@ -1,24 +1,20 @@
-
-import { useDispatch } from "react-redux";
-import CategoriesSection from "../components/CategoriesSection"
-import Hero from "../components/Hero"
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import CategoriesSection from "../components/CategoriesSection";
+import Hero from "../components/Hero";
 import { userExists } from "../redux/reducer/userReducer";
 import toast from "react-hot-toast";
 import { MessageResponse } from "../types/api-types";
 import { useLoggedInQuery } from "../redux/api/userAPI";
-import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-
-
-
 
 const Home = () => {
     const dispatch = useDispatch();
     const { user } = useSelector((state: RootState) => state.userReducer);
 
+    const { data: response, error } = useLoggedInQuery(user === null ? { flag: true } : { flag: false });
+
     useEffect(() => {
-        const { data: response, error } = useLoggedInQuery();
         if (response) {
             if (response.success) {
                 // Dispatch action to update Redux store with user data
@@ -36,15 +32,14 @@ const Home = () => {
                 console.error("API Error:", error);
             }
         }
-    }, [dispatch, user]);
-
+    }, [response, error, dispatch]);
 
     return (
         <>
             <Hero />
             <CategoriesSection />
         </>
-    )
+    );
 }
 
-export default Home
+export default Home;
