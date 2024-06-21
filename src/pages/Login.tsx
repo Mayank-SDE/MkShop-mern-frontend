@@ -44,25 +44,66 @@ const Login = () => {
         }
     };
 
-
+    /*
+        const googleLoginHandler = () => {
+            try {
+                console.log(`Hitting ${server}/auth/google`);
+                window.open(`${server}/auth/google`, "_self");
+    
+            } catch (error) {
+                toast.error("Sign in failed with google. Try again later.")
+            }
+        };
+    
+        const gitHubLoginHandler = () => {
+            try {
+    
+                window.open(`${server}/auth/github`, "_self");
+    
+            } catch (error) {
+                toast.error("Sign in failed with github. Try again later.")
+    
+            }
+        };*/
     const googleLoginHandler = () => {
         try {
-            console.log(`Hitting ${server}/auth/google`);
-            window.open(`${server}/auth/google`, "_self");
+            window.open(`${server}/auth/google`, "_blank");
 
+            window.addEventListener('message', (event) => {
+                if (event.origin !== server) {
+                    return;
+                }
+
+                if (event.data.success) {
+                    dispatch(userExists(event.data.user));
+                    toast.success(event.data.message);
+                } else {
+                    toast.error("Sign in failed with Google. Try again later.");
+                }
+            });
         } catch (error) {
-            toast.error("Sign in failed with google. Try again later.")
+            toast.error("Sign in failed with Google. Try again later.");
         }
     };
 
     const gitHubLoginHandler = () => {
         try {
+            window.open(`${server}/auth/github`, "_blank");
 
-            window.open(`${server}/auth/github`, "_self");
+            window.addEventListener('message', (event) => {
+                if (event.origin !== server) {
+                    return;
+                }
 
+                if (event.data.success) {
+                    dispatch(userExists(event.data.user));
+                    toast.success(event.data.message);
+                } else {
+                    toast.error("Sign in failed with GitHub. Try again later.");
+                }
+            });
         } catch (error) {
-            toast.error("Sign in failed with github. Try again later.")
-
+            toast.error("Sign in failed with GitHub. Try again later.");
         }
     };
 
