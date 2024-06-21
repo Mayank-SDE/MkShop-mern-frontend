@@ -323,6 +323,9 @@ const Cart = () => {
                 toast.success("Cart saved. Please log in to proceed.");
                 navigate("/login");
             } else {
+                if (total === 200 || total === 0) {
+                    return toast.error("Empty cart.");
+                }
                 setContent(renderBillingForm());
                 setButtonLabel("<- Back");
             }

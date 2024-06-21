@@ -50,8 +50,12 @@ const Navbar = () => {
                 toast.success(response.message);
                 dispatch(userDoesNotExists());
                 dispatch(resetCart());
-                await persistor.purge();
-                navigate("/login");
+                persistor.purge().then((response) => {
+                    console.log(response);
+                    navigate("/");
+                }).catch(error => {
+                    console.log(error);
+                });
             }
         } catch (error: any) {
             toast.error(error.data.message);
