@@ -7,7 +7,7 @@ import { MdAdminPanelSettings } from "react-icons/md";
 import { AiOutlineShopping } from "react-icons/ai";
 import { ImProfile } from "react-icons/im";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { ReactElement, useState } from "react";
 import { useLogoutMutation } from "../redux/api/userAPI";
 import toast from "react-hot-toast";
@@ -34,7 +34,7 @@ const menuItems = [
 const Navbar = () => {
     const [hamburgerIsOpen, setHamburgerIsOpen] = useState(false);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const [logout] = useLogoutMutation();
     const [search, setSearch] = useState<string>("");
 
@@ -52,7 +52,7 @@ const Navbar = () => {
             const response = await logout().unwrap();
             if (response.success)
                 toast.success(response.message);
-            navigate("/login");
+            return <Navigate to="/login" />
         } catch (error: any) {
             toast.error(error.data.message);
         }
