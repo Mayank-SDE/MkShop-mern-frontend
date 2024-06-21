@@ -13,9 +13,10 @@ const Home = () => {
     const dispatch = useDispatch();
     const { user } = useSelector((state: RootState) => state.userReducer);
 
-    // Conditionally call the hook
-    const skip = user === null;
-    const { data: response, error } = useLoggedInQuery(undefined, { skip });
+    // Conditionally use the useLoggedInQuery hook based on the user state
+    const { data: response, error } = useLoggedInQuery(undefined, {
+        skip: user !== null,
+    });
 
     useEffect(() => {
         if (response) {
