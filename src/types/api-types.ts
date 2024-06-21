@@ -33,7 +33,7 @@ export type AllCouponResponse = {
 };
 
 export interface UserMessageResponse extends MessageResponse {
-  user: UserStateInterface;
+  user?: UserStateInterface;
 }
 
 export interface AllProductsResponse {

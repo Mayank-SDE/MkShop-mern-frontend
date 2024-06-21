@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 import { MessageResponse } from "../types/api-types";
 import { useLoggedInQuery } from "../redux/api/userAPI";
 import { RootState } from "../redux/store";
+import { UserStateInterface } from "../types/reducer-types";
+
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -18,7 +20,7 @@ const Home = () => {
         if (response) {
             if (response.success) {
                 // Dispatch action to update Redux store with user data
-                dispatch(userExists(response.user));
+                dispatch(userExists(response.user as UserStateInterface));
                 toast.success(`${response.message}. Please update your profile.`);
             } else {
                 toast.error(response.message);
