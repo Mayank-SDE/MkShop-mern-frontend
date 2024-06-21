@@ -78,14 +78,15 @@ const Customers = () => {
 
     const deleteHandler = async (userId: string) => {
         try {
+            if (userId === adminUser?._id) {
+                return toast.success("Go to profile section to delete yourself.");
+
+            }
             const response = await deleteUser(userId).unwrap();
 
             if (response.success) {
                 toast.success(response.message);
-                if (userId === adminUser?._id) {
-                    toast.success("You have deleted yourself.");
-                    dispatch(userDoesNotExists());
-                }
+                dispatch(userDoesNotExists());
             } else {
                 toast.error(response.message);
             }
