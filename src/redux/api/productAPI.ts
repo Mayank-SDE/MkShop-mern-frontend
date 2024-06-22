@@ -18,7 +18,7 @@ export const productAPI = createApi({
   reducerPath: 'productApi',
   baseQuery: fetchBaseQuery({
     baseUrl: `${server}/api/v1/product/`,
-    // credentials: 'include',
+    credentials: 'include',
   }),
   tagTypes: [
     'latest-products',
