@@ -8,7 +8,7 @@ const initialState: UserReducerInitialState = {
   user: null,
   loading: true,
 };
-
+//user reducer
 export const userReducer = createSlice({
   name: 'userReducer',
   initialState,
