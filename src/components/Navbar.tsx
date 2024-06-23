@@ -117,12 +117,7 @@ const Navbar = () => {
                         </Link>
                     </div>
 
-                    {filteredMenuItems.map(menu => (
-                        <Link to={menu.link} key={menu.title} onClick={toggleHamburger} className="py-4 border rounded-5xl btn flex justify-center items-center cursor-pointer">
-                            <span className="px-2">{menu.title}</span>
-                            <span className="text-xl drop-shadow-sm cursor-pointer">{menu.icon}</span>
-                        </Link>
-                    ))}
+                    {filteredMenuItems.map(menu => <MenuItem key={menu.title} {...menu} />)}
                 </div>
             )}
 
