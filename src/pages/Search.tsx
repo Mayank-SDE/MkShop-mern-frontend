@@ -23,11 +23,11 @@ const Search = () => {
     const { data: filteredBrands, isLoading: loadingBrands, isError: isBrandsError, error: brandsError } = useGetFilteredBrandsQuery({ selectedCategory });
 
     if (isCategoryError) {
-        toast.error((categoryError as CustomError).data.message);
+        toast.error((categoryError as CustomError).data?.message);
     }
 
     if (isBrandsError) {
-        toast.error((brandsError as CustomError).data.message);
+        toast.error((brandsError as CustomError).data?.message);
     }
 
     const { isLoading: productLoading, data: searchedProducts, isError: isLoadingProductsError, error: loadingProductsError } = useSearchProductsQuery({ search, sort, category: selectedCategory, brand: selectedBrand, page, price: maxPrice });
@@ -38,7 +38,7 @@ const Search = () => {
     }, [searchParams]);
 
     if (isLoadingProductsError) {
-        toast.error((loadingProductsError as CustomError).data.message);
+        toast.error((loadingProductsError as CustomError).data?.message);
     }
 
     const sortHandler = (event: ChangeEvent<HTMLSelectElement>) => {
