@@ -14,7 +14,7 @@ const Hero = () => {
     const { data, isLoading, isError } = useLatestProductsQuery();
 
     if (isError) {
-        toast.error("Cannot fetch the banner products.");
+        return toast.error("Cannot fetch the banner products.");
     }
 
     const HeroSectionBanner = (data?.products || []) as Product[];
