@@ -113,7 +113,7 @@ const Navbar = () => {
                     <div className="p-3">
                         <input type="text" placeholder="Search" className="w-full relative rounded-xl border px-2 py-1 dark:text-slate-900 dark:bg-slate-100 bg-slate-900 text-slate-100 focus:outline-none" onChange={(event) => setSearch(event.target.value)} />
                         <Link to={`/search?keyword=${search}`}>
-                            <IoMdSearch className="absolute top-[205px] right-8  sm:right-[65px] text-xl cursor-pointer dark:text-slate-900 text-slate-100 hover:scale-110" />
+                            <IoMdSearch className="absolute top-[68px] sm:top-[72px] right-8  sm:right-[65px] text-xl cursor-pointer  text-slate-100 dark:text-slate-900 hover:scale-110" />
                         </Link>
                     </div>
 

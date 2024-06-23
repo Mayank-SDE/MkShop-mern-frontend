@@ -19,7 +19,7 @@ export const productAPI = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${server}/api/v1/product/`,
     credentials: 'include',
-    mode: 'cors',
+    mode: 'no-cors',
   }),
   tagTypes: [
     'latest-products',
